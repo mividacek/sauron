@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dinosauri na brijunima</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="slike/logo-ribica.svg">
+</head>
+
+<body>
+<div class="mapa" id="mapContainer">
+
+    <div class="map-viewport" id="mapViewport">
+      <div class="map-content" id="mapContent">
+
+        <img id="mapBase" class="map-layer" src="slike/mapa.jpg" alt="Karta otoka" loading="eager">
+
+      </div>
+    </div>
+
+    <div class="map-controls">
+      <button id="resetView" class="map-btn">Reset</button>
+        <button id="toggle-points" class="map-btn map-btn-second">Sakrij točke</button>
+        <button id="toggle-locate-mode" class="map-btn map-btn-third">Mod: Coord</button>
+      </div>
+
+    <div id="popup" class="popup hidden right">
+      <div class="popup-header">
+        <h3 id="title"></h3>
+        <button id="popup-close" class="popup-close" aria-label="Zatvori">&times;</button>
+      </div>
+
+      <div id="content"></div>
+
+      <h4 id="subtitle"></h4>
+      <div id="subcontent"></div>
+
+    </div>
+
+  </div>
+
+  <!--
+  <footer class="footer">
+
+    <div class="footer-logos">
+      <a href="https://www.np-brijuni.hr/hr/brijuni/geolosko-paleontoloska-bastina/dinosauri-na-brijunima" target="_blank" rel="noopener">
+        <img src="slike/stopalo.svg" alt="Foslini trag stope dinosaura" class="footer-logo">
+      </a>
+
+      <a href="https://www.np-brijuni.hr/hr" target="_blank" rel="noopener">
+        <img src="slike/logo.webp" alt="Javna ustanova logo" class="footer-logo">
+      </a>
+    </div>
+
+    <div class="footer-text">
+      <p class="footer-line">
+        Dinosaur party <span class="sep">|</span><br>
+        © <span id="currentYear"></span>. Javna ustanova NP Brijuni
+      </p>
+    <p class="footer-info">
+      <p>
+        Nacionalni Park Brijuni <span class="sep">|</span><br>
+        Brijuni, 52100 Pula<br>
+      </p>
+      <p>
+        OIB: 79193158584 <span class="sep">|</span><br>
+        VAT ID: HR79193158584 <span class="sep">|</span><br>
+        IBAN: HR0523600001101435571 <br>
+      </p>
+    </p>
+    </div>
+  </footer>
+-->
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
