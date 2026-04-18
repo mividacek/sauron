@@ -1,0 +1,399 @@
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: 'Open Sans', sans-serif;
+  background: #f7f7f7;
+}
+
+.map-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.map-header h1 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: #065da9;
+}
+
+.map-header p {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: #5f6b76;
+}
+
+.map-controls {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3000;
+}
+
+.map-controls button {
+  pointer-events: auto;
+}
+
+.tag {
+  display: inline-block;
+  background: #e8f4fb;
+  color: #065da9;
+  padding: 6px 12px;
+  margin: 4px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ============================= */
+/* MAP CONTAINER                 */
+/* ============================= */
+
+.mapa {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.map-viewport {
+  width: 100%;
+  height: min(78vh, 750px);
+  overflow: hidden;
+  position: relative;
+  background: #f8f8f8;
+  touch-action: none;
+  cursor: grab;
+}
+
+.map-viewport:active {
+  cursor: grabbing;
+}
+
+.map-viewport::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* the thing that moves */
+.map-content {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+  width: var(--mapW);
+  height: var(--mapH);
+  filter: none;
+}
+
+/* layers */
+.map-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  user-select: none;
+  pointer-events: none;
+  border-radius: 18px;
+}
+
+#mapBase {
+  border-radius: 18px;
+}
+
+/* ============================= */
+/* BUTTONS                       */
+/* ============================= */
+
+.map-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2000;
+  background: rgba(0, 0, 0, 0.70);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 7px 11px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.map-btn:hover {
+  background: rgba(0, 0, 0, 0.88);
+}
+
+.map-btn-second {
+  top: 50px;
+}
+
+.map-btn-third {
+  top: 90px;
+}
+
+/* ============================= */
+/* POINTS                        */
+/* ============================= */
+
+/* Hide points until map is loaded */
+.mapa:not(.map-loaded) .point {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.point {
+  position: absolute;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 50;
+  background: transparent;
+
+  transform: translate(-50%, -50%) scale(var(--markerScale, 1));
+  transform-origin: center;
+  transition: transform 0.18s ease, opacity 0.2s ease;
+}
+
+.point:focus {
+  outline: none;
+}
+
+.mapa.hide-points .point {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* ============================= */
+/* DINOSAUR FOOTPRINT MARKERS    */
+/* ============================= */
+
+.stopa-point {
+  width: 44px;
+  height: 44px;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.stopa-icon {
+  width: 44px;
+  height: 44px;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+.stopa-point.active {
+  transform: translate(-50%, -50%) scale(calc(var(--markerScale, 1) * 1.12));
+}
+
+/* ============================= */
+/* POPUP                         */
+/* ============================= */
+
+.popup {
+  position: absolute;
+  width: 320px;
+  max-width: 90vw;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 18px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.18);
+  padding: 14px 16px 14px;
+  z-index: 9999;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.popup.hidden {
+  display: none;
+}
+
+.popup-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.popup h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #102a43;
+  line-height: 1.2;
+}
+
+.popup h4 {
+  margin: 14px 0 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #065da9;
+}
+
+.popup p {
+  margin: 8px 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #334e68;
+}
+
+.popup ul,
+.popup ol {
+  margin: 10px 0;
+  padding-left: 18px;
+}
+
+.popup ul li,
+.popup ol li {
+  font-size: 13px;
+  line-height: 1.55;
+  margin-bottom: 6px;
+  color: #334e68;
+}
+
+.popup-close {
+  background: rgba(0, 0, 0, 0.08);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+  color: #1f2933;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.popup-close:hover {
+  background: rgba(0, 0, 0, 0.14);
+}
+
+.popup-img {
+  width: 100%;
+  display: block;
+  border-radius: 14px;
+  margin: 10px 0;
+  object-fit: cover;
+}
+
+/* block wrapper (optional) */
+.popup-block {
+  margin-bottom: 10px;
+}
+
+.popup-block:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================= */
+/* POPUP ARROW                   */
+/* ============================= */
+
+.popup.right::after,
+.popup.left::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.95);
+  transform: rotate(45deg);
+  top: var(--arrowY, 50%);
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.popup.right::after {
+  left: -7px;
+}
+
+.popup.left::after {
+  right: -7px;
+}
+
+/* ============================= */
+/* MOBILE                        */
+/* ============================= */
+
+@media (max-width: 700px) {
+
+  .popup {
+    position: fixed !important;
+    left: 50% !important;
+    bottom: 14px !important;
+    top: auto !important;
+
+    transform: translateX(-50%);
+    width: min(360px, calc(100vw - 20px)) !important;
+
+    max-height: 32vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+
+    -webkit-overflow-scrolling: touch;
+
+    padding-top: 0;
+    z-index: 99999 !important;
+  }
+
+  .popup::after {
+    display: none !important;
+  }
+
+  .popup-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+
+    background: rgba(255,255,255,0.92);
+    padding: 14px 16px 10px;
+    margin: 0;
+
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+
+  .popup-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    left: auto;
+    margin-left: 0;
+  }
+
+  .popup h3 {
+    margin-top: 0;
+    padding-right: 30px;
+  }
+
+  /* markers slightly smaller on mobile */
+  .stopa-point {
+    width: 34px;
+    height: 34px;
+  }
+
+  .stopa-icon {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+/* ============================= */
+/* PC                            */
+/* ============================= */
+
+@media (min-width: 701px) { 
+  .footer-text p br { 
+    display: none; 
+  } 
+}
