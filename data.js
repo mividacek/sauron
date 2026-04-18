@@ -30,11 +30,7 @@ const stope = {
         type: "m_teropod",
         popup: [
         { type: "text", value: "Na rtu Ploče na poluotoku Zelenikovac nalazi se prvo opisano nalazište fosila dinosaura u Hrvatskoj i šire gdje je otkriveno pedesetak troprstih otisaka malih dvonožnih mesojeda iz skupine Theropoda. " },
-        { type: "img",
-            value: [
-                { src: "slike/ploce1.jpg", caption: "Najbolje vidljiv fosilni trag malog teropodnog dinosaura s rta Ploče." }
-            ]
-          }
+        { type: "img", value: "slike/ploce1.jpg", caption: "Najbolje vidljiv fosilni trag malog teropodnog dinosaura s rta Ploče." }
         ],
     }
     },
@@ -47,11 +43,7 @@ const stope = {
         type: "ornitopod",
         popup: [
         { type: "text", value: "Rt Kamik/Plješivac nalazi se na južnoj strani otoka Veliki Brijun gdje su pronađeni otisci krupnijih dvonožnih biljojeda i malih dvonožnih mesojeda u dva sloja koja su u međusobnom kontaktu.\nOba sloja datirana su u razdoblje donje krede, prije 105 milijuna godina." },
-        { type: "img",
-            value: [
-                { src: "slike/kamik1.png", caption: "Tragovi dinosaura s nalazišta Kamik/Plješivac; gornja fotografija - trag srednje velikog ornitopoda tipa Iguanodon; donja fotografija: trag malog teropodnog dinosaura sloj iznad." }
-            ]
-          }
+        { type: "img", value: "slike/kamik1.png", caption: "Opis Tragovi dinosaura s nalazišta Kamik/Plješivac; gornja fotografija - trag srednje velikog ornitopoda tipa Iguanodon; donja fotografija: trag malog teropodnog dinosaura sloj iznad." }
         ],
     }
     },
@@ -64,11 +56,7 @@ const stope = {
         type: "m_teropod",
         popup: [
         { type: "text", value: "Rt Kamik/Plješivac nalazi se na južnoj strani otoka Veliki Brijun gdje su pronađeni otisci krupnijih dvonožnih biljojeda i malih dvonožnih mesojeda u dva sloja koja su u međusobnom kontaktu.\nOba sloja datirana su u razdoblje donje krede, prije 105 milijuna godina." },
-        { type: "img",
-            value: [
-                { src: "slike/kamik1.png", caption: "Tragovi dinosaura s nalazišta Kamik/Plješivac; gornja fotografija - trag srednje velikog ornitopoda tipa Iguanodon; donja fotografija: trag malog teropodnog dinosaura sloj iznad." }
-            ]
-          }
+        { type: "img", value: "slike/kamik1.png", caption: "Opis Tragovi dinosaura s nalazišta Kamik/Plješivac; gornja fotografija - trag srednje velikog ornitopoda tipa Iguanodon; donja fotografija: trag malog teropodnog dinosaura sloj iznad." }
         ],
     }
     },
@@ -82,11 +70,7 @@ const stope = {
             type: "m_teropod",
             popup: [
             { type: "text", value: "Na rtu Trstike / Debela glava na južnoj strani otoka Veli Brijun u donjokrednim vapnencima starosti 105 milijuna godina pronađeno je tridesetak kružnih otisaka četveronožnih biljojednih dinosaura sauropoda." },
-            { type: "img",
-                value: [
-                    { src: "slike/trstike1.png", caption: "Kružni sauropodni otisci s nalazišta na rtu Trstike, duljina čekića = 33 cm." }
-                ]
-            }
+            { type: "img", value: "slike/trstike1.jpeg", caption: "Kružni sauropodni otisci s nalazišta na rtu Trstike, duljina čekića = 33 cm." }
             ],
         }
         },
@@ -99,11 +83,7 @@ const stope = {
             type: "m_teropod",
             popup: [
             { type: "text", value: "Tragovima najbogatije nalazište na području NP Brijuni nalazi se na otoku Vrsaru, gdje je pronađeno oko sedamdesetak otisaka troprstih teropodnih dinosaura mesoždera. " },
-            { type: "img",
-                value: [
-                    { src: "slike/vrsar1.png", caption: "Staze kretanja malih teropodnih dinosaura na otočiću Vrsaru." }
-                ]
-            }
+            { type: "img", value: "slike/vrsar1.jpg", caption: "Staze kretanja malih teropodnih dinosaura na otočiću Vrsaru." }
             ],
         }
         },
