@@ -18,6 +18,14 @@ const subtitleEl = document.getElementById("subtitle");
 const subcontentEl = document.getElementById("subcontent");
 const closeBtn = document.getElementById("popup-close");
 
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightboxImg");
+const lightboxCaption = document.getElementById("lightboxCaption");
+const lightboxClose = document.getElementById("lightboxClose");
+
+const lightboxPrev = document.getElementById("lightboxPrev");
+const lightboxNext = document.getElementById("lightboxNext");
+
 const resetBtn = document.getElementById("resetView");
 const togglePointsBtn = document.getElementById("toggle-points");
 const toggleLocateBtn = document.getElementById("toggle-locate-mode");
@@ -597,6 +605,40 @@ function renderContent(container, data) {
     return;
   }
 
+  if (data.type === "gallery") {
+  const gallery = document.createElement("div");
+  gallery.className = "popup-gallery";
+
+  data.value.forEach((item, index) => {
+    const figure = document.createElement("figure");
+    figure.className = "popup-figure";
+
+    const img = document.createElement("img");
+    img.src = item.src;
+    img.alt = item.caption || "";
+    img.className = "popup-gallery-img";
+
+    img.addEventListener("click", (e) => {
+      e.stopPropagation();
+      openLightbox(data.value, index);
+    });
+
+    figure.appendChild(img);
+
+    if (item.caption) {
+      const cap = document.createElement("figcaption");
+      cap.className = "popup-caption";
+      cap.innerText = item.caption;
+      figure.appendChild(cap);
+    }
+
+    gallery.appendChild(figure);
+  });
+
+  container.appendChild(gallery);
+  return;
+}
+
   if (data.type === "ul") {
     const ul = document.createElement("ul");
     data.value.forEach(item => {
@@ -661,6 +703,118 @@ function showPopup(btn) {
 
   positionPopup(btn);
 }
+
+let currentGallery = [];
+let currentIndex = 0;
+
+function updateLightbox() {
+  if (!currentGallery.length) return;
+
+  const item = currentGallery[currentIndex];
+  lightboxImg.src = item.src;
+  lightboxCaption.innerText = item.caption || "";
+
+  // hide arrows if only one image
+  if (currentGallery.length <= 1) {
+    lightboxPrev.style.display = "none";
+    lightboxNext.style.display = "none";
+  } else {
+    lightboxPrev.style.display = "flex";
+    lightboxNext.style.display = "flex";
+  }
+}
+
+function openLightbox(galleryArray, index = 0) {
+  currentGallery = galleryArray;
+  currentIndex = index;
+
+  updateLightbox();
+  lightbox.classList.remove("hidden");
+}
+
+function closeLightbox() {
+  lightbox.classList.add("hidden");
+  lightboxImg.src = "";
+  lightboxCaption.innerText = "";
+  currentGallery = [];
+  currentIndex = 0;
+}
+
+function nextLightbox() {
+  if (!currentGallery.length) return;
+  currentIndex = (currentIndex + 1) % currentGallery.length;
+  updateLightbox();
+}
+
+function prevLightbox() {
+  if (!currentGallery.length) return;
+  currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
+  updateLightbox();
+}
+
+lightboxClose.addEventListener("click", (e) => {
+  e.stopPropagation();
+  closeLightbox();
+});
+
+lightboxNext.addEventListener("click", (e) => {
+  e.stopPropagation();
+  nextLightbox();
+});
+
+lightboxPrev.addEventListener("click", (e) => {
+  e.stopPropagation();
+  prevLightbox();
+});
+
+// click outside image closes
+lightbox.addEventListener("click", (e) => {
+  if (e.target === lightbox) closeLightbox();
+});
+
+// keyboard navigation
+document.addEventListener("keydown", (e) => {
+  if (lightbox.classList.contains("hidden")) return;
+
+  if (e.key === "Escape") closeLightbox();
+  if (e.key === "ArrowRight") nextLightbox();
+  if (e.key === "ArrowLeft") prevLightbox();
+});
+
+let swipeStartX = null;
+let swipeStartY = null;
+
+lightbox.addEventListener("touchstart", (e) => {
+  if (e.touches.length !== 1) return;
+
+  swipeStartX = e.touches[0].clientX;
+  swipeStartY = e.touches[0].clientY;
+}, { passive: true });
+
+lightbox.addEventListener("touchend", (e) => {
+  if (swipeStartX === null || swipeStartY === null) return;
+
+  const endX = e.changedTouches[0].clientX;
+  const endY = e.changedTouches[0].clientY;
+
+  const dx = endX - swipeStartX;
+  const dy = endY - swipeStartY;
+
+  swipeStartX = null;
+  swipeStartY = null;
+
+  // ignore vertical swipe
+  if (Math.abs(dy) > Math.abs(dx)) return;
+
+  // threshold
+  if (Math.abs(dx) < 45) return;
+
+  if (dx < 0) {
+    nextLightbox();
+  } else {
+    prevLightbox();
+  }
+});
 
 /* ============================= */
 /* RENDER MARKERS                */
