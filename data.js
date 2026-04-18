@@ -40,7 +40,7 @@ const stope = {
     top: "83.9%",
     left: "58.2%",
     content: {
-        type: "ornitopod",
+        type: "v_ornitopod",
         popup: [
         { type: "text", value: "Rt Kamik/Plješivac nalazi se na južnoj strani otoka Veliki Brijun gdje su pronađeni otisci krupnijih dvonožnih biljojeda i malih dvonožnih mesojeda u dva sloja koja su u međusobnom kontaktu.\nOba sloja datirana su u razdoblje donje krede, prije 105 milijuna godina." },
         { type: "img", value: "slike/kamik1.png", caption: "Opis Tragovi dinosaura s nalazišta Kamik/Plješivac; gornja fotografija - trag srednje velikog ornitopoda tipa Iguanodon; donja fotografija: trag malog teropodnog dinosaura sloj iznad." }

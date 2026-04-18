@@ -1,5 +1,7 @@
 //script.js
 
+//bilo bi dobro da i u popupu zadnja slika galerije vodi nazad na prvu i dots dole da prikazuju broj slika
+
 /* ============================= */
 /* ELEMENTS                      */
 /* ============================= */
