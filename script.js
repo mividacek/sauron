@@ -518,19 +518,19 @@ function positionPopup(btn) {
   if (isMobile) {
     popup.style.visibility = "visible";
 
+    popup.classList.remove("mobile-top", "mobile-bottom");
+
     const pointRect = btn.getBoundingClientRect();
     const viewRect = viewport.getBoundingClientRect();
 
-    const popupHeight = popup.offsetHeight || 220;
-    const safeBottomArea = popupHeight + 30;
+    const pointY = (pointRect.top - viewRect.top) + pointRect.height / 2;
 
-    const pointY = pointRect.top - viewRect.top;
-
-    if (pointY > viewRect.height - safeBottomArea) {
-      const neededUp = (pointY - (viewRect.height - safeBottomArea));
-      translateY -= neededUp;
-      clampPan();
-      applyTransform();
+    // if point is in upper half -> popup bottom
+    // if point is in lower half -> popup top
+    if (pointY < viewRect.height / 2) {
+      popup.classList.add("mobile-bottom");
+    } else {
+      popup.classList.add("mobile-top");
     }
 
     return;
@@ -681,6 +681,7 @@ data.forEach((block) => {
 
       const dot = document.createElement("div");
       dot.className = "popup-mobile-dot";
+      dot.classList.add("image-dot");
 
       const myIndex = slideIndex;
 
@@ -711,6 +712,7 @@ data.forEach((block) => {
 
       const dot = document.createElement("div");
       dot.className = "popup-mobile-dot";
+      dot.classList.add("text-dot");
 
       const myIndex = slideIndex;
 
@@ -733,6 +735,7 @@ data.forEach((block) => {
 
   const dot = document.createElement("div");
   dot.className = "popup-mobile-dot";
+  dot.classList.add("image-dot");
 
   const myIndex = slideIndex;
 
@@ -1115,6 +1118,29 @@ function showPopup(btn) {
   } else {
     subtitleEl.style.display = "none";
     subcontentEl.style.display = "none";
+  }
+
+  console.log("popup-small?", popup.classList.contains("popup-small"));
+
+  popup.classList.remove("popup-small");
+
+  const blocks = data.content?.popup || [];
+
+  let hasMedia = false;
+  let totalTextLength = 0;
+
+  if (Array.isArray(blocks)) {
+    blocks.forEach(b => {
+      if (b.type === "img" || b.type === "gallery") hasMedia = true;
+      if (b.type === "text" && typeof b.value === "string") {
+        totalTextLength += b.value.trim().length;
+      }
+    });
+  }
+
+  // popup-small: nema slika + nema galerije + malo teksta
+  if (!hasMedia && totalTextLength < 420) {
+    popup.classList.add("popup-small");
   }
 
   positionPopup(btn);
