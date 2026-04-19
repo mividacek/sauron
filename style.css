@@ -658,8 +658,14 @@ body {
   flex: 0 0 100%;
   scroll-snap-align: center;
   scroll-snap-stop: always;
+  padding: 6px 6px;
+}
 
-  padding: 4px 4px;
+.popup-mobile-slide.is-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 240px;
 }
 
 .popup-mobile-dots {

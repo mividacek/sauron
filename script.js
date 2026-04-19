@@ -575,6 +575,32 @@ function positionPopup(btn) {
 }
 
 /* ============================= */
+/* DIVIDE TEXT INTO SLIDES       */
+/* ============================= */
+
+function splitTextIntoSlides(text, maxChars = 280) {
+  const sentences = text
+    .replace(/\n+/g, " ")
+    .split(/(?<=[.!?])\s+/);
+
+  const slides = [];
+  let buffer = "";
+
+  sentences.forEach(sentence => {
+    if ((buffer + " " + sentence).trim().length > maxChars) {
+      if (buffer.trim().length) slides.push(buffer.trim());
+      buffer = sentence;
+    } else {
+      buffer += " " + sentence;
+    }
+  });
+
+  if (buffer.trim().length) slides.push(buffer.trim());
+
+  return slides;
+}
+
+/* ============================= */
 /* POPUP CONTENT RENDER          */
 /* ============================= */
 
@@ -671,12 +697,39 @@ data.forEach((block) => {
     return;
   }
 
-  // normal block -> one slide
-  const slide = document.createElement("div");
-  slide.className = "popup-mobile-slide";
+  // TEXT BLOCK -> split into multiple slides if too long
+  if (block.type === "text" && typeof block.value === "string") {
+    const parts = splitTextIntoSlides(block.value, 300);
 
-  renderContent(slide, block);
-  slider.appendChild(slide);
+    parts.forEach((partText) => {
+      const slide = document.createElement("div");
+      slide.className = "popup-mobile-slide is-text";
+
+      renderContent(slide, { type: "text", value: partText });
+
+      slider.appendChild(slide);
+
+      const dot = document.createElement("div");
+      dot.className = "popup-mobile-dot";
+
+      const myIndex = slideIndex;
+
+      dot.addEventListener("click", (e) => {
+        e.stopPropagation();
+        goToSlide(myIndex);
+      });
+
+      dots.appendChild(dot);
+
+      slideIndex++;
+    });
+
+    return;
+  }
+
+  if (block.type === "text") {
+    slide.classList.add("is-text");
+  }
 
   const dot = document.createElement("div");
   dot.className = "popup-mobile-dot";
