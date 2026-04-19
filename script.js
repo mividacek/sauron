@@ -31,6 +31,8 @@ const resetBtn = document.getElementById("resetView");
 const togglePointsBtn = document.getElementById("toggle-points");
 const toggleLocateBtn = document.getElementById("toggle-locate-mode");
 
+const isMobile = window.innerWidth <= 700;
+
 const LOCATOR_ENABLED = false; // true = locator available, false = completely disabled
 
 const controls = document.querySelector(".map-controls");
@@ -581,14 +583,206 @@ function renderContent(container, data) {
   if (!data) return;
 
   if (Array.isArray(data)) {
-    data.forEach(block => {
-      const wrapper = document.createElement("div");
-      wrapper.className = "popup-block";
-      renderContent(wrapper, block);
-      container.appendChild(wrapper);
+
+  const isMobile = window.innerWidth <= 700;
+
+  // MOBILE = swipe slides
+  if (isMobile) {
+    const sliderWrap = document.createElement("div");
+    sliderWrap.className = "popup-mobile-slider-wrap";
+
+    const slider = document.createElement("div");
+    slider.className = "popup-mobile-slider";
+
+    const dots = document.createElement("div");
+    dots.className = "popup-mobile-dots";
+
+    let currentSlide = 0;
+
+    function updateSliderHeight() {
+      const slides = [...slider.querySelectorAll(".popup-mobile-slide")];
+      if (!slides.length) return;
+
+      const activeSlide = slides[currentSlide];
+      if (!activeSlide) return;
+
+      sliderWrap.style.height = activeSlide.offsetHeight + "px";
+    }
+
+    function goToSlide(index) {
+      const slides = [...slider.querySelectorAll(".popup-mobile-slide")];
+      if (!slides.length) return;
+
+      currentSlide = (index + slides.length) % slides.length;
+
+      slides[currentSlide].scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+        block: "nearest"
+      });
+
+      updateDots();
+
+      updateSliderHeight();
+    }
+
+    function updateDots() {
+      const dotEls = [...dots.querySelectorAll(".popup-mobile-dot")];
+      dotEls.forEach((d, i) => {
+        d.classList.toggle("active", i === currentSlide);
+      });
+    }
+
+    let slideIndex = 0;
+
+data.forEach((block) => {
+
+  // if gallery -> each image becomes a slide
+  if (block.type === "gallery" && Array.isArray(block.value)) {
+
+    block.value.forEach((imgItem) => {
+      const slide = document.createElement("div");
+      slide.className = "popup-mobile-slide";
+
+      // render image as normal "img" block
+      renderContent(slide, {
+        type: "img",
+        value: imgItem.src,
+        caption: imgItem.caption || ""
+      });
+
+      slider.appendChild(slide);
+
+      const dot = document.createElement("div");
+      dot.className = "popup-mobile-dot";
+
+      const myIndex = slideIndex;
+
+      dot.addEventListener("click", (e) => {
+        e.stopPropagation();
+        goToSlide(myIndex);
+      });
+
+      dots.appendChild(dot);
+
+      slideIndex++;
     });
+
     return;
   }
+
+  // normal block -> one slide
+  const slide = document.createElement("div");
+  slide.className = "popup-mobile-slide";
+
+  renderContent(slide, block);
+  slider.appendChild(slide);
+
+  const dot = document.createElement("div");
+  dot.className = "popup-mobile-dot";
+
+  const myIndex = slideIndex;
+
+  dot.addEventListener("click", (e) => {
+    e.stopPropagation();
+    goToSlide(myIndex);
+  });
+
+  dots.appendChild(dot);
+
+  slideIndex++;
+});
+
+    if (data.length <= 1) {
+      dots.style.display = "none";
+    } else {
+      dots.style.display = "flex";
+    }
+
+    // swipe
+    let startX = null;
+    let startY = null;
+
+    slider.addEventListener("touchstart", (e) => {
+      if (e.touches.length !== 1) return;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    }, { passive: true });
+
+    slider.addEventListener("touchend", (e) => {
+      if (startX === null || startY === null) return;
+
+      const endX = e.changedTouches[0].clientX;
+      const endY = e.changedTouches[0].clientY;
+
+      const dx = endX - startX;
+      const dy = endY - startY;
+
+      startX = null;
+      startY = null;
+
+      if (Math.abs(dy) > Math.abs(dx)) return;
+      if (Math.abs(dx) < 45) return;
+
+      if (dx < 0) goToSlide(currentSlide + 1);
+      else goToSlide(currentSlide - 1);
+    }, { passive: true });
+
+    slider.addEventListener("scroll", () => {
+      requestAnimationFrame(() => {
+        const slides = [...slider.querySelectorAll(".popup-mobile-slide")];
+        if (!slides.length) return;
+
+        const center = slider.scrollLeft + slider.offsetWidth / 2;
+
+        let closestIndex = 0;
+        let closestDist = Infinity;
+
+        slides.forEach((slide, i) => {
+          const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
+          const dist = Math.abs(center - slideCenter);
+
+          if (dist < closestDist) {
+            closestDist = dist;
+            closestIndex = i;
+          }
+        });
+
+        currentSlide = closestIndex;
+        updateDots();
+        updateSliderHeight();
+      });
+    });
+
+    const totalSlides = slider.querySelectorAll(".popup-mobile-slide").length;
+
+    if (totalSlides <= 1) {
+      dots.style.display = "none";
+    } else {
+      dots.style.display = "flex";
+    }
+
+    sliderWrap.appendChild(slider);
+    container.appendChild(sliderWrap);
+    container.appendChild(dots);
+
+    setTimeout(() => {
+      goToSlide(0);
+    }, 50);
+
+    return;
+  }
+
+  // DESKTOP = normal blocks
+  data.forEach(block => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "popup-block";
+    renderContent(wrapper, block);
+    container.appendChild(wrapper);
+  });
+
+  return;
+}
 
   if (data.type === "text") {
     const p = document.createElement("p");

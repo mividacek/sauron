@@ -257,21 +257,30 @@ body {
 
 .popup-close {
   border: none;
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
   cursor: pointer;
-  font-size: 22px;
+
+  font-size: 18px;
   line-height: 1;
-  color: #1f2933;
+
+  background: rgba(0,0,0,0.05);
+  color: rgba(16, 42, 67, 0.75);
+
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+
+  transition: background 0.18s ease, transform 0.18s ease, color 0.18s ease;
 }
 
+
 .popup-close:hover {
-  background: rgba(0, 0, 0, 0.14);
+  background: rgba(0,0,0,0.10);
+  color: rgba(16, 42, 67, 1);
+  transform: scale(1.05);
 }
 
 .popup-block {
@@ -616,6 +625,66 @@ body {
 }
 
 /* ============================= */
+/* MOBILE POPUP SLIDER           */
+/* ============================= */
+
+.popup-mobile-slider-wrap {
+  position: relative;
+  margin: 10px 0;
+  transition: height 0.25s ease;
+}
+
+.popup-mobile-slider {
+  height: 100%;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  gap: 14px;
+
+  padding: 6px 8px 10px;
+  margin: 0;
+
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.popup-mobile-slider::-webkit-scrollbar {
+  display: none;
+}
+
+.popup-mobile-slide {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+
+  padding: 4px 4px;
+}
+
+.popup-mobile-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.popup-mobile-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(6, 93, 169, 0.25);
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.18s ease;
+}
+
+.popup-mobile-dot.active {
+  background: rgba(6, 93, 169, 0.95);
+  transform: scale(1.3);
+}
+
+/* ============================= */
 /* MOBILE                        */
 /* ============================= */
 
@@ -630,14 +699,15 @@ body {
     transform: translateX(-50%);
     width: min(360px, calc(100vw - 20px)) !important;
 
-    max-height: 32vh !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-
-    -webkit-overflow-scrolling: touch;
+    max-height: 62vh !important;
+    overflow: hidden !important;
 
     padding-top: 0;
     z-index: 99999 !important;
+  }
+
+  .popup-content-scroll {
+    overflow: hidden;
   }
 
   .popup::after {
@@ -661,8 +731,6 @@ body {
     position: absolute;
     top: 10px;
     right: 10px;
-    left: auto;
-    margin-left: 0;
   }
 
   .popup h3 {
