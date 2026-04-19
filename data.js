@@ -40,26 +40,34 @@ const stope = {
     top: "83.9%",
     left: "58.2%",
     content: {
-        type: "v_ornitopod_m_teropod",
+        type: "v_ornitopod",
         popup: [
         { type: "text", value: "Rt Kamik/Plješivac nalazi se na južnoj strani otoka Veliki Brijun gdje su pronađeni otisci krupnijih dvonožnih biljojeda i malih dvonožnih mesojeda u dva sloja koja su u međusobnom kontaktu.\nOba sloja datirana su u razdoblje donje krede, prije 105 milijuna godina." },
-        { type: "gallery",
-            value: [
-                { src: "slike/kamik1.png", caption: "Trag srednje velikog ornitopoda tipa Iguanodon." },
-                { src: "slike/kamik2.png", caption: "Trag malog teropodnog dinosaura sloj iznad traga srednje velikog ornitopodnog tipa." }
-            ]
-        }
+        { type: "img", value: "slike/kamik1.png", caption: "Opis Tragovi dinosaura s nalazišta Kamik/Plješivac; gornja fotografija - trag srednje velikog ornitopoda tipa Iguanodon; donja fotografija: trag malog teropodnog dinosaura sloj iznad." }
         ],
-
     }
     },
 
+    kamik2: {
+    title: "Kamik",
+    top: "83.7%",
+    left: "60.9%",
+    content: {
+        type: "m_teropod",
+        popup: [
+        { type: "text", value: "Rt Kamik/Plješivac nalazi se na južnoj strani otoka Veliki Brijun gdje su pronađeni otisci krupnijih dvonožnih biljojeda i malih dvonožnih mesojeda u dva sloja koja su u međusobnom kontaktu.\nOba sloja datirana su u razdoblje donje krede, prije 105 milijuna godina." },
+        { type: "img", value: "slike/kamik1.png", caption: "Opis Tragovi dinosaura s nalazišta Kamik/Plješivac; gornja fotografija - trag srednje velikog ornitopoda tipa Iguanodon; donja fotografija: trag malog teropodnog dinosaura sloj iznad." }
+        ],
+    }
+    },
+
+    
     trstike: {
         title: "Trstike",
         top: "86.4%",
         left: "46.6%",
         content: {
-            type: "sauropod",
+            type: "m_teropod",
             popup: [
             { type: "text", value: "Na rtu Trstike / Debela glava na južnoj strani otoka Veli Brijun u donjokrednim vapnencima starosti 105 milijuna godina pronađeno je tridesetak kružnih otisaka četveronožnih biljojednih dinosaura sauropoda." },
             { type: "img", value: "slike/trstike1.jpeg", caption: "Kružni sauropodni otisci s nalazišta na rtu Trstike, duljina čekića = 33 cm." }
@@ -109,7 +117,7 @@ const stope = {
     top: "60.4%",
     left: "37.6%",
     content: {
-        type: "sauropod_m_teropod",
+        type: "sauropod",
         popup: [
         { type: "text", value: "Fosilni tragovi dinosaura zabilježeni su i na otocima Vangi i Galiji." }
         ]
@@ -120,6 +128,18 @@ const stope = {
     title: "Vanga",
     top: "54.8%",
     left: "35.5%",
+    content: {
+        type: "m_teropod",
+        popup: [
+        { type: "text", value: "Fosilni tragovi dinosaura zabilježeni su i na otocima Vangi i Galiji." }
+        ]
+    }
+    },
+
+    vanga_4: {
+    title: "Vanga",
+    top: "60.3%",
+    left: "39.9%",
     content: {
         type: "m_teropod",
         popup: [
