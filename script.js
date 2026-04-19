@@ -723,6 +723,47 @@ if (data.type === "gallery") {
     dots.appendChild(dot);
   });
 
+  // =============================
+// SWIPE (popup gallery)
+// =============================
+
+let popupSwipeStartX = null;
+let popupSwipeStartY = null;
+
+gallery.addEventListener("touchstart", (e) => {
+  if (e.touches.length !== 1) return;
+
+  popupSwipeStartX = e.touches[0].clientX;
+  popupSwipeStartY = e.touches[0].clientY;
+}, { passive: true });
+
+gallery.addEventListener("touchend", (e) => {
+  if (popupSwipeStartX === null || popupSwipeStartY === null) return;
+
+  const endX = e.changedTouches[0].clientX;
+  const endY = e.changedTouches[0].clientY;
+
+  const dx = endX - popupSwipeStartX;
+  const dy = endY - popupSwipeStartY;
+
+  popupSwipeStartX = null;
+  popupSwipeStartY = null;
+
+  // ignore vertical swipe (scroll popup)
+  if (Math.abs(dy) > Math.abs(dx)) return;
+
+  // threshold
+  if (Math.abs(dx) < 45) return;
+
+  if (dx < 0) {
+    // swipe left -> next
+    scrollToIndex(currentPopupIndex + 1);
+  } else {
+    // swipe right -> prev
+    scrollToIndex(currentPopupIndex - 1);
+  }
+}, { passive: true });
+
   // detect active slide while user scrolls manually
   function detectClosestSlide() {
     const figures = [...gallery.querySelectorAll(".popup-figure")];

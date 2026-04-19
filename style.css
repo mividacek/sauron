@@ -355,6 +355,7 @@ body {
 .popup-gallery {
   display: flex;
   gap: 12px;
+  position: relative;
 
   overflow-x: auto;
   overflow-y: hidden;
@@ -433,31 +434,36 @@ body {
 /* arrows */
 .popup-gallery-btn {
   position: absolute;
-  top: 50%;
+  top: calc(6px + 165px / 2); 
   transform: translateY(-50%);
   z-index: 10;
 
-  width: 34px;
-  height: 34px;
-  border-radius: 12px;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
 
   border: none;
   cursor: pointer;
 
-  background: rgba(0,0,0,0.55);
+  background: rgba(0,0,0,0.28);
   color: white;
-  font-size: 20px;
+  font-size: 18px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  transition: background 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+  opacity: 0.55;
+  transition: opacity 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.popup-gallery-wrap:hover .popup-gallery-btn {
+  opacity: 1;
 }
 
 .popup-gallery-btn:hover {
-  background: rgba(0,0,0,0.75);
-  transform: translateY(-50%) scale(1.05);
+  background: rgba(0,0,0,0.55);
+  transform: translateY(-50%) scale(1.08);
 }
 
 .popup-gallery-prev {
@@ -683,5 +689,9 @@ body {
     height: 44px;
     font-size: 28px;
     border-radius: 16px;
+  }
+  
+  .popup-gallery-btn {
+    display: none !important;
   }
 }
