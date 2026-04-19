@@ -469,6 +469,32 @@ body {
 }
 
 /* ============================= */
+/* POPUP GALLERY DOTS            */
+/* ============================= */
+
+.popup-gallery-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.popup-gallery-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(6, 93, 169, 0.25);
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.18s ease;
+}
+
+.popup-gallery-dot.active {
+  background: rgba(6, 93, 169, 0.95);
+  transform: scale(1.3);
+}
+
+/* ============================= */
 /* LIGHTBOX                      */
 /* ============================= */
 

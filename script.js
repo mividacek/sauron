@@ -1,7 +1,5 @@
 //script.js
 
-//bilo bi dobro da i u popupu zadnja slika galerije vodi nazad na prvu i dots dole da prikazuju broj slika
-
 /* ============================= */
 /* ELEMENTS                      */
 /* ============================= */
@@ -634,6 +632,9 @@ if (data.type === "gallery") {
   const gallery = document.createElement("div");
   gallery.className = "popup-gallery";
 
+  const dots = document.createElement("div");
+  dots.className = "popup-gallery-dots";
+
   const btnPrev = document.createElement("button");
   btnPrev.className = "popup-gallery-btn popup-gallery-prev";
   btnPrev.innerText = "❮";
@@ -642,51 +643,48 @@ if (data.type === "gallery") {
   btnNext.className = "popup-gallery-btn popup-gallery-next";
   btnNext.innerText = "❯";
 
-  function scrollByOne(direction) {
-    const firstItem = gallery.querySelector(".popup-figure");
-    if (!firstItem) return;
+  let currentPopupIndex = 0;
 
-    const itemWidth = firstItem.offsetWidth + 12; // width + gap
-    gallery.scrollBy({
-      left: direction * itemWidth,
-      behavior: "smooth"
+  function scrollToIndex(index) {
+    const figures = [...gallery.querySelectorAll(".popup-figure")];
+    if (!figures.length) return;
+
+    currentPopupIndex = (index + figures.length) % figures.length;
+
+    figures[currentPopupIndex].scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+      block: "nearest"
     });
+
+    updateDots();
+    updateActiveSlide();
+  }
+
+  function updateDots() {
+    const dotEls = [...dots.querySelectorAll(".popup-gallery-dot")];
+    dotEls.forEach((d, i) => {
+      d.classList.toggle("active", i === currentPopupIndex);
+    });
+  }
+
+  function updateActiveSlide() {
+    const figures = [...gallery.querySelectorAll(".popup-figure")];
+    if (!figures.length) return;
+
+    figures.forEach(f => f.classList.remove("is-active"));
+    figures[currentPopupIndex].classList.add("is-active");
   }
 
   btnPrev.addEventListener("click", (e) => {
     e.stopPropagation();
-    scrollByOne(-1);
-    setTimeout(updateGalleryArrows, 250);
+    scrollToIndex(currentPopupIndex - 1);
   });
 
   btnNext.addEventListener("click", (e) => {
     e.stopPropagation();
-    scrollByOne(1);
-    setTimeout(updateGalleryArrows, 250);
+    scrollToIndex(currentPopupIndex + 1);
   });
-
-  function updateGalleryArrows() {
-    const maxScroll = gallery.scrollWidth - gallery.clientWidth;
-
-    // small tolerance because of decimals
-    const tolerance = 4;
-
-    if (gallery.scrollLeft <= tolerance) {
-      btnPrev.style.opacity = "0";
-      btnPrev.style.pointerEvents = "none";
-    } else {
-      btnPrev.style.opacity = "1";
-      btnPrev.style.pointerEvents = "auto";
-    }
-
-    if (gallery.scrollLeft >= maxScroll - tolerance) {
-      btnNext.style.opacity = "0";
-      btnNext.style.pointerEvents = "none";
-    } else {
-      btnNext.style.opacity = "1";
-      btnNext.style.pointerEvents = "auto";
-    }
-  }
 
   data.value.forEach((item, index) => {
     const figure = document.createElement("figure");
@@ -712,43 +710,51 @@ if (data.type === "gallery") {
     }
 
     gallery.appendChild(figure);
+
+    // dots
+    const dot = document.createElement("div");
+    dot.className = "popup-gallery-dot";
+
+    dot.addEventListener("click", (e) => {
+      e.stopPropagation();
+      scrollToIndex(index);
+    });
+
+    dots.appendChild(dot);
   });
 
-  // active fade effect while scrolling
-  function updateActiveSlide() {
+  // detect active slide while user scrolls manually
+  function detectClosestSlide() {
     const figures = [...gallery.querySelectorAll(".popup-figure")];
     if (!figures.length) return;
 
     const center = gallery.scrollLeft + gallery.offsetWidth / 2;
 
-    let closest = null;
+    let closestIndex = 0;
     let closestDist = Infinity;
 
-    figures.forEach(fig => {
+    figures.forEach((fig, i) => {
       const figCenter = fig.offsetLeft + fig.offsetWidth / 2;
       const dist = Math.abs(center - figCenter);
 
       if (dist < closestDist) {
         closestDist = dist;
-        closest = fig;
+        closestIndex = i;
       }
     });
 
-    figures.forEach(f => f.classList.remove("is-active"));
-    if (closest) closest.classList.add("is-active");
+    currentPopupIndex = closestIndex;
+    updateDots();
+    updateActiveSlide();
   }
 
   gallery.addEventListener("scroll", () => {
-    requestAnimationFrame(() => {
-      updateActiveSlide();
-      updateGalleryArrows();
-    });
+    requestAnimationFrame(detectClosestSlide);
   });
 
-  // init active
+  // init
   setTimeout(() => {
-    updateActiveSlide();
-    updateGalleryArrows();
+    scrollToIndex(0);
   }, 50);
 
   wrap.appendChild(btnPrev);
@@ -756,6 +762,8 @@ if (data.type === "gallery") {
   wrap.appendChild(btnNext);
 
   container.appendChild(wrap);
+  container.appendChild(dots);
+
   return;
 }
 
@@ -1123,7 +1131,7 @@ viewport.addEventListener("click", (e) => {
   top: "${top}%",
   left: "${left}%",
   content: {
-    type: "v_teropod",
+    type: "m_teropod",
     popup: [
       { type: "text", value: "Opis..." }
     ],
