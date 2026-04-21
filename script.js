@@ -65,6 +65,16 @@ const STOPA_TYPES = {
   sauropod: {
     icon: "slike/sauropod.svg",
     iconActive: "slike/sauropod_a.svg"
+  },
+
+  v_ornitopod_m_teropod: {
+    icon: "slike/v_ornitopod_m_teropod.svg",
+    iconActive: "slike/v_ornitopod_m_teropod_a.svg"
+  },
+
+  sauropod_m_teropod: {
+    icon: "slike/sauropod_m_teropod.svg",
+    iconActive: "slike/sauropod_m_teropod_a.svg"
   }
 };
 

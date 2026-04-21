@@ -9,8 +9,8 @@ const stope = {
         { type: "text", value: "Na rtu Vrbanj/Pogledalo/Barban pronađeno je šezdesetak otisaka stopala velikih dvonožnih dinosaura mesojeda.\nOvi otisci nastali su između 130 i 125 milijuna godina u razdoblju rane krede, a ujedno su i geološki najstariji od svih brijunskih nalazišta." },
         { type: "gallery",
             value: [
-                { src: "slike/barban1.jpg", caption: "Mjerenje otiska" },
-                { src: "slike/barban2.jpg", caption: "Trag teropoda (detalj)" },
+                { src: "slike/barban1.jpg", caption: "Trag teropoda (detalj)" },
+                { src: "slike/barban2.jpg", caption: "Mjerenje otiska" },
                 { src: "slike/barban3.jpg", caption: "Fosilni trag velikog teropodnog dinosaura s rta Vrbanj/Barban; autorica fotografije: Irina Žeger Pleše." }
             ]
   }
@@ -40,27 +40,18 @@ const stope = {
     top: "83.9%",
     left: "58.2%",
     content: {
-        type: "v_ornitopod",
+        type: "v_ornitopod_m_teropod",
         popup: [
         { type: "text", value: "Rt Kamik/Plješivac nalazi se na južnoj strani otoka Veliki Brijun gdje su pronađeni otisci krupnijih dvonožnih biljojeda i malih dvonožnih mesojeda u dva sloja koja su u međusobnom kontaktu.\nOba sloja datirana su u razdoblje donje krede, prije 105 milijuna godina." },
-        { type: "img", value: "slike/kamik1.png", caption: "Opis Tragovi dinosaura s nalazišta Kamik/Plješivac; gornja fotografija - trag srednje velikog ornitopoda tipa Iguanodon; donja fotografija: trag malog teropodnog dinosaura sloj iznad." }
-        ],
+        { type: "gallery",
+            value: [
+                { src: "slike/kamik1.png", caption: "Trag srednje velikog ornitopoda tipa Iguanodon." },
+                { src: "slike/kamik2.png", caption: "Trag malog teropodnog dinosaura sloj iznad." },
+                ]
+        }
+            ],
     }
     },
-
-    kamik2: {
-    title: "Kamik",
-    top: "83.7%",
-    left: "60.9%",
-    content: {
-        type: "m_teropod",
-        popup: [
-        { type: "text", value: "Rt Kamik/Plješivac nalazi se na južnoj strani otoka Veliki Brijun gdje su pronađeni otisci krupnijih dvonožnih biljojeda i malih dvonožnih mesojeda u dva sloja koja su u međusobnom kontaktu.\nOba sloja datirana su u razdoblje donje krede, prije 105 milijuna godina." },
-        { type: "img", value: "slike/kamik1.png", caption: "Opis Tragovi dinosaura s nalazišta Kamik/Plješivac; gornja fotografija - trag srednje velikog ornitopoda tipa Iguanodon; donja fotografija: trag malog teropodnog dinosaura sloj iznad." }
-        ],
-    }
-    },
-
     
     trstike: {
         title: "Trstike",
@@ -117,7 +108,7 @@ const stope = {
     top: "60.4%",
     left: "37.6%",
     content: {
-        type: "sauropod",
+        type: "sauropod_m_teropod",
         popup: [
         { type: "text", value: "Fosilni tragovi dinosaura zabilježeni su i na otocima Vangi i Galiji." }
         ]
@@ -128,18 +119,6 @@ const stope = {
     title: "Vanga",
     top: "54.8%",
     left: "35.5%",
-    content: {
-        type: "m_teropod",
-        popup: [
-        { type: "text", value: "Fosilni tragovi dinosaura zabilježeni su i na otocima Vangi i Galiji." }
-        ]
-    }
-    },
-
-    vanga_4: {
-    title: "Vanga",
-    top: "60.3%",
-    left: "39.9%",
     content: {
         type: "m_teropod",
         popup: [
