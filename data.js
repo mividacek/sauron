@@ -58,7 +58,7 @@ const stope = {
         top: "86.4%",
         left: "46.6%",
         content: {
-            type: "m_teropod",
+            type: "sauropod",
             popup: [
             { type: "text", value: "Na rtu Trstike / Debela glava na južnoj strani otoka Veli Brijun u donjokrednim vapnencima starosti 105 milijuna godina pronađeno je tridesetak kružnih otisaka četveronožnih biljojednih dinosaura sauropoda." },
             { type: "img", value: "slike/trstike1.jpeg", caption: "Kružni sauropodni otisci s nalazišta na rtu Trstike, duljina čekića = 33 cm." }
