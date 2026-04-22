@@ -630,8 +630,9 @@ body {
     transform: translateX(-50%);
     width: min(360px, calc(100vw - 20px)) !important;
 
-    max-height: 32vh !important;
-    overflow-y: auto !important;
+    max-height: 60vh !important;
+    height: auto !important;
+    overflow-y: hidden !important;
     overflow-x: hidden !important;
 
     -webkit-overflow-scrolling: touch;
@@ -649,12 +650,8 @@ body {
     top: 0;
     z-index: 10;
 
-    background: rgba(255,255,255,0.92);
     padding: 14px 16px 10px;
     margin: 0;
-
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(0,0,0,0.06);
   }
 
   .popup-close {
@@ -693,5 +690,99 @@ body {
   
   .popup-gallery-btn {
     display: none !important;
+  }
+
+  /* cijeli popup sadržaj pretvori u slider */
+  .popup-mobile-slider {
+    display: flex;
+    gap: 12px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+
+    -webkit-overflow-scrolling: touch;
+
+    padding: 8px 0 10px;
+    margin: 0;
+
+    scrollbar-width: none;
+  }
+
+  .popup-mobile-slider::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* svaki element (tekst, ul, slika, galerija) postaje slide */
+  .popup-mobile-slide {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+
+    /*background: rgba(255,255,255,0.92);*/
+    border-radius: 14px;
+    padding: 12px 12px 14px;
+
+    box-sizing: border-box;
+
+    box-shadow: 1px 3px 5px rgba(0,0,0,0.09);
+  }
+
+  /* tekst slide */
+  .popup-mobile-slide p {
+    margin: 0;
+  }
+
+  /* ul/ol slide */
+  .popup-mobile-slide ul,
+  .popup-mobile-slide ol {
+    margin: 0;
+    padding-left: 18px;
+  }
+
+  /* ako slide sadrži sliku */
+  .popup-mobile-slide img.popup-img,
+  .popup-mobile-slide img.popup-gallery-img {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin: 0;
+    display: block;
+  }
+
+  .popup-mobile-slide .popup-caption {
+    margin-top: 8px;
+    text-align: center;
+  }
+
+  /* makni desktop galerija padding na mobitelu */
+  .popup-gallery {
+    padding: 6px 14px 10px !important;
+  }
+
+  /* dots ispod slidera */
+  .popup-mobile-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+    margin-top: 10px;
+  }
+
+  .popup-mobile-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(6, 93, 169, 0.25);
+    cursor: pointer;
+    transition: transform 0.18s ease, background 0.18s ease;
+  }
+
+  .popup-mobile-dot.active {
+    background: rgba(6, 93, 169, 0.95);
+    transform: scale(1.3);
   }
 }

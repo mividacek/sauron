@@ -6,7 +6,9 @@ const stope = {
     content: {
       type: "v_teropod",
       popup: [
-        { type: "text", value: "Na rtu Vrbanj/Pogledalo/Barban pronađeno je šezdesetak otisaka stopala velikih dvonožnih dinosaura mesojeda.\nOvi otisci nastali su između 130 i 125 milijuna godina u razdoblju rane krede, a ujedno su i geološki najstariji od svih brijunskih nalazišta." },
+        /*{ type: "text", value: "Na rtu Vrbanj/Pogledalo/Barban pronađeno je šezdesetak otisaka stopala velikih dvonožnih dinosaura mesojeda.\nOvi otisci nastali su između 130 i 125 milijuna godina u razdoblju rane krede, a ujedno su i geološki najstariji od svih brijunskih nalazišta." },*/
+        { type: "text", value: "Na rtu Vrbanj/Pogledalo/Barban pronađeno je šezdesetak otisaka stopala velikih dvonožnih dinosaura mesojeda. Troprsti oblik otisaka ukazuje da su pripadali teropodima, grabežljivim mesojedima koji su, šetajući duž plićaka nekadašnjeg oceana Tethys, ostavili svoje tragove. Od šezdesetak fosilnih otisaka njih 15 čine četiri staze kretanja (minimalno tri traga u nizu). Bili su dugi između 7,5 i 8 metara, a kretali su se laganim hodom oko 5km/h. Na temelju oblika i dimenzije otiska, parametara staze kretanja, sličnih nalaza tragova teropoda u svijetu, fosilnih nalaza kostiju iz istog razdoblja, paleogeografije i drugih podataka može se zaključiti kako su tragove ostavili teropodni dinosauri iz grupe Carnosauria (vrlo vjerojatno alosauridi ili charcharodontosauridi). Ovi otisci nastali su između 130 i 125 milijuna godina u razdoblju rane krede, a ujedno su i geološki najstariji od svih brijunskih nalazišta. Zasad su jedini fosilni nalaz velikih teropodnih dinosaura mesoždera na području RH. Osim toga, budući da sufosilni nalazi kostiju dinosaura iz skupine Carnosauria iz rane krede općenito relativno rijetki, brijunsko nalazište njihovih tragova još više dobiva na važnosti." },
+
         { type: "gallery",
             value: [
                 { src: "slike/barban1.jpg", caption: "Trag teropoda (detalj)" },

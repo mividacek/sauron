@@ -524,25 +524,25 @@ function positionPopup(btn) {
   popup.style.visibility = "hidden";
 
   if (isMobile) {
-    popup.style.visibility = "visible";
+  popup.style.visibility = "visible";
 
-    const pointRect = btn.getBoundingClientRect();
-    const viewRect = viewport.getBoundingClientRect();
+  const pointRect = btn.getBoundingClientRect();
+  const viewRect = viewport.getBoundingClientRect();
 
-    const popupHeight = popup.offsetHeight || 220;
-    const safeBottomArea = popupHeight + 30;
+  const pointCenterY = pointRect.top + pointRect.height / 2;
+  const screenCenterY = window.innerHeight / 2;
 
-    const pointY = pointRect.top - viewRect.top;
-
-    if (pointY > viewRect.height - safeBottomArea) {
-      const neededUp = (pointY - (viewRect.height - safeBottomArea));
-      translateY -= neededUp;
-      clampPan();
-      applyTransform();
-    }
-
-    return;
+  // ako je ikona dolje na ekranu -> popup ide gore
+  if (pointCenterY > screenCenterY) {
+    popup.style.top = "14px";
+    popup.style.bottom = "auto";
+  } else {
+    popup.style.bottom = "14px";
+    popup.style.top = "auto";
   }
+
+  return;
+}
 
   const pointRect = btn.getBoundingClientRect();
   const viewRect = viewport.getBoundingClientRect();
@@ -590,6 +590,167 @@ function renderContent(container, data) {
   container.innerHTML = "";
   if (!data) return;
 
+  const isMobile = window.innerWidth <= 700;
+
+  // MOBILE: pretvori sve blokove u jedan slider
+  if (isMobile && Array.isArray(data)) {
+    const slider = document.createElement("div");
+    slider.className = "popup-mobile-slider";
+
+    const dots = document.createElement("div");
+    dots.className = "popup-mobile-dots";
+
+    let slides = [];
+
+    // helper: napravi slide wrapper
+    function addSlide(contentNode) {
+      const slide = document.createElement("div");
+      slide.className = "popup-mobile-slide";
+      slide.appendChild(contentNode);
+      slider.appendChild(slide);
+      slides.push(slide);
+    }
+
+    data.forEach(block => {
+
+      // TEXT
+      if (block.type === "text") {
+        const p = document.createElement("p");
+        p.innerText = block.value;
+        addSlide(p);
+        return;
+      }
+
+      // UL
+      if (block.type === "ul") {
+        const ul = document.createElement("ul");
+        block.value.forEach(item => {
+          const li = document.createElement("li");
+          li.innerText = item;
+          ul.appendChild(li);
+        });
+        addSlide(ul);
+        return;
+      }
+
+      // OL
+      if (block.type === "ol") {
+        const ol = document.createElement("ol");
+        block.value.forEach(item => {
+          const li = document.createElement("li");
+          li.innerText = item;
+          ol.appendChild(li);
+        });
+        addSlide(ol);
+        return;
+      }
+
+      // IMG
+      if (block.type === "img") {
+        const figure = document.createElement("figure");
+        figure.style.margin = "0";
+
+        const img = document.createElement("img");
+        img.src = block.value;
+        img.alt = block.caption || "";
+        img.className = "popup-img popup-img-clickable";
+
+        img.addEventListener("click", (e) => {
+          e.stopPropagation();
+          openLightbox([{ src: block.value, caption: block.caption || "" }], 0);
+        });
+
+        figure.appendChild(img);
+
+        if (block.caption) {
+          const cap = document.createElement("figcaption");
+          cap.className = "popup-caption";
+          cap.innerText = block.caption;
+          figure.appendChild(cap);
+        }
+
+        addSlide(figure);
+        return;
+      }
+
+      // GALLERY -> svaki item postaje zaseban slide
+      if (block.type === "gallery") {
+        block.value.forEach((item, index) => {
+          const figure = document.createElement("figure");
+          figure.style.margin = "0";
+
+          const img = document.createElement("img");
+          img.src = item.src;
+          img.alt = item.caption || "";
+          img.className = "popup-gallery-img";
+
+          img.addEventListener("click", (e) => {
+            e.stopPropagation();
+            openLightbox(block.value, index);
+          });
+
+          figure.appendChild(img);
+
+          if (item.caption) {
+            const cap = document.createElement("figcaption");
+            cap.className = "popup-caption";
+            cap.innerText = item.caption;
+            figure.appendChild(cap);
+          }
+
+          addSlide(figure);
+        });
+
+        return;
+      }
+    });
+
+    // dots
+    slides.forEach((_, i) => {
+      const dot = document.createElement("div");
+      dot.className = "popup-mobile-dot";
+
+      dot.addEventListener("click", () => {
+        slides[i].scrollIntoView({ behavior: "smooth", inline: "start" });
+      });
+
+      dots.appendChild(dot);
+    });
+
+    function updateActiveDot() {
+      const center = slider.scrollLeft + slider.offsetWidth / 2;
+
+      let closestIndex = 0;
+      let closestDist = Infinity;
+
+      slides.forEach((slide, i) => {
+        const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
+        const dist = Math.abs(center - slideCenter);
+
+        if (dist < closestDist) {
+          closestDist = dist;
+          closestIndex = i;
+        }
+      });
+
+      [...dots.children].forEach((d, i) => {
+        d.classList.toggle("active", i === closestIndex);
+      });
+    }
+
+    slider.addEventListener("scroll", () => {
+      requestAnimationFrame(updateActiveDot);
+    });
+
+    container.appendChild(slider);
+    container.appendChild(dots);
+
+    setTimeout(updateActiveDot, 50);
+
+    return;
+  }
+
+  // ---- stari kod dalje ostaje isti ----
   if (Array.isArray(data)) {
     data.forEach(block => {
       const wrapper = document.createElement("div");
