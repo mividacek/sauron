@@ -186,8 +186,26 @@ body {
   user-select: none;
 }
 
+.stopa-point:hover {
+  transform: translate(-50%, -50%) scale(calc(var(--markerScale, 1) * 1.15));
+}
+
 .stopa-point.active {
-  transform: translate(-50%, -50%) scale(calc(var(--markerScale, 1) * 1.12));
+  transform: translate(-50%, -50%) scale(calc(var(--markerScale, 1) * 1.35));
+}
+
+/* ikona pulsira */
+.stopa-point.active .stopa-icon {
+  animation: iconPulse 1.8s ease-out infinite;
+}
+
+@keyframes iconPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.12);
+  }
 }
 
 /* ============================= */
@@ -620,12 +638,25 @@ body {
 /* ============================= */
 
 @media (max-width: 700px) {
-
+/*
   .popup {
     position: fixed !important;
     left: 50% !important;
-    bottom: 14px !important;
-    top: auto !important;
+
+    /* makni fiksiranje top/bottom jer JS odlučuje */
+/*    top: auto;
+    bottom: auto;
+
+    transform: translateX(-50%);
+    width: min(360px, calc(100vw - 20px)) !important;
+
+    max-height: 60vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+
+    -webkit-overflow-scrolling: touch;
+    padding-top: 0;
+    z-index: 99999 !important;
 
     transform: translateX(-50%);
     width: min(360px, calc(100vw - 20px)) !important;
@@ -639,7 +670,24 @@ body {
 
     padding-top: 0;
     z-index: 99999 !important;
+  }*/
+
+  .popup {
+    position: fixed !important;
+    left: 50% !important;
+    transform: translateX(-50%);
+
+    width: min(360px, calc(100vw - 20px)) !important;
+
+    max-height: 60vh !important;
+    height: auto !important;
+
+    overflow: hidden !important; /* slider kontrolira sadržaj */
+
+    padding: 0;
+    z-index: 99999 !important;
   }
+  
 
   .popup::after {
     display: none !important;
@@ -667,6 +715,11 @@ body {
     padding-right: 30px;
   }
 
+    .popup-mobile-slide .text-slide p {
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
   .stopa-point {
     width: 34px;
     height: 34px;
@@ -686,6 +739,7 @@ body {
     height: 44px;
     font-size: 28px;
     border-radius: 16px;
+    display: none !important;
   }
   
   .popup-gallery-btn {
@@ -717,23 +771,42 @@ body {
 
   /* svaki element (tekst, ul, slika, galerija) postaje slide */
   .popup-mobile-slide {
-    flex: 0 0 100%;
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
+  height: auto;
+  overflow: hidden;
 
-    /*background: rgba(255,255,255,0.92);*/
-    border-radius: 14px;
-    padding: 12px 12px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 
-    box-sizing: border-box;
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 
-    box-shadow: 1px 3px 5px rgba(0,0,0,0.09);
-  }
+  border-radius: 14px;
+  padding: 12px 12px 14px;
+  box-sizing: border-box;
+
+  box-shadow: 1px 3px 5px rgba(0,0,0,0.09);
+}
+
+/* normalni slideovi (ako ima puno teksta) */
+.popup-mobile-slide.tall {
+  min-height: 240px;
+}
+
+/* kratki slideovi */
+.popup-mobile-slide.compact {
+  min-height: unset;
+}
 
   /* tekst slide */
   .popup-mobile-slide p {
+    font-size: 13px;
+    line-height: 1.55;
     margin: 0;
   }
+
+  
 
   /* ul/ol slide */
   .popup-mobile-slide ul,

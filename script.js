@@ -527,16 +527,16 @@ function positionPopup(btn) {
   popup.style.visibility = "visible";
 
   const pointRect = btn.getBoundingClientRect();
-  const viewRect = viewport.getBoundingClientRect();
-
   const pointCenterY = pointRect.top + pointRect.height / 2;
+
   const screenCenterY = window.innerHeight / 2;
 
-  // ako je ikona dolje na ekranu -> popup ide gore
   if (pointCenterY > screenCenterY) {
+    // ikona dolje -> popup gore
     popup.style.top = "14px";
     popup.style.bottom = "auto";
   } else {
+    // ikona gore -> popup dolje
     popup.style.bottom = "14px";
     popup.style.top = "auto";
   }
@@ -586,6 +586,115 @@ function positionPopup(btn) {
 /* POPUP CONTENT RENDER          */
 /* ============================= */
 
+function getMaxTextHeightFromCSS(slider) {
+  // napravi dummy slide koji ima iste klase kao pravi
+  const dummySlide = document.createElement("div");
+  dummySlide.className = "popup-mobile-slide tall";
+  dummySlide.style.visibility = "hidden";
+  dummySlide.style.position = "absolute";
+  dummySlide.style.left = "-9999px";
+  dummySlide.style.top = "0";
+
+  // dummy tekst element
+  const dummyP = document.createElement("p");
+  dummyP.innerText = "TEST";
+  dummySlide.appendChild(dummyP);
+
+  slider.appendChild(dummySlide);
+
+  const slideStyles = window.getComputedStyle(dummySlide);
+
+  const paddingTop = parseFloat(slideStyles.paddingTop) || 0;
+  const paddingBottom = parseFloat(slideStyles.paddingBottom) || 0;
+
+  // stvarna visina slajda (CSS height ili auto)
+  const slideHeight = dummySlide.getBoundingClientRect().height;
+
+  dummySlide.remove();
+
+  // max prostor za tekst = slide visina - padding
+  return Math.max(80, slideHeight - paddingTop - paddingBottom);
+}
+
+function splitTextByHeight(text, maxHeightPx, slideWidthPx) {
+  const chunks = [];
+  let remaining = text.trim();
+
+  const testP = document.createElement("p");
+  testP.style.margin = "0";
+  testP.style.padding = "0";
+  testP.style.boxSizing = "border-box";
+
+  testP.style.fontFamily = "'Open Sans', sans-serif";
+  testP.style.fontSize = "13px";
+  testP.style.lineHeight = "1.55";
+  testP.style.whiteSpace = "normal";
+  testP.style.wordBreak = "break-word";
+
+  testP.style.visibility = "hidden";
+  testP.style.position = "absolute";
+  testP.style.left = "-9999px";
+  testP.style.top = "0";
+  testP.style.width = slideWidthPx + "px";
+
+  document.body.appendChild(testP);
+
+  while (remaining.length > 0) {
+    let low = 0;
+    let high = remaining.length;
+    let best = 0;
+
+    while (low <= high) {
+      const mid = Math.floor((low + high) / 2);
+      testP.innerText = remaining.slice(0, mid);
+
+      if (testP.scrollHeight <= maxHeightPx) {
+        best = mid;
+        low = mid + 1;
+      } else {
+        high = mid - 1;
+      }
+    }
+
+    if (best >= remaining.length) {
+      chunks.push(remaining);
+      break;
+    }
+
+    if (best < 40) {
+      // ako je algoritam prerezao prerano, radije uzmi više teksta
+      best = Math.min(220, remaining.length);
+    }
+
+    let cut = best;
+
+    // pokušaj rezati na zadnjoj točki / upitniku / uskličniku
+    const lastDot = Math.max(
+      remaining.lastIndexOf(".", best),
+      remaining.lastIndexOf("!", best),
+      remaining.lastIndexOf("?", best)
+    );
+
+    if (lastDot > 60) {
+      cut = lastDot + 1;
+    } else {
+      const lastSpace = remaining.lastIndexOf(" ", best);
+      if (lastSpace > 40) cut = lastSpace;
+    }
+
+    chunks.push(remaining.slice(0, cut).trim());
+    remaining = remaining.slice(cut).trim();
+
+    if (chunks[chunks.length - 1].length < 10 && chunks.length > 1) {
+      const last = chunks.pop();
+      chunks[chunks.length - 1] += " " + last;
+    }
+  }
+
+  document.body.removeChild(testP);
+  return chunks;
+}
+
 function renderContent(container, data) {
   container.innerHTML = "";
   if (!data) return;
@@ -593,31 +702,49 @@ function renderContent(container, data) {
   const isMobile = window.innerWidth <= 700;
 
   // MOBILE: pretvori sve blokove u jedan slider
-  if (isMobile && Array.isArray(data)) {
-    const slider = document.createElement("div");
-    slider.className = "popup-mobile-slider";
+if (isMobile && Array.isArray(data)) {
+  const slider = document.createElement("div");
+  slider.className = "popup-mobile-slider";
+  container.appendChild(slider);
 
-    const dots = document.createElement("div");
-    dots.className = "popup-mobile-dots";
+  const dots = document.createElement("div");
+  dots.className = "popup-mobile-dots";
 
-    let slides = [];
+  let slides = [];
 
-    // helper: napravi slide wrapper
-    function addSlide(contentNode) {
-      const slide = document.createElement("div");
-      slide.className = "popup-mobile-slide";
-      slide.appendChild(contentNode);
-      slider.appendChild(slide);
-      slides.push(slide);
+  function addSlide(contentNode) {
+  const slide = document.createElement("div");
+  slide.className = "popup-mobile-slide";
+  slide.appendChild(contentNode);
+  slider.appendChild(slide);
+  slides.push(slide);
+
+  requestAnimationFrame(() => {
+    // ako sadržaj nije visok, napravi ga compact
+    if (slide.scrollHeight < 170) {
+      slide.classList.add("compact");
+    } else {
+      slide.classList.add("tall");
     }
+  });
+}
+
+  requestAnimationFrame(() => {
+    const maxTextHeight = getMaxTextHeightFromCSS(slider);
+    const slideWidth = slider.getBoundingClientRect().width - 24;
 
     data.forEach(block => {
 
       // TEXT
       if (block.type === "text") {
-        const p = document.createElement("p");
-        p.innerText = block.value;
-        addSlide(p);
+        const chunks = splitTextByHeight(block.value, maxTextHeight, slideWidth);
+
+        chunks.forEach(chunk => {
+          const p = document.createElement("p");
+          p.innerText = chunk;
+          addSlide(p);
+        });
+
         return;
       }
 
@@ -673,7 +800,7 @@ function renderContent(container, data) {
         return;
       }
 
-      // GALLERY -> svaki item postaje zaseban slide
+      // GALLERY
       if (block.type === "gallery") {
         block.value.forEach((item, index) => {
           const figure = document.createElement("figure");
@@ -715,13 +842,11 @@ function renderContent(container, data) {
       });
 
       dots.appendChild(dot);
-
-      if (slides.length <= 1) {
-        dots.style.display = "none";
-      } else {
-        dots.style.display = "flex";
-      }
     });
+
+    if (slides.length <= 1) {
+      dots.style.display = "none";
+    }
 
     function updateActiveDot() {
       const center = slider.scrollLeft + slider.offsetWidth / 2;
@@ -748,14 +873,13 @@ function renderContent(container, data) {
       requestAnimationFrame(updateActiveDot);
     });
 
-    container.appendChild(slider);
     container.appendChild(dots);
 
     setTimeout(updateActiveDot, 50);
+  });
 
-    return;
-  }
-
+  return;
+}
   // ---- stari kod dalje ostaje isti ----
   if (Array.isArray(data)) {
     data.forEach(block => {
