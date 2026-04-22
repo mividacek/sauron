@@ -715,6 +715,12 @@ function renderContent(container, data) {
       });
 
       dots.appendChild(dot);
+
+      if (slides.length <= 1) {
+        dots.style.display = "none";
+      } else {
+        dots.style.display = "flex";
+      }
     });
 
     function updateActiveDot() {
