@@ -275,17 +275,33 @@ body {
 
 .popup-close {
   border: none;
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
+  background: transparent;
+  padding: 0;
+
+  width: 26px;
+  height: 26px;
+
   cursor: pointer;
+
   font-size: 22px;
   line-height: 1;
-  color: #1f2933;
+  font-weight: 700;
+
+  color: rgba(31, 41, 51, 0.55);
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   flex-shrink: 0;
+  transition: color 0.18s ease, transform 0.18s ease;
+}
+
+.popup-close:hover {
+  background: transparent;
+  border-radius: 10px;
+  color: rgba(62, 82, 102, 0.95);
+  transform: scale(1.08);
 }
 
 .popup-close:hover {
@@ -638,39 +654,6 @@ body {
 /* ============================= */
 
 @media (max-width: 700px) {
-/*
-  .popup {
-    position: fixed !important;
-    left: 50% !important;
-
-    /* makni fiksiranje top/bottom jer JS odlučuje */
-/*    top: auto;
-    bottom: auto;
-
-    transform: translateX(-50%);
-    width: min(360px, calc(100vw - 20px)) !important;
-
-    max-height: 60vh !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-
-    -webkit-overflow-scrolling: touch;
-    padding-top: 0;
-    z-index: 99999 !important;
-
-    transform: translateX(-50%);
-    width: min(360px, calc(100vw - 20px)) !important;
-
-    max-height: 60vh !important;
-    height: auto !important;
-    overflow-y: hidden !important;
-    overflow-x: hidden !important;
-
-    -webkit-overflow-scrolling: touch;
-
-    padding-top: 0;
-    z-index: 99999 !important;
-  }*/
 
   .popup {
     position: fixed !important;
@@ -771,33 +754,32 @@ body {
 
   /* svaki element (tekst, ul, slika, galerija) postaje slide */
   .popup-mobile-slide {
-  height: auto;
-  overflow: hidden;
+    height: auto;
+    overflow: hidden;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 
-  flex: 0 0 100%;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
 
-  border-radius: 14px;
-  padding: 12px 12px 14px;
-  box-sizing: border-box;
+    border-radius: 14px;
+    padding: 12px 12px 14px;
+    box-sizing: border-box;
 
-  box-shadow: 1px 3px 5px rgba(0,0,0,0.09);
-}
+  }
 
-/* normalni slideovi (ako ima puno teksta) */
-.popup-mobile-slide.tall {
-  min-height: 240px;
-}
+  /* normalni slideovi (ako ima puno teksta) */
+  .popup-mobile-slide.tall {
+    min-height: 240px;
+  }
 
-/* kratki slideovi */
-.popup-mobile-slide.compact {
-  min-height: unset;
-}
+  /* kratki slideovi */
+  .popup-mobile-slide.compact {
+    min-height: unset;
+  }
 
   /* tekst slide */
   .popup-mobile-slide p {
@@ -805,8 +787,6 @@ body {
     line-height: 1.55;
     margin: 0;
   }
-
-  
 
   /* ul/ol slide */
   .popup-mobile-slide ul,
@@ -842,7 +822,8 @@ body {
     justify-content: center;
     align-items: center;
     gap: 7px;
-    margin-top: 10px;
+
+    margin-bottom: 10px;
   }
 
   .popup-mobile-dot {
