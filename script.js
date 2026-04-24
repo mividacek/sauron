@@ -575,6 +575,21 @@ function positionPopup(btn) {
   let popupTop = pointY - popupHeight / 2;
 
   popupLeft = clamp(popupLeft, padding, viewRect.width - popupWidth - padding);
+
+  const maxTop = viewRect.height - popupHeight - padding;
+
+  if (maxTop < padding) {
+    popupTop = padding;
+  } else {
+    popupTop = clamp(popupTop, padding, maxTop);
+  }
+
+  // ako je popup previsok za ekran, uvijek ga otvori od gore
+  if (popupHeight > viewRect.height - padding * 2) {
+    popupTop = padding;
+  }
+
+  popupLeft = clamp(popupLeft, padding, viewRect.width - popupWidth - padding);
   popupTop = clamp(popupTop, padding, viewRect.height - popupHeight - padding);
 
   const arrowY = clamp(pointY - popupTop, 18, popupHeight - 30);
@@ -585,6 +600,8 @@ function positionPopup(btn) {
   popup.style.setProperty("--arrowY", `${arrowY}px`);
 
   popup.style.visibility = "visible";
+
+    popup.scrollTop = 0;
 }
 
 /* ============================= */
@@ -853,7 +870,9 @@ if (isMobile && Array.isArray(data)) {
       dots.style.display = "none";
     }
 
-    slides[0].scrollIntoView({ behavior: "auto", inline: "start" });
+    slider.scrollLeft = 0;
+
+    slides[0].scrollIntoView({ behavior: "auto", inline: "start", block: "nearest" });
 
     function updateActiveDot() {
       let closestIndex = 0;
@@ -1371,19 +1390,20 @@ lightbox.addEventListener("click", (e) => {
 // keyboard navigation
 document.addEventListener("keydown", (e) => {
 
-  // ESC zatvara popup (ako popup otvoren)
+  if (e.key === "Escape" && !lightbox.classList.contains("hidden")) {
+    closeLightbox();
+    return;
+  }
+
   if (e.key === "Escape" && !popup.classList.contains("hidden")) {
     hidePopup();
     return;
   }
 
-  // ako popup nije otvoren -> ništa
   if (popup.classList.contains("hidden")) return;
 
-  // ako nema aktivne galerije -> ništa
   if (!activePopupGallery || !activePopupGallery.isConnected) return;
 
-  // arrow navigation
   if (e.key === "ArrowRight") {
     activePopupScrollToIndex(activePopupGetIndex() + 1);
   }
@@ -1391,7 +1411,10 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") {
     activePopupScrollToIndex(activePopupGetIndex() - 1);
   }
+
+  if (!activePopupScrollToIndex || !activePopupGetIndex) return;
 });
+
 // scroll navigation
 lightbox.addEventListener("wheel", (e) => {
   if (lightbox.classList.contains("hidden")) return;
