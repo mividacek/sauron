@@ -845,3 +845,56 @@ body {
     transform: scale(1.3);
   }
 }
+
+/* ============================= */
+/* PC                            */
+/* ============================= */
+
+@media (min-width: 701px) {
+
+  body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 100vh;
+  }
+  
+  .mapa {
+    width: min(1400px, 96vw);
+    height: min(92vh, 900px);
+  }
+
+
+  .popup {
+    width: 530px;
+    max-width: 40vw;
+    max-height: 75vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: rgba(6, 93, 169, 0.45) rgba(0,0,0,0.06);
+  }
+
+  .popup::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .popup::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.05);
+    border-radius: 999px;
+  }
+
+  .popup::-webkit-scrollbar-thumb {
+    background: rgba(6, 93, 169, 0.45);
+    border-radius: 999px;
+    border: 2px solid rgba(255,255,255,0.8);
+  }
+
+  .popup::-webkit-scrollbar-thumb:hover {
+    background: rgba(6, 93, 169, 0.75);
+  }
+
+}

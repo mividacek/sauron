@@ -130,6 +130,11 @@ if (!LOCATOR_ENABLED) {
 let mapNaturalWidth = 0;
 let mapNaturalHeight = 0;
 
+let activePopupGallery = null;
+let activePopupScrollToIndex = null;
+let activePopupGetIndex = null;
+let activePopupGetLength = null;
+
 /* ============================= */
 /* HELPERS                       */
 /* ============================= */
@@ -1008,22 +1013,6 @@ if (data.type === "gallery") {
 
   let currentPopupIndex = 0;
 
-  function scrollToIndex(index) {
-    const figures = [...gallery.querySelectorAll(".popup-figure")];
-    if (!figures.length) return;
-
-    currentPopupIndex = (index + figures.length) % figures.length;
-
-    figures[currentPopupIndex].scrollIntoView({
-      behavior: "smooth",
-      inline: "center",
-      block: "nearest"
-    });
-
-    updateDots();
-    updateActiveSlide();
-  }
-
   function updateDots() {
     const dotEls = [...dots.querySelectorAll(".popup-gallery-dot")];
     dotEls.forEach((d, i) => {
@@ -1039,6 +1028,62 @@ if (data.type === "gallery") {
     figures[currentPopupIndex].classList.add("is-active");
   }
 
+  function scrollToIndex(index, behavior = "smooth") {
+    const figures = [...gallery.querySelectorAll(".popup-figure")];
+    if (!figures.length) return;
+
+    currentPopupIndex = (index + figures.length) % figures.length;
+
+    figures[currentPopupIndex].scrollIntoView({
+      behavior,
+      inline: "center",
+      block: "nearest"
+    });
+
+    updateDots();
+    updateActiveSlide();
+  }
+
+  function detectClosestSlide() {
+    const figures = [...gallery.querySelectorAll(".popup-figure")];
+    if (!figures.length) return;
+
+    const center = gallery.scrollLeft + gallery.offsetWidth / 2;
+
+    let closestIndex = 0;
+    let closestDist = Infinity;
+
+    figures.forEach((fig, i) => {
+      const figCenter = fig.offsetLeft + fig.offsetWidth / 2;
+      const dist = Math.abs(center - figCenter);
+
+      if (dist < closestDist) {
+        closestDist = dist;
+        closestIndex = i;
+      }
+    });
+
+    currentPopupIndex = closestIndex;
+    updateDots();
+    updateActiveSlide();
+  }
+
+  function updateArrowVisibility() {
+    // ako želiš loop, strelice uvijek vidljive
+    // ali ako želiš da se sakriju kad ima 1 slika:
+    const figures = [...gallery.querySelectorAll(".popup-figure")];
+    if (figures.length <= 1) {
+      btnPrev.style.display = "none";
+      btnNext.style.display = "none";
+      dots.style.display = "none";
+    } else {
+      btnPrev.style.display = "";
+      btnNext.style.display = "";
+      dots.style.display = "";
+    }
+  }
+
+  // arrows
   btnPrev.addEventListener("click", (e) => {
     e.stopPropagation();
     scrollToIndex(currentPopupIndex - 1);
@@ -1049,6 +1094,64 @@ if (data.type === "gallery") {
     scrollToIndex(currentPopupIndex + 1);
   });
 
+  // wheel scroll horizontal + wrap-around
+  gallery.addEventListener("wheel", (e) => {
+    if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+
+    e.preventDefault();
+
+    const maxScroll = gallery.scrollWidth - gallery.clientWidth;
+
+    if (e.deltaY > 0 && gallery.scrollLeft >= maxScroll - 2) {
+      scrollToIndex(0);
+      return;
+    }
+
+    if (e.deltaY < 0 && gallery.scrollLeft <= 2) {
+      const figures = [...gallery.querySelectorAll(".popup-figure")];
+      scrollToIndex(figures.length - 1);
+      return;
+    }
+
+    gallery.scrollLeft += e.deltaY;
+  }, { passive: false });
+
+  // swipe
+  let popupSwipeStartX = null;
+  let popupSwipeStartY = null;
+
+  gallery.addEventListener("touchstart", (e) => {
+    if (e.touches.length !== 1) return;
+
+    popupSwipeStartX = e.touches[0].clientX;
+    popupSwipeStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  gallery.addEventListener("touchend", (e) => {
+    if (popupSwipeStartX === null || popupSwipeStartY === null) return;
+
+    const endX = e.changedTouches[0].clientX;
+    const endY = e.changedTouches[0].clientY;
+
+    const dx = endX - popupSwipeStartX;
+    const dy = endY - popupSwipeStartY;
+
+    popupSwipeStartX = null;
+    popupSwipeStartY = null;
+
+    if (Math.abs(dy) > Math.abs(dx)) return;
+    if (Math.abs(dx) < 45) return;
+
+    if (dx < 0) scrollToIndex(currentPopupIndex + 1);
+    else scrollToIndex(currentPopupIndex - 1);
+  }, { passive: true });
+
+  // detect slide on manual scroll
+  gallery.addEventListener("scroll", () => {
+    requestAnimationFrame(detectClosestSlide);
+  });
+
+  // build slides + dots
   data.value.forEach((item, index) => {
     const figure = document.createElement("figure");
     figure.className = "popup-figure";
@@ -1074,7 +1177,6 @@ if (data.type === "gallery") {
 
     gallery.appendChild(figure);
 
-    // dots
     const dot = document.createElement("div");
     dot.className = "popup-gallery-dot";
 
@@ -1086,87 +1188,25 @@ if (data.type === "gallery") {
     dots.appendChild(dot);
   });
 
-  // =============================
-// SWIPE (popup gallery)
-// =============================
-
-let popupSwipeStartX = null;
-let popupSwipeStartY = null;
-
-gallery.addEventListener("touchstart", (e) => {
-  if (e.touches.length !== 1) return;
-
-  popupSwipeStartX = e.touches[0].clientX;
-  popupSwipeStartY = e.touches[0].clientY;
-}, { passive: true });
-
-gallery.addEventListener("touchend", (e) => {
-  if (popupSwipeStartX === null || popupSwipeStartY === null) return;
-
-  const endX = e.changedTouches[0].clientX;
-  const endY = e.changedTouches[0].clientY;
-
-  const dx = endX - popupSwipeStartX;
-  const dy = endY - popupSwipeStartY;
-
-  popupSwipeStartX = null;
-  popupSwipeStartY = null;
-
-  // ignore vertical swipe (scroll popup)
-  if (Math.abs(dy) > Math.abs(dx)) return;
-
-  // threshold
-  if (Math.abs(dx) < 45) return;
-
-  if (dx < 0) {
-    // swipe left -> next
-    scrollToIndex(currentPopupIndex + 1);
-  } else {
-    // swipe right -> prev
-    scrollToIndex(currentPopupIndex - 1);
-  }
-}, { passive: true });
-
-  // detect active slide while user scrolls manually
-  function detectClosestSlide() {
-    const figures = [...gallery.querySelectorAll(".popup-figure")];
-    if (!figures.length) return;
-
-    const center = gallery.scrollLeft + gallery.offsetWidth / 2;
-
-    let closestIndex = 0;
-    let closestDist = Infinity;
-
-    figures.forEach((fig, i) => {
-      const figCenter = fig.offsetLeft + fig.offsetWidth / 2;
-      const dist = Math.abs(center - figCenter);
-
-      if (dist < closestDist) {
-        closestDist = dist;
-        closestIndex = i;
-      }
-    });
-
-    currentPopupIndex = closestIndex;
-    updateDots();
-    updateActiveSlide();
-  }
-
-  gallery.addEventListener("scroll", () => {
-    requestAnimationFrame(detectClosestSlide);
-  });
-
   // init
   setTimeout(() => {
-    scrollToIndex(0);
-  }, 50);
+    scrollToIndex(0, "auto");
+    updateArrowVisibility();
+  }, 30);
 
+  // append DOM
   wrap.appendChild(btnPrev);
   wrap.appendChild(gallery);
   wrap.appendChild(btnNext);
 
   container.appendChild(wrap);
   container.appendChild(dots);
+
+  // register active gallery for global keydown
+  activePopupGallery = gallery;
+  activePopupScrollToIndex = scrollToIndex;
+  activePopupGetIndex = () => currentPopupIndex;
+  activePopupGetLength = () => gallery.querySelectorAll(".popup-figure").length;
 
   return;
 }
@@ -1330,12 +1370,37 @@ lightbox.addEventListener("click", (e) => {
 
 // keyboard navigation
 document.addEventListener("keydown", (e) => {
+
+  // ESC zatvara popup (ako popup otvoren)
+  if (e.key === "Escape" && !popup.classList.contains("hidden")) {
+    hidePopup();
+    return;
+  }
+
+  // ako popup nije otvoren -> ništa
+  if (popup.classList.contains("hidden")) return;
+
+  // ako nema aktivne galerije -> ništa
+  if (!activePopupGallery || !activePopupGallery.isConnected) return;
+
+  // arrow navigation
+  if (e.key === "ArrowRight") {
+    activePopupScrollToIndex(activePopupGetIndex() + 1);
+  }
+
+  if (e.key === "ArrowLeft") {
+    activePopupScrollToIndex(activePopupGetIndex() - 1);
+  }
+});
+// scroll navigation
+lightbox.addEventListener("wheel", (e) => {
   if (lightbox.classList.contains("hidden")) return;
 
-  if (e.key === "Escape") closeLightbox();
-  if (e.key === "ArrowRight") nextLightbox();
-  if (e.key === "ArrowLeft") prevLightbox();
-});
+  e.preventDefault();
+
+  if (e.deltaY > 0) nextLightbox();
+  else prevLightbox();
+}, { passive: false });
 
 let swipeStartX = null;
 let swipeStartY = null;
