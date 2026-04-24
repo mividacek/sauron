@@ -848,6 +848,8 @@ if (isMobile && Array.isArray(data)) {
       dots.style.display = "none";
     }
 
+    slides[0].scrollIntoView({ behavior: "auto", inline: "start" });
+
     function updateActiveDot() {
       const center = slider.scrollLeft + slider.offsetWidth / 2;
 
@@ -875,7 +877,74 @@ if (isMobile && Array.isArray(data)) {
 
     container.appendChild(dots);
 
-    setTimeout(updateActiveDot, 50);
+    setTimeout(() => {
+      updateActiveDot();
+
+      if (slides.length <= 1) return;
+
+      let startX = null;
+      let startY = null;
+
+      slider.addEventListener("touchstart", (e) => {
+        if (e.touches.length !== 1) return;
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+      }, { passive: true });
+
+      slider.addEventListener("touchend", (e) => {
+        if (startX === null || startY === null) return;
+
+        const endX = e.changedTouches[0].clientX;
+        const endY = e.changedTouches[0].clientY;
+
+        const dx = endX - startX;
+        const dy = endY - startY;
+
+        startX = null;
+        startY = null;
+
+        // ignore vertical swipe
+        if (Math.abs(dy) > Math.abs(dx)) return;
+
+        // threshold
+        if (Math.abs(dx) < 45) return;
+
+        // find current active index (same logic as dots)
+        const center = slider.scrollLeft + slider.offsetWidth / 2;
+
+        let closestIndex = 0;
+        let closestDist = Infinity;
+
+        slides.forEach((slide, i) => {
+          const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
+          const dist = Math.abs(center - slideCenter);
+
+          if (dist < closestDist) {
+            closestDist = dist;
+            closestIndex = i;
+          }
+        });
+
+        // swipe left = next
+        if (dx < 0) {
+          if (closestIndex === slides.length - 1) {
+            slides[0].scrollIntoView({ behavior: "smooth", inline: "start" });
+          }
+        }
+
+        // swipe right = prev
+        if (dx > 0) {
+          if (closestIndex === 0) {
+            slides[slides.length - 1].scrollIntoView({ behavior: "smooth", inline: "start" });
+          }
+        }
+      }, { passive: true });
+
+      slider.addEventListener("scroll", () => {
+        requestAnimationFrame(updateActiveDot);
+      });
+
+    }, 50);
   });
 
   return;
