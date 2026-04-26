@@ -601,7 +601,12 @@ function positionPopup(btn) {
 
   popup.style.visibility = "visible";
 
+  requestAnimationFrame(() => {
     popup.scrollTop = 0;
+
+    const body = popup.querySelector(".popup-body");
+    if (body) body.scrollTop = 0;
+  });
 }
 
 /* ============================= */
@@ -1293,6 +1298,13 @@ function showPopup(btn) {
   }
 
   positionPopup(btn);
+
+  requestAnimationFrame(() => {
+    popup.scrollTop = 0;
+    const body = popup.querySelector(".popup-body");
+    if (body) body.scrollTop = 0;
+  });
+
 }
 
 let currentGallery = [];
