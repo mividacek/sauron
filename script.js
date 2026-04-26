@@ -1390,19 +1390,43 @@ lightbox.addEventListener("click", (e) => {
 // keyboard navigation
 document.addEventListener("keydown", (e) => {
 
+  // ESC zatvara lightbox
   if (e.key === "Escape" && !lightbox.classList.contains("hidden")) {
     closeLightbox();
     return;
   }
 
+  // ESC zatvara popup
   if (e.key === "Escape" && !popup.classList.contains("hidden")) {
     hidePopup();
     return;
   }
 
+  // -------------------------
+  // LIGHTBOX ARROWS
+  // -------------------------
+  if (!lightbox.classList.contains("hidden")) {
+
+    if (e.key === "ArrowRight") {
+      nextLightbox();
+      return;
+    }
+
+    if (e.key === "ArrowLeft") {
+      prevLightbox();
+      return;
+    }
+
+    return; // ako je lightbox otvoren, ne diraj popup galeriju
+  }
+
+  // -------------------------
+  // POPUP GALLERY ARROWS
+  // -------------------------
   if (popup.classList.contains("hidden")) return;
 
   if (!activePopupGallery || !activePopupGallery.isConnected) return;
+  if (!activePopupScrollToIndex || !activePopupGetIndex) return;
 
   if (e.key === "ArrowRight") {
     activePopupScrollToIndex(activePopupGetIndex() + 1);
@@ -1411,8 +1435,6 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") {
     activePopupScrollToIndex(activePopupGetIndex() - 1);
   }
-
-  if (!activePopupScrollToIndex || !activePopupGetIndex) return;
 });
 
 // scroll navigation
