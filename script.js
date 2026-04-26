@@ -139,6 +139,29 @@ let activePopupGetLength = null;
 /* HELPERS                       */
 /* ============================= */
 
+function blockHorizontalWheelChaining(galleryEl) {
+  if (!galleryEl) return;
+
+  galleryEl.addEventListener("wheel", (e) => {
+    const absX = Math.abs(e.deltaX);
+    const absY = Math.abs(e.deltaY);
+
+    // trackpad horizontal swipe često dolazi kao deltaX
+    const isHorizontal = absX > absY;
+
+    // mouse wheel horizontal često dolazi kao shift + deltaY
+    const isShiftScroll = e.shiftKey && absY > 0;
+
+    if (isHorizontal || isShiftScroll) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const delta = isHorizontal ? e.deltaX : e.deltaY;
+      galleryEl.scrollLeft += delta;
+    }
+  }, { passive: false });
+}
+
 function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
 }
@@ -1024,6 +1047,8 @@ if (data.type === "gallery") {
   const gallery = document.createElement("div");
   gallery.className = "popup-gallery";
 
+  blockHorizontalWheelChaining(gallery);
+
   const dots = document.createElement("div");
   dots.className = "popup-gallery-dots";
 
@@ -1060,7 +1085,7 @@ if (data.type === "gallery") {
 
     figures[currentPopupIndex].scrollIntoView({
       behavior,
-      inline: "center",
+      inline: "nearest",
       block: "nearest"
     });
 
@@ -1120,24 +1145,26 @@ if (data.type === "gallery") {
 
   // wheel scroll horizontal + wrap-around
   gallery.addEventListener("wheel", (e) => {
-    if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
 
     e.preventDefault();
+    e.stopPropagation();
 
     const maxScroll = gallery.scrollWidth - gallery.clientWidth;
 
-    if (e.deltaY > 0 && gallery.scrollLeft >= maxScroll - 2) {
+    const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+
+    if (delta > 0 && gallery.scrollLeft >= maxScroll - 2) {
       scrollToIndex(0);
       return;
     }
 
-    if (e.deltaY < 0 && gallery.scrollLeft <= 2) {
+    if (delta < 0 && gallery.scrollLeft <= 2) {
       const figures = [...gallery.querySelectorAll(".popup-figure")];
       scrollToIndex(figures.length - 1);
       return;
     }
 
-    gallery.scrollLeft += e.deltaY;
+    gallery.scrollLeft += delta;
   }, { passive: false });
 
   // swipe

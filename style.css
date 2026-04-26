@@ -869,8 +869,8 @@ body {
   }
 
   .popup {
-    width: 530px;
-    max-width: 40vw;
+    width: clamp(480px, 36vw, 530px);
+    max-width: none;
     max-height: 75vh;
 
     padding: 0;
@@ -882,14 +882,18 @@ body {
     box-shadow: 0 14px 40px rgba(0, 0, 0, 0.18);
     backdrop-filter: blur(8px);
     border: 1px solid rgba(0, 0, 0, 0.06);
+
+    contain: layout paint;
   }
 
   .popup-body {
     overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: hidden !important;
 
     max-height: calc(75vh - 64px);
     padding: 10px 14px 14px;
+
+    overscroll-behavior: contain;
 
     scrollbar-width: thin;
     scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
@@ -924,5 +928,11 @@ body {
 
     padding: 12px 14px 10px;
     border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+
+  .popup-gallery {
+    overscroll-behavior-x: contain;
+    overscroll-behavior-y: contain;
+    touch-action: pan-x;
   }
 }
