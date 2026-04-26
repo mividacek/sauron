@@ -1299,11 +1299,23 @@ function showPopup(btn) {
 
   positionPopup(btn);
 
-  requestAnimationFrame(() => {
-    popup.scrollTop = 0;
-    const body = popup.querySelector(".popup-body");
-    if (body) body.scrollTop = 0;
-  });
+  const body = popup.querySelector(".popup-body");
+
+  if (body) {
+    body.scrollTop = 0;
+
+    requestAnimationFrame(() => {
+      body.scrollTop = 0;
+    });
+
+    setTimeout(() => {
+      body.scrollTop = 0;
+    }, 60);
+
+    setTimeout(() => {
+      body.scrollTop = 0;
+    }, 200);
+  }
 
 }
 
