@@ -853,19 +853,37 @@ body {
 
 @media (min-width: 701px) {
 
+  html, body {
+    height: 100%;
+    overflow: hidden; /* prevents scrolling */
+  }
+
   body {
     margin: 0;
-    padding: 0;
-    display: flex;
+    padding: 14px;
+    box-sizing: border-box;
+    display: block;
     justify-content: center;
     align-items: center;
 
     min-height: 100vh;
+    background: #f7f7f7;
   }
-  
-  .mapa {
-    width: min(1400px, 96vw);
-    height: min(92vh, 900px);
+
+    .mapa {
+    width: 100%;
+    max-width: none;
+    height: calc(100vh - 28px); /* full height minus padding */
+    margin: 0;
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.10); /* optional but nice */
+  }
+
+  .map-viewport {
+    height: 100%;               /* viewport fills the container */
+    border-radius: 28px;
+    overflow: hidden;
   }
 
   .popup {
@@ -934,5 +952,6 @@ body {
     overscroll-behavior-x: contain;
     overscroll-behavior-y: contain;
     touch-action: pan-x;
+    position: sticky !important;
   }
 }

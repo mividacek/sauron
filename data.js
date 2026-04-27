@@ -1,8 +1,8 @@
 const stope = {
   barban: {
     title: "Barban",
-    top: "36.8%",
-    left: "39.4%",
+    top: "33.9%",
+    left: "36.6%",
     content: {
       type: "v_teropod",
       popup: [
@@ -26,8 +26,8 @@ const stope = {
 
   ploce: {
     title: "Ploče",
-    top: "71.3%",
-    left: "61.2%",
+    top: "67.2%",
+    left: "57.0%",
     content: {
         type: "m_teropod",
         popup: [
@@ -37,10 +37,10 @@ const stope = {
     }
     },
 
-    kamik1: {
+    kamik: {
     title: "Kamik",
-    top: "83.9%",
-    left: "58.2%",
+    top: "77.7%",
+    left: "52.8%",
     content: {
         type: "v_ornitopod_m_teropod",
         popup: [
@@ -57,8 +57,8 @@ const stope = {
     
     trstike: {
         title: "Trstike",
-        top: "86.4%",
-        left: "46.6%",
+        top: "82.4%",
+        left: "42.5%",
         content: {
             type: "sauropod",
             popup: [
@@ -70,8 +70,8 @@ const stope = {
 
     vrsar: {
         title: "Vrsar",
-        top: "73.0%",
-        left: "40.9%",
+        top: "67.8%",
+        left: "36.5%",
         content: {
             type: "m_teropod",
             popup: [
@@ -83,48 +83,48 @@ const stope = {
 
     galija: {
     title: "Galija",
-    top: "45.6%",
-    left: "33.3%",
+    top: "41.1%",
+    left: "29.9%",
     content: {
         type: "v_ornitopod",
         popup: [
-        { type: "text", value: "Fosilni tragovi dinosaura zabilježeni su i na otocima Vangi i Galiji." }
+        { type: "text", value: "Fosilni tragovi velikih ornitopoda zabilježeni su na otoku Galija." }
         ]
     }
     },
 
     vanga_1: {
     title: "Vanga",
-    top: "54.5%",
-    left: "31.7%",
+    top: "49.7%",
+    left: "28.4%",
     content: {
         type: "sauropod",
         popup: [
-        { type: "text", value: "Fosilni tragovi dinosaura zabilježeni su i na otocima Vangi i Galiji." }
+        { type: "text", value: "Fosilni tragovi dinosaura zabilježeni su i na otoku Vanga." }
         ]
     }
     },
 
     vanga_2: {
     title: "Vanga",
-    top: "60.4%",
-    left: "37.6%",
+    top: "54.4%",
+    left: "33.3%",
     content: {
         type: "sauropod_m_teropod",
         popup: [
-        { type: "text", value: "Fosilni tragovi dinosaura zabilježeni su i na otocima Vangi i Galiji." }
+        { type: "text", value: "Fosilni tragovi dinosaura zabilježeni su i na otoku Vanga." }
         ]
     }
     },
 
     vanga_3: {
     title: "Vanga",
-    top: "54.8%",
-    left: "35.5%",
+    top: "49.0%",
+    left: "31.6%",
     content: {
         type: "m_teropod",
         popup: [
-        { type: "text", value: "Fosilni tragovi dinosaura zabilježeni su i na otocima Vangi i Galiji." }
+        { type: "text", value: "Fosilni tragovi dinosaura zabilježeni su i na otoku Vanga." }
         ]
     }
     }
