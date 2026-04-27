@@ -994,14 +994,39 @@ if (isMobile && Array.isArray(data)) {
 
   return;
 }
-  // ---- stari kod dalje ostaje isti ----
+
   if (Array.isArray(data)) {
+
+  const scrollText = document.querySelector(".popup-scroll-text");
+  const fixedMedia = document.querySelector(".popup-fixed-media");
+
+  if (!scrollText || !fixedMedia) {
+    // fallback: ako struktura nije tu
     data.forEach(block => {
       const wrapper = document.createElement("div");
       wrapper.className = "popup-block";
       renderContent(wrapper, block);
       container.appendChild(wrapper);
     });
+    return;
+  }
+
+  fixedMedia.innerHTML = "";
+  container.innerHTML = "";
+
+  data.forEach(block => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "popup-block";
+
+    if (block.type === "gallery" || block.type === "img") {
+      renderContent(wrapper, block);
+      fixedMedia.appendChild(wrapper);
+    } else {
+      renderContent(wrapper, block);
+      scrollText.appendChild(wrapper);
+    }
+  });
+
     return;
   }
 
@@ -1298,8 +1323,12 @@ function showPopup(btn) {
 
   titleEl.innerText = data.title;
 
-  // main content
-  contentEl.style.display = "block";
+  subtitleEl.innerText = "";
+  subcontentEl.innerHTML = "";
+  contentEl.innerHTML = "";
+
+  document.querySelector(".popup-scroll-text").innerHTML = "";
+
   renderContent(contentEl, data.content?.popup);
 
   // extra section
