@@ -395,7 +395,7 @@ body {
 
   -webkit-overflow-scrolling: touch;
 
-  padding: 6px 38px 10px;
+  padding: 6px 12px 10px;
   margin: 0;
 
   scrollbar-width: none;
@@ -437,18 +437,6 @@ body {
 
 .popup-gallery-img:hover {
   transform: scale(1.02);
-}
-
-/* fade edges so you SEE more images exist */
-.popup-gallery-wrap::before,
-.popup-gallery-wrap::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 42px;
-  z-index: 5;
-  pointer-events: none;
 }
 
 .popup-gallery-wrap::before {
