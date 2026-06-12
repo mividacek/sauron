@@ -1,54 +1,131 @@
 const stope = {
-  barban: {
-    title: "Barban",
-    top: "33.9%",
-    left: "36.6%",
-    content: {
-      type: "v_teropod",
-      popup: [
-        /*{ type: "text", value: "Na rtu Vrbanj/Pogledalo/Barban pronađeno je šezdesetak otisaka stopala velikih dvonožnih dinosaura mesojeda.\nOvi otisci nastali su između 130 i 125 milijuna godina u razdoblju rane krede, a ujedno su i geološki najstariji od svih brijunskih nalazišta." },*/
-        { type: "text", value: "Na rtu Vrbanj/Pogledalo/Barban pronađeno je šezdesetak otisaka stopala velikih dvonožnih dinosaura mesojeda. Troprsti oblik otisaka ukazuje da su pripadali teropodima, grabežljivim mesojedima koji su, šetajući duž plićaka nekadašnjeg oceana Tethys, ostavili svoje tragove. Od šezdesetak fosilnih otisaka njih 15 čine četiri staze kretanja (minimalno tri traga u nizu). Bili su dugi između 7,5 i 8 metara, a kretali su se laganim hodom oko 5km/h. Na temelju oblika i dimenzije otiska, parametara staze kretanja, sličnih nalaza tragova teropoda u svijetu, fosilnih nalaza kostiju iz istog razdoblja, paleogeografije i drugih podataka može se zaključiti kako su tragove ostavili teropodni dinosauri iz grupe Carnosauria (vrlo vjerojatno alosauridi ili charcharodontosauridi). Ovi otisci nastali su između 130 i 125 milijuna godina u razdoblju rane krede, a ujedno su i geološki najstariji od svih brijunskih nalazišta. Zasad su jedini fosilni nalaz velikih teropodnih dinosaura mesoždera na području RH. Osim toga, budući da sufosilni nalazi kostiju dinosaura iz skupine Carnosauria iz rane krede općenito relativno rijetki, brijunsko nalazište njihovih tragova još više dobiva na važnosti." },
 
-        { type: "gallery",
-            value: [
-                { src: "slike/barban1.jpg", caption: "Trag teropoda (detalj)" },
-                { src: "slike/barban2.jpg", caption: "Mjerenje otiska" },
-                { src: "slike/barban3.jpg", caption: "Fosilni trag velikog teropodnog dinosaura s rta Vrbanj/Barban; autorica fotografije: Irina Žeger Pleše." }
-            ]
-  }
-      ]/*,
-      extra: {
-        subtitle: "Napomena",
-        subcontent: { type: "text", value: "Staza može biti skliska." }
-      }*/
-    }
-  },
-
-  ploce: {
-    title: "Ploče",
-    top: "67.2%",
-    left: "57.0%",
-    content: {
+    ploce: {
+        title: "Nalazište Ploče",
+        coords: {
+            base: { top: "67.4%", left: "58.7%" },
+            ortho: { top: "75.8%", left: "54.0%" }
+        },
+        content: {
         type: "m_teropod",
         popup: [
-        { type: "text", value: "Na rtu Ploče na poluotoku Zelenikovac nalazi se prvo opisano nalazište fosila dinosaura u Hrvatskoj i šire gdje je otkriveno pedesetak troprstih otisaka malih dvonožnih mesojeda iz skupine Theropoda. " },
-        { type: "img", value: "slike/ploce1.jpg", caption: "Najbolje vidljiv fosilni trag malog teropodnog dinosaura s rta Ploče." }
-        ],
-    }
+            {
+                type: "facts",
+                value: {
+                'godina opisivanja': "1925.",
+                'vrsta trgova': "mali teropodi",
+                'broj tragova': "60",
+                'veličina dinosaura': "3 – 4 m",
+                starost: "105 milijuna godina",
+                epoha: "donja kreda"
+                }
+            },
+            { 
+                type: "gallery", 
+                value: [ 
+                    { src: "slike/Tragovi/Ploce/1.jpg" },
+                    { src: "slike/Tragovi/Ploce/2.jpg" }, 
+                    { src: "slike/Tragovi/Ploce/3.jpg" }, 
+                    { 
+                        src: "slike/Tragovi/Ploce/4.jpg", 
+                        caption: "Nalazište Ploče - ploha s otiscima",
+                        photographer: "Aleksandar Mezga" 
+                    },
+                    { src: "slike/Tragovi/Ploce/5.jpg" },  
+                ] 
+            } 
+        ]
+        }
+    },
+    
+    barban: { 
+        title: "Nalazište Barban/Pogledalo/Vrbanj", 
+        coords: { 
+            base: { top: "38.6%", left: "34.0%" }, 
+            ortho: { top: "40.6%", left: "26.4%" } 
+        }, 
+        content: { 
+            type: "v_teropod", 
+            popup: [ 
+                {
+                    type: "facts",
+                    value: {
+                    'godina opisivanja': "1965.",
+                    'vrsta trgova': "veliki teropodi",
+                    'broj tragova': "60",
+                    'veličina dinosaura': "7,5 – 8 m",
+                    starost: "125 milijuna godina",
+                    epoha: "donja kreda",
+                    zanimljivost: "Jedino nalazište velikih teroposnih tragova u Hrvatskoj"
+                    }
+                },
+                { 
+                    type: "gallery", 
+                    value: [ 
+                        { 
+                            src: "slike/Tragovi/Barban/1.png", 
+                            caption: "Fosilni otisci velikih teropodnih dinosaura, otok Veli Brijun, NP Brijuni",
+                            photographer: "Renco Kosinožić" },
+                        { 
+                            src: "slike/Tragovi/Barban/2.png", 
+                            caption: "Gracijalni trag velikog teropodnog dinosaura",
+                            photographer: "Renco Kosinožić" }, 
+                        { 
+                            src: "slike/Tragovi/Barban/3.png", 
+                            caption: "Staza kretanja velikog teropodnog dinosaura",
+                            photographer: "Irina Žeger Pleše" }, 
+                        { 
+                            src: "slike/Tragovi/Barban/4.png", 
+                            caption: "Veliki teropodni otisak",
+                            photographer: "Irina Žeger Pleše" } 
+                    ] 
+                } 
+            ]
+        } 
     },
 
     kamik: {
-    title: "Kamik",
-    top: "77.7%",
-    left: "52.8%",
+    title: "Nalazište Kamik/Plješivac",
+    coords: {
+        base: { top: "79.2%", left: "53.7%" },
+        ortho: { top: "89.8%", left: "47.9%" }
+    },
     content: {
         type: "v_ornitopod_m_teropod",
         popup: [
-        { type: "text", value: "Rt Kamik/Plješivac nalazi se na južnoj strani otoka Veliki Brijun gdje su pronađeni otisci krupnijih dvonožnih biljojeda i malih dvonožnih mesojeda u dva sloja koja su u međusobnom kontaktu.\nOba sloja datirana su u razdoblje donje krede, prije 105 milijuna godina." },
-        { type: "gallery",
+            {
+                type: "facts",
+                value: {
+                'godina opisivanja': "1965.",
+                'vrsta trgova': "mali teropodi i veliki ornitopod",
+                'broj tragova': "57",
+                'veličina dinosaura': "3 – 4 m (teropodi)\n6 - 6,5 m (ornitopodi)",
+                starost: "105 milijuna godina",
+                epoha: "donja kreda",
+                zanimljivost: "Uz otok Galiju, jedino nalazište tragova ornitopodnih dinosaura u Hrvatskoj"
+                }
+            },
+            { type: "gallery",
             value: [
-                { src: "slike/kamik1.png", caption: "Trag srednje velikog ornitopoda tipa Iguanodon." },
-                { src: "slike/kamik2.png", caption: "Trag malog teropodnog dinosaura sloj iznad." },
+                { 
+                    src: "slike/Tragovi/Kamik/1.JPG", 
+                    caption: "Trag srednje velikog ornitopoda tipa Iguanodon" },
+                { 
+                    src: "slike/Tragovi/Kamik/2.JPG", 
+                    caption: "Stražnji trag ornitopodnog dinosaura",
+                    photographer: "Recno Kosinožić" },
+                { 
+                    src: "slike/Tragovi/Kamik/3.png", 
+                    caption: "Trag malog teropodnog dinosaura - rt KamikPlješivac",
+                    photographer: "Aleksandar Mezga" },
+                { 
+                    src: "slike/Tragovi/Kamik/4.JPG", 
+                    caption: "Staza kretanja malog teropodnog dinosaura",
+                    photographer: "Renco Kosinožić" },
+                { 
+                    src: "slike/Tragovi/Kamik/5.JPG", 
+                    caption: "Staza kretanja srednje velikog ornitopoda",
+                    photographer: "Renco Kosinožić" },
                 ]
         }
             ],
@@ -56,47 +133,130 @@ const stope = {
     },
     
     trstike: {
-        title: "Trstike",
-        top: "82.4%",
-        left: "42.5%",
+        title: "Nalazište Trstike/Debela Glava",
+        coords: {
+            base: { top: "81.5%", left: "42.2%" },
+            ortho: { top: "92.2%", left: "35.0%" }
+        },
         content: {
             type: "sauropod",
             popup: [
-            { type: "text", value: "Na rtu Trstike / Debela glava na južnoj strani otoka Veli Brijun u donjokrednim vapnencima starosti 105 milijuna godina pronađeno je tridesetak kružnih otisaka četveronožnih biljojednih dinosaura sauropoda." },
-            { type: "img", value: "slike/trstike1.jpeg", caption: "Kružni sauropodni otisci s nalazišta na rtu Trstike, duljina čekića = 33 cm." }
-            ],
+                {
+                    type: "facts",
+                    value: {
+                    'godina opisivanja': "2001.",
+                    'vrsta trgova': "sauropodi",
+                    'broj tragova': "30",
+                    'veličina dinosaura': "12 – 15 m",
+                    starost: "105 milijuna godina",
+                    epoha: "donja kreda"
+                    }
+                },
+                { 
+                type: "gallery", 
+                value: [ 
+                    { src: "slike/Tragovi/Trstike/1.JPG" },
+                    { src: "slike/Tragovi/Trstike/2.jpeg" }, 
+                    { src: "slike/Tragovi/Trstike/3.jpeg" }, 
+                    { src: "slike/Tragovi/Trstike/4.jpeg" },
+                ] 
+            }     
+        ],
         }
-        },
+    },
 
-    vrsar: {
-        title: "Vrsar",
-        top: "67.8%",
-        left: "36.5%",
+    mol: {
+        title: "Trag na brijunskom molu",
+        coords: {
+                    base: { top: "46.1%", left: "62.7%" },
+                    ortho: { top: "50.2%", left: "58.7%" }
+                },
         content: {
             type: "m_teropod",
             popup: [
-            { type: "text", value: "Tragovima najbogatije nalazište na području NP Brijuni nalazi se na otoku Vrsaru, gdje je pronađeno oko sedamdesetak otisaka troprstih teropodnih dinosaura mesoždera. " },
-            { type: "img", value: "slike/vrsar1.jpg", caption: "Staze kretanja malih teropodnih dinosaura na otočiću Vrsaru." }
+            {
+                type: "facts",
+                value: {
+                'godina uočavanja': "2008.",
+                'vrsta trgova': "teropodi",
+                'broj tragova': "1",
+                'veličina dinosaura': "nepoznato",
+                starost: "nepoznato",
+                }
+            },
+            { type: "img", 
+                value: "slike/Tragovi/Trag na molu/1.JPG", 
+                caption: "Teropodni trag na molu u brijunskoj luci",
+                photographer: "Renco Kosinožić" }
+            ]
+        }
+    },
+
+    vrsar: {
+        title: "Nalazište Vrsar",
+        coords: {
+            base: { top: "68.3%", left: "33.8%" },
+            ortho: { top: "76.7%", left: "26.2%" }
+        },
+        content: {
+            type: "m_teropod",
+            popup: [
+                {
+                    type: "facts",
+                    value: {
+                    'godina opisivanja': "2015.",
+                    'vrsta trgova': "mali teropodi",
+                    'broj tragova': "70",
+                    'veličina dinosaura': "3,5 – 4 m",
+                    starost: "105 milijuna godina",
+                    epoha: "donja kreda"
+                    }
+                },
+               { 
+                type: "gallery", 
+                value: [ 
+                    { src: "slike/Tragovi/Vrsar/1.jpg" },
+                    { src: "slike/Tragovi/Vrsar/2.jpg" }, 
+                    { src: "slike/Tragovi/Vrsar/3.jpg" }, 
+                    { src: "slike/Tragovi/Vrsar/4.jpeg", caption: "Teropodni trag" },
+                    { src: "slike/Tragovi/Vrsar/5.jpg" },  
+                ] 
+            } 
             ],
         }
         },
 
     galija: {
-    title: "Galija",
-    top: "41.1%",
-    left: "29.9%",
+    title: "Nalazište Galija",
+    coords: {
+        base: { top: "42.5%", left: "24.3%" },
+        ortho: { top: "45.3%", left: "15.3%" }
+    },
     content: {
         type: "v_ornitopod",
         popup: [
+        {
+                type: "facts",
+                value: {
+                'godina opisivanja': "2024.",
+                'vrsta trgova': "mali teropodi",
+                'broj tragova': "7",
+                'veličina dinosaura': "5,5 - 6 m",
+                starost: "105 milijuna godina",
+                epoha: "donja kreda"
+                }
+            },
         { type: "text", value: "Fosilni tragovi velikih ornitopoda zabilježeni su na otoku Galija." }
         ]
     }
     },
 
     vanga_1: {
-    title: "Vanga",
-    top: "49.7%",
-    left: "28.4%",
+    title: "Nalazište Vanga",
+    coords: {
+        base: { top: "51.4%", left: "22.7%" },
+        ortho: { top: "55.9%", left: "13.7%" }
+    },
     content: {
         type: "sauropod",
         popup: [
@@ -106,9 +266,11 @@ const stope = {
     },
 
     vanga_2: {
-    title: "Vanga",
-    top: "54.4%",
-    left: "33.3%",
+    title: "Nalazište Vanga",
+    coords: {
+        base: { top: "50.5%", left: "26.9%" },
+        ortho: { top: "54.8%", left: "18.1%" }
+    },
     content: {
         type: "sauropod_m_teropod",
         popup: [
@@ -118,9 +280,11 @@ const stope = {
     },
 
     vanga_3: {
-    title: "Vanga",
-    top: "49.0%",
-    left: "31.6%",
+    title: "Nalazište Vanga",
+    coords: {
+        base: { top: "58.7%", left: "29.0%" },
+        ortho: { top: "65.0%", left: "20.2%" }
+    },
     content: {
         type: "m_teropod",
         popup: [

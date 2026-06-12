@@ -16,10 +16,15 @@
     <div class="map-viewport" id="mapViewport">
       <div class="map-content" id="mapContent">
 
-        <img id="mapBase" class="map-layer" src="slike/mapa_2.webp" alt="Karta nalazišta fosilnih tragova dinosaura na prostoru NP Brijuni" loading="eager">
+        <img id="mapBase" class="map-layer active-map" src="slike/geološka karta.png" alt="Karta nalazišta fosilnih tragova dinosaura na prostoru NP Brijuni" loading="eager">
+        <img id="mapOrtho" class="map-layer" src="slike/ortofoto.png">
 
       </div>
     </div>
+
+    <button id="toggleMap" class="map-btn map-btn-fourth">
+      🗾 Ortofoto
+    </button>
 
     <div class="map-controls">
       <button id="resetView" class="map-btn">Reset</button>
@@ -30,6 +35,7 @@
     <div id="popup" class="popup hidden right">
       <div class="popup-header">
         <h3 id="title"></h3>
+        <div class="fact-note"></div>
         <button id="popup-close" class="popup-close" aria-label="Zatvori">&times;</button>
       </div>
 
@@ -61,39 +67,7 @@
     </div>
 
   </div>
-
-  <!--
-  <footer class="footer">
-
-    <div class="footer-logos">
-      <a href="https://www.np-brijuni.hr/hr/brijuni/geolosko-paleontoloska-bastina/dinosauri-na-brijunima" target="_blank" rel="noopener">
-        <img src="slike/stopalo.svg" alt="Foslini trag stope dinosaura" class="footer-logo">
-      </a>
-
-      <a href="https://www.np-brijuni.hr/hr" target="_blank" rel="noopener">
-        <img src="slike/logo.webp" alt="Javna ustanova logo" class="footer-logo">
-      </a>
-    </div>
-
-    <div class="footer-text">
-      <p class="footer-line">
-        Dinosaur party <span class="sep">|</span><br>
-        © <span id="currentYear"></span>. Javna ustanova NP Brijuni
-      </p>
-    <p class="footer-info">
-      <p>
-        Nacionalni Park Brijuni <span class="sep">|</span><br>
-        Brijuni, 52100 Pula<br>
-      </p>
-      <p>
-        OIB: 79193158584 <span class="sep">|</span><br>
-        VAT ID: HR79193158584 <span class="sep">|</span><br>
-        IBAN: HR0523600001101435571 <br>
-      </p>
-    </p>
-    </div>
-  </footer>
--->
+  
   <script src="data.js"></script>
   <script src="script.js"></script>
 </body>

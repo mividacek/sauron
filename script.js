@@ -1,4 +1,4 @@
-//script.js
+const LOCATOR_ENABLED = false; // true = locator available, false = completely disabled
 
 /* ============================= */
 /* ELEMENTS                      */
@@ -31,8 +31,6 @@ const resetBtn = document.getElementById("resetView");
 const togglePointsBtn = document.getElementById("toggle-points");
 const toggleLocateBtn = document.getElementById("toggle-locate-mode");
 
-const LOCATOR_ENABLED = false; // true = locator available, false = completely disabled
-
 const controls = document.querySelector(".map-controls");
 
 if (document.getElementById("currentYear")) {
@@ -44,6 +42,47 @@ if (!LOCATOR_ENABLED) {
 }
 
 let activeKey = null;
+
+let currentMap = "base";
+
+function updatePointPositions() {
+  document.querySelectorAll(".point").forEach(btn => {
+    const id = btn.dataset.id;
+    const stopa = stope[id];
+
+    if (!stopa) return;
+
+    const pos =
+      stopa.coords?.[currentMap] ??
+      stopa.coords?.base ??
+      stopa;
+
+    if (!pos) return;
+
+    btn.style.left = pos.left;
+    btn.style.top = pos.top;
+  });
+}
+
+toggleMap.addEventListener("click", () => {
+  currentMap = currentMap === "base" ? "ortho" : "base";
+  mapBase.classList.toggle("active-map", currentMap === "base");
+  mapOrtho.classList.toggle("active-map", currentMap === "ortho");
+  toggleMap.innerText =
+    currentMap === "base" ? "🗾 Ortofoto" : "🪨 Geološka karta";
+
+  updatePointPositions();
+
+  if (typeof updateMarkersForMap === "function") {
+    updateMarkersForMap();
+  }
+
+  mapContainer.classList.add("loading");
+
+  requestAnimationFrame(() => {
+    mapContainer.classList.remove("loading");
+  });
+});
 
 /* ============================= */
 /* STOPA TYPES / ICONS           */
@@ -868,10 +907,22 @@ if (isMobile && Array.isArray(data)) {
 
           figure.appendChild(img);
 
-          if (item.caption) {
+          if (item.caption || item.photographer) {
             const cap = document.createElement("figcaption");
             cap.className = "popup-caption";
-            cap.innerText = item.caption;
+
+            let text = "";
+
+            if (item.caption) {
+              text += item.caption;
+            }
+
+            if (item.photographer) {
+              text += (text ? "\n" : "") + "Autor fotografije: " + item.photographer;
+            }
+
+            cap.innerText = text;
+
             figure.appendChild(cap);
           }
 
@@ -1037,6 +1088,28 @@ if (isMobile && Array.isArray(data)) {
     return;
   }
 
+  if (data.type === "facts") {
+    const table = document.createElement("div");
+    table.className = "facts-table";
+    const special = ["zanimljivost"];
+
+    Object.entries(data.value).forEach(([label, value]) => {
+
+      const row = document.createElement("div");
+      row.className = "fact-row";
+
+      row.innerHTML = `
+        <div class="fact-name">${label}</div>
+        <div class="fact-data">${value}</div>
+      `;
+
+      table.appendChild(row);
+    });
+
+    container.appendChild(table);
+    return;
+  }
+
   if (data.type === "img") {
     const figure = document.createElement("figure");
     figure.className = "popup-figure-single";
@@ -1054,12 +1127,25 @@ if (isMobile && Array.isArray(data)) {
 
     figure.appendChild(img);
 
-    if (data.caption) {
+    if (data.caption || data.photographer) {
       const cap = document.createElement("figcaption");
       cap.className = "popup-caption";
-      cap.innerText = data.caption;
-      figure.appendChild(cap);
+
+      let text = "";
+
+  if (data.caption) {
+      text += data.caption;
     }
+
+    if (data.photographer) {
+      text += (text ? "\n" : "") +
+        "Autor fotografije: " + data.photographer;
+    }
+
+    cap.innerText = text;
+
+    figure.appendChild(cap);
+  }
 
     container.appendChild(figure);
     return;
@@ -1244,10 +1330,22 @@ if (data.type === "gallery") {
 
     figure.appendChild(img);
 
-    if (item.caption) {
+    if (item.caption || item.photographer) {
       const cap = document.createElement("figcaption");
       cap.className = "popup-caption";
-      cap.innerText = item.caption;
+
+      let text = "";
+
+      if (item.caption) {
+        text += item.caption;
+      }
+
+      if (item.photographer) {
+        text += (text ? "\n" : "") + "Autor fotografije: " + item.photographer;
+      }
+
+      cap.innerText = text;
+
       figure.appendChild(cap);
     }
 
@@ -1384,7 +1482,18 @@ function updateLightbox() {
   const item = currentGallery[currentIndex];
 
   lightboxImg.src = item.src;
-  lightboxCaption.innerText = item.caption || "";
+  let captionText = "";
+
+if (item.caption) {
+  captionText += item.caption;
+}
+
+if (item.photographer) {
+  captionText += (captionText ? "\n" : "") +
+    "Autor fotografije: " + item.photographer;
+}
+
+lightboxCaption.innerText = captionText;
 
   // arrows
   if (currentGallery.length <= 1) {
@@ -1573,9 +1682,6 @@ function renderPoints() {
     btn.dataset.id = id;
     btn.setAttribute("aria-label", stopa.title);
 
-    btn.style.top = stopa.top;
-    btn.style.left = stopa.left;
-
     const type = stopa.content?.type;
     const iconData = STOPA_TYPES[type];
 
@@ -1716,14 +1822,16 @@ viewport.addEventListener("click", (e) => {
   let textToCopy = "";
 
   if (locateMode === "coords") {
-    textToCopy = `top: "${top}%",\nleft: "${left}%",`;
+    textToCopy = `top: "${top}%", left: "${left}%"`;
   }
 
   if (locateMode === "object") {
     textToCopy = `nova_stopa: {
   title: "Nova stopa",
-  top: "${top}%",
-  left: "${left}%",
+  coords: {
+            base: { top: "${top}%", left: "${left}%" },
+            ortho: { top: "${top}%", left: "${left}%" }
+        },
   content: {
     type: "m_teropod",
     popup: [
@@ -1815,6 +1923,7 @@ function initMap() {
 
   hidePopup();
   resetView();
+  updatePointPositions()
 
   setTimeout(() => {
     mapContainer.classList.add("map-loaded");
