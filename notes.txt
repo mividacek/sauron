@@ -1,1 +1,7 @@
-- srediti strelice 
+- srediti strelice - OK
+- centrirati slike u pop up galeriji - OK
+- srediti ikone - OK
+- srediti styling autora fotografije - OK
+- mobile: uvećane slike nisu vidljive (comp OK)
+- geološka/orthophoto mapa - toggle switch
+- mobile: ne može se zoom outati full width mape (na kompu ne mjenjati zoom out)xs

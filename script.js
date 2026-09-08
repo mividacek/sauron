@@ -876,7 +876,11 @@ if (isMobile && Array.isArray(data)) {
         img.addEventListener("click", (e) => {
           e.stopPropagation();
           openLightbox(
-            [{ src: data.value, caption: data.caption || "", photographer: data.photographer || "" }],
+            [{ 
+              src: block.value, 
+              caption: block.caption || "", 
+              photographer: block.photographer || "" 
+            }],
             0,
             activeLocationTitle
           );
@@ -884,10 +888,24 @@ if (isMobile && Array.isArray(data)) {
 
         figure.appendChild(img);
 
-        if (block.caption) {
+        if (block.caption || block.photographer) {
           const cap = document.createElement("figcaption");
           cap.className = "popup-caption";
-          cap.innerText = block.caption;
+
+          if (block.caption) {
+            const text = document.createElement("div");
+            text.className = "caption-text";
+            text.innerText = block.caption;
+            cap.appendChild(text);
+          }
+
+          if (block.photographer) {
+            const author = document.createElement("div");
+            author.className = "caption-author";
+            author.innerText = `Autor fotografije: ${block.photographer}`;
+            cap.appendChild(author);
+          }
+
           figure.appendChild(cap);
         }
 
@@ -908,11 +926,7 @@ if (isMobile && Array.isArray(data)) {
 
           img.addEventListener("click", (e) => {
             e.stopPropagation();
-            openLightbox(
-              [{ src: data.value, caption: data.caption || "", photographer: data.photographer || "" }],
-              0,
-              activeLocationTitle
-            );
+            openLightbox(block.value, index, activeLocationTitle);
           });
 
           figure.appendChild(img);
@@ -921,28 +935,21 @@ if (isMobile && Array.isArray(data)) {
             const cap = document.createElement("figcaption");
             cap.className = "popup-caption";
 
-            let text = "";
-
-            if (item.caption || item.photographer) {
-              const cap = document.createElement("figcaption");
-              cap.className = "popup-caption";
-
-              if (item.caption) {
-                const text = document.createElement("div");
-                text.className = "caption-text";
-                text.innerText = item.caption;
-                cap.appendChild(text);
-              }
-
-              if (item.photographer) {
-                const author = document.createElement("div");
-                author.className = "caption-author";
-                author.innerText = `Autor fotografije: ${item.photographer}`;
-                cap.appendChild(author);
-              }
-
-              figure.appendChild(cap);
+            if (item.caption) {
+              const text = document.createElement("div");
+              text.className = "caption-text";
+              text.innerText = item.caption;
+              cap.appendChild(text);
             }
+
+            if (item.photographer) {
+              const author = document.createElement("div");
+              author.className = "caption-author";
+              author.innerText = `Autor fotografije: ${item.photographer}`;
+              cap.appendChild(author);
+            }
+
+            figure.appendChild(cap);
           }
 
           addSlide(figure);
@@ -1366,17 +1373,21 @@ if (data.type === "gallery") {
       const cap = document.createElement("figcaption");
       cap.className = "popup-caption";
 
-      let text = "";
-
       if (item.caption) {
-        text += item.caption;
+        const text = document.createElement("div");
+        text.className = "caption-text";
+        text.innerText = item.caption;
+        cap.appendChild(text);
       }
 
       if (item.photographer) {
-        text += (text ? "\n" : "") + "Autor fotografije: " + item.photographer;
-      }
+        const author = document.createElement("div");
+        author.className = "caption-author";
+        author.innerText = `Autor fotografije: ${item.photographer}`;
+        cap.appendChild(author);
 
-      cap.innerText = text;
+        console.log("PC GALLERY AUTHOR:", author);
+      }
 
       figure.appendChild(cap);
     }
