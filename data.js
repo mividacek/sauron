@@ -41,8 +41,8 @@ const stope = {
     barban: { 
         title: "Nalazište Barban/Pogledalo/Vrbanj", 
         coords: { 
-            base: { top: "38.6%", left: "34.0%" }, 
-            ortho: { top: "40.6%", left: "26.4%" } 
+            base: { top: "37.9%", left: "32.1%" }, 
+            ortho: { top: "39.9%", left: "24.7%" } 
         }, 
         content: { 
             type: "v_teropod", 
@@ -56,12 +56,17 @@ const stope = {
                     'veličina dinosaura': "7,5 – 8 m",
                     starost: "125 milijuna godina",
                     epoha: "donja kreda",
-                    zanimljivost: "Jedino nalazište velikih teroposnih tragova u Hrvatskoj"
+                    zanimljivost: "Jedino nalazište velikih teropodnih tragova u Hrvatskoj."
                     }
                 },
                 { 
                     type: "gallery", 
-                    value: [ 
+                    value: [
+                        { 
+                            src: "slike/Tragovi/Barban/4.png", 
+                            caption: "Veliki teropodni otisak",
+                            photographer: "Irina Žeger Pleše" },
+
                         { 
                             src: "slike/Tragovi/Barban/1.png", 
                             caption: "Fosilni otisci velikih teropodnih dinosaura, otok Veli Brijun, NP Brijuni",
@@ -74,10 +79,7 @@ const stope = {
                             src: "slike/Tragovi/Barban/3.png", 
                             caption: "Staza kretanja velikog teropodnog dinosaura",
                             photographer: "Irina Žeger Pleše" }, 
-                        { 
-                            src: "slike/Tragovi/Barban/4.png", 
-                            caption: "Veliki teropodni otisak",
-                            photographer: "Irina Žeger Pleše" } 
+                        
                     ] 
                 } 
             ]
@@ -99,10 +101,10 @@ const stope = {
                 'godina opisivanja': "1965.",
                 'vrsta trgova': "mali teropodi i veliki ornitopod",
                 'broj tragova': "57",
-                'veličina dinosaura': "3 – 4 m (teropodi)\n6 - 6,5 m (ornitopodi)",
+                'veličina dinosaura': "3 – 4 m | teropodi\n6 - 6,5 m | ornitopodi",
                 starost: "105 milijuna godina",
                 epoha: "donja kreda",
-                zanimljivost: "Uz otok Galiju, jedino nalazište tragova ornitopodnih dinosaura u Hrvatskoj"
+                zanimljivost: "Uz otok Galiju, jedino nalazište tragova ornitopodnih dinosaura u Hrvatskoj."
                 }
             },
             { type: "gallery",
@@ -235,18 +237,7 @@ const stope = {
     content: {
         type: "v_ornitopod",
         popup: [
-        {
-                type: "facts",
-                value: {
-                'godina opisivanja': "2024.",
-                'vrsta trgova': "mali teropodi",
-                'broj tragova': "7",
-                'veličina dinosaura': "5,5 - 6 m",
-                starost: "105 milijuna godina",
-                epoha: "donja kreda"
-                }
-            },
-        { type: "text", value: "Fosilni tragovi velikih ornitopoda zabilježeni su na otoku Galija." }
+        { type: "text", value: "Na otoku Galija zabilježeni su fosilni tragovi dinosaura." }
         ]
     }
     },
@@ -260,7 +251,7 @@ const stope = {
     content: {
         type: "sauropod",
         popup: [
-        { type: "text", value: "Fosilni tragovi dinosaura zabilježeni su i na otoku Vanga." }
+        { type: "text", value: "Na otoku Vanga zabilježeni su fosilni tragovi dinosaura." }
         ]
     }
     },
@@ -274,7 +265,7 @@ const stope = {
     content: {
         type: "sauropod_m_teropod",
         popup: [
-        { type: "text", value: "Fosilni tragovi dinosaura zabilježeni su i na otoku Vanga." }
+        { type: "text", value: "Na otoku Vanga zabilježeni su fosilni tragovi dinosaura." }
         ]
     }
     },
@@ -288,7 +279,7 @@ const stope = {
     content: {
         type: "m_teropod",
         popup: [
-        { type: "text", value: "Fosilni tragovi dinosaura zabilježeni su i na otoku Vanga." }
+        { type: "text", value: "Na otoku Vanga zabilježeni su fosilni tragovi dinosaura." }
         ]
     }
     }

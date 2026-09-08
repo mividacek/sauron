@@ -27,15 +27,13 @@
     </button>
 
     <div class="map-controls">
-      <button id="resetView" class="map-btn">Reset</button>
-        <button id="toggle-points" class="map-btn map-btn-second">Sakrij točke</button>
-        <button id="toggle-locate-mode" class="map-btn map-btn-third">Mod: Coord</button>
-      </div>
+      <button id="toggle-points" class="map-btn map-btn-second">Sakrij točke</button>
+      <button id="toggle-locate-mode" class="map-btn map-btn-third">Mod: Coord</button>
+    </div>
 
     <div id="popup" class="popup hidden right">
       <div class="popup-header">
         <h3 id="title"></h3>
-        <div class="fact-note"></div>
         <button id="popup-close" class="popup-close" aria-label="Zatvori">&times;</button>
       </div>
 
@@ -60,6 +58,7 @@
       <button id="lightboxNext" class="lightbox-nav lightbox-next" aria-label="Sljedeća slika">❯</button>
 
       <div class="lightbox-content">
+        <div id="lightboxTitle" class="lightbox-title"></div>
         <img id="lightboxImg" class="lightbox-img" src="" alt="">
         <div id="lightboxCaption" class="lightbox-caption"></div>
         <div id="lightboxDots" class="lightbox-dots"></div>

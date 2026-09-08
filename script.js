@@ -19,6 +19,7 @@ const subcontentEl = document.getElementById("subcontent");
 const closeBtn = document.getElementById("popup-close");
 
 const lightbox = document.getElementById("lightbox");
+const lightboxTitle = document.getElementById("lightboxTitle");
 const lightboxImg = document.getElementById("lightboxImg");
 const lightboxCaption = document.getElementById("lightboxCaption");
 const lightboxClose = document.getElementById("lightboxClose");
@@ -27,7 +28,6 @@ const lightboxPrev = document.getElementById("lightboxPrev");
 const lightboxNext = document.getElementById("lightboxNext");
 const lightboxDots = document.getElementById("lightboxDots");
 
-const resetBtn = document.getElementById("resetView");
 const togglePointsBtn = document.getElementById("toggle-points");
 const toggleLocateBtn = document.getElementById("toggle-locate-mode");
 
@@ -44,6 +44,8 @@ if (!LOCATOR_ENABLED) {
 let activeKey = null;
 
 let currentMap = "base";
+
+let activeLocationTitle = "";
 
 function updatePointPositions() {
   document.querySelectorAll(".point").forEach(btn => {
@@ -873,7 +875,11 @@ if (isMobile && Array.isArray(data)) {
 
         img.addEventListener("click", (e) => {
           e.stopPropagation();
-          openLightbox([{ src: block.value, caption: block.caption || "" }], 0);
+          openLightbox(
+            [{ src: data.value, caption: data.caption || "", photographer: data.photographer || "" }],
+            0,
+            activeLocationTitle
+          );
         });
 
         figure.appendChild(img);
@@ -902,7 +908,11 @@ if (isMobile && Array.isArray(data)) {
 
           img.addEventListener("click", (e) => {
             e.stopPropagation();
-            openLightbox(block.value, index);
+            openLightbox(
+              [{ src: data.value, caption: data.caption || "", photographer: data.photographer || "" }],
+              0,
+              activeLocationTitle
+            );
           });
 
           figure.appendChild(img);
@@ -913,17 +923,26 @@ if (isMobile && Array.isArray(data)) {
 
             let text = "";
 
-            if (item.caption) {
-              text += item.caption;
+            if (item.caption || item.photographer) {
+              const cap = document.createElement("figcaption");
+              cap.className = "popup-caption";
+
+              if (item.caption) {
+                const text = document.createElement("div");
+                text.className = "caption-text";
+                text.innerText = item.caption;
+                cap.appendChild(text);
+              }
+
+              if (item.photographer) {
+                const author = document.createElement("div");
+                author.className = "caption-author";
+                author.innerText = `Autor fotografije: ${item.photographer}`;
+                cap.appendChild(author);
+              }
+
+              figure.appendChild(cap);
             }
-
-            if (item.photographer) {
-              text += (text ? "\n" : "") + "Autor fotografije: " + item.photographer;
-            }
-
-            cap.innerText = text;
-
-            figure.appendChild(cap);
           }
 
           addSlide(figure);
@@ -1089,11 +1108,13 @@ if (isMobile && Array.isArray(data)) {
   }
 
   if (data.type === "facts") {
-    const table = document.createElement("div");
-    table.className = "facts-table";
-    const special = ["zanimljivost"];
+    const wrap = document.createElement("div");
+    wrap.className = "facts-table";
 
-    Object.entries(data.value).forEach(([label, value]) => {
+    const entries = Object.entries(data.value);
+
+    entries.forEach(([label, value]) => {
+      if (label === "zanimljivost") return;
 
       const row = document.createElement("div");
       row.className = "fact-row";
@@ -1103,10 +1124,20 @@ if (isMobile && Array.isArray(data)) {
         <div class="fact-data">${value}</div>
       `;
 
-      table.appendChild(row);
+      wrap.appendChild(row);
     });
 
-    container.appendChild(table);
+    if (data.value.zanimljivost) {
+      const note = document.createElement("div");
+      note.className = "fact-note";
+      note.innerHTML = `
+        <div class="fact-name">zanimljivost</div>
+        <div class="fact-note-text">${data.value.zanimljivost}</div>
+      `;
+      wrap.appendChild(note);
+    }
+
+    container.appendChild(wrap);
     return;
   }
 
@@ -1127,27 +1158,28 @@ if (isMobile && Array.isArray(data)) {
 
     figure.appendChild(img);
 
-    if (data.caption || data.photographer) {
-      const cap = document.createElement("figcaption");
-      cap.className = "popup-caption";
+  if (data.caption || data.photographer) {
+    const cap = document.createElement("figcaption");
+    cap.className = "popup-caption";
 
-      let text = "";
-
-  if (data.caption) {
-      text += data.caption;
+    if (data.caption) {
+      const text = document.createElement("div");
+      text.className = "caption-text";
+      text.innerText = data.caption;
+      cap.appendChild(text);
     }
 
     if (data.photographer) {
-      text += (text ? "\n" : "") +
-        "Autor fotografije: " + data.photographer;
+      const author = document.createElement("div");
+      author.className = "caption-author";
+      author.innerText = `Autor fotografije: ${data.photographer}`;
+      cap.appendChild(author);
     }
-
-    cap.innerText = text;
 
     figure.appendChild(cap);
   }
 
-    container.appendChild(figure);
+  container.appendChild(figure);
     return;
   }
 
@@ -1196,7 +1228,7 @@ if (data.type === "gallery") {
 
     figures[currentPopupIndex].scrollIntoView({
       behavior,
-      inline: "nearest",
+      inline: "center",
       block: "nearest"
     });
 
@@ -1416,6 +1448,8 @@ function showPopup(btn) {
   const data = stope[btn.dataset.id];
   if (!data) return;
 
+  activeLocationTitle = data.title;
+
   setActivePoint(btn);
   activeKey = "stopa-" + btn.dataset.id;
 
@@ -1481,21 +1515,21 @@ function updateLightbox() {
 
   const item = currentGallery[currentIndex];
 
+  lightboxTitle.innerText = currentLocationTitle || "";
   lightboxImg.src = item.src;
-  let captionText = "";
 
-if (item.caption) {
-  captionText += item.caption;
-}
+  const captionText = document.createElement("div");
+  captionText.className = "caption-text";
+  captionText.innerText = item.caption || "";
 
-if (item.photographer) {
-  captionText += (captionText ? "\n" : "") +
-    "Autor fotografije: " + item.photographer;
-}
+  const captionAuthor = document.createElement("div");
+  captionAuthor.className = "caption-author";
+  captionAuthor.innerText = item.photographer ? `Autor fotografije: ${item.photographer}` : "";
 
-lightboxCaption.innerText = captionText;
+  lightboxCaption.innerHTML = "";
+  if (item.caption) lightboxCaption.appendChild(captionText);
+  if (item.photographer) lightboxCaption.appendChild(captionAuthor);
 
-  // arrows
   if (currentGallery.length <= 1) {
     lightboxPrev.style.display = "none";
     lightboxNext.style.display = "none";
@@ -1504,7 +1538,6 @@ lightboxCaption.innerText = captionText;
     lightboxNext.style.display = "flex";
   }
 
-  // dots
   lightboxDots.innerHTML = "";
 
   if (currentGallery.length <= 1) {
@@ -1528,9 +1561,12 @@ lightboxCaption.innerText = captionText;
   });
 }
 
-function openLightbox(galleryArray, index = 0) {
+let currentLocationTitle = "";
+
+function openLightbox(galleryArray, index = 0, locationTitle = "") {
   currentGallery = galleryArray;
   currentIndex = index;
+  currentLocationTitle = locationTitle;
 
   updateLightbox();
   lightbox.classList.remove("hidden");
@@ -1833,16 +1869,31 @@ viewport.addEventListener("click", (e) => {
             ortho: { top: "${top}%", left: "${left}%" }
         },
   content: {
-    type: "m_teropod",
-    popup: [
-      { type: "text", value: "Opis..." }
-    ],
-    extra: {
-      subtitle: "Napomena",
-      subcontent: { type: "text", value: "..." }
+        type: "v_ornitopod_m_teropod",
+        popup: [
+            {
+                type: "facts",
+                value: {
+                'godina opisivanja': "1965.",
+                'vrsta trgova': "mali teropodi",
+                'broj tragova': "50",
+                'veličina dinosaura': "3 – 4 m",
+                starost: "105 milijuna godina",
+                epoha: "donja kreda",
+                zanimljivost: "Fun facts are fun"
+                }
+            },
+            { type: "gallery",
+            value: [
+                { 
+                    src: "slike/Tragovi/...", 
+                    caption: " Opis slike" 
+                },
+                ]
+        }
+            ],
     }
-  }
-},`;
+    },`;
   }
 
   console.log("📍 Kopirano:");
