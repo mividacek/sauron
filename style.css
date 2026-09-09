@@ -1024,7 +1024,9 @@ body {
   }
 
   .popup.text-only {
-    background: #c3e7ff;
+    border-left: 3px solid #065da9;
+    border-radius: 10px;
+    background: #e1ebf5;
   }
 }
 

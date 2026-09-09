@@ -1217,7 +1217,13 @@ function renderContent(container, data) {
 
     img.addEventListener("click", (e) => {
       e.stopPropagation();
-      openLightbox([{ src: data.value, caption: data.caption || "" }], 0);
+      openLightbox([
+        {
+          src: data.value,
+          caption: data.caption || "",
+          photographer: data.photographer || ""
+        }
+      ], 0);
     });
 
     figure.appendChild(img);
