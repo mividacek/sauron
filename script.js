@@ -8,6 +8,7 @@ const mapContainer = document.getElementById("mapContainer");
 const viewport = document.getElementById("mapViewport");
 const content = document.getElementById("mapContent");
 const MAP_CROP_BOTTOM_PERCENT = 0.06; // 6% crop
+const mapToggleLabel = document.querySelector(".map-toggle-label");
 
 const baseLayer = document.getElementById("mapBase");
 
@@ -66,12 +67,14 @@ function updatePointPositions() {
   });
 }
 
-toggleMap.addEventListener("click", () => {
-  currentMap = currentMap === "base" ? "ortho" : "base";
+toggleMap.addEventListener("change", () => {
+  currentMap = toggleMap.checked ? "ortho" : "base";
+
   mapBase.classList.toggle("active-map", currentMap === "base");
   mapOrtho.classList.toggle("active-map", currentMap === "ortho");
-  toggleMap.innerText =
-    currentMap === "base" ? "🗾 Ortofoto" : "🪨 Geološka karta";
+
+  mapToggleLabel.innerText =
+    currentMap === "base" ? "Geološka karta" : "Ortofoto karta";
 
   updatePointPositions();
 
@@ -148,6 +151,8 @@ function preloadAllIcons() {
 let scale = 1;
 let minScale = 1;
 let maxScale = 5;
+
+let zoomOutMinScale = 1;
 
 let translateX = 0;
 let translateY = 0;
@@ -243,12 +248,16 @@ function clampPan() {
 
   // --- Y clamp ---
   if (mapH <= viewRect.height) {
-    const bottomAligned = viewRect.height - mapH;
+    if (window.innerWidth <= 700 && scale < minScale) {
+      translateY = (viewRect.height - mapH) / 2;
+    } else {
+      const bottomAligned = viewRect.height - mapH;
 
-    const minY = bottomAligned;
-    const maxY = bottomAligned;
+      const minY = bottomAligned;
+      const maxY = bottomAligned;
 
-    translateY = clamp(translateY, minY, maxY);
+      translateY = clamp(translateY, minY, maxY);
+    }
   } else {
     const minY = viewRect.height - mapH;
     const maxY = 0;
@@ -263,7 +272,7 @@ function zoomAtPoint(newScale, clientX, clientY) {
   const py = clientY - rect.top;
 
   const prevScale = scale;
-  scale = clamp(newScale, minScale, maxScale);
+  scale = clamp(newScale, zoomOutMinScale, maxScale);
 
   const factor = scale / prevScale;
 
@@ -792,32 +801,34 @@ function renderContent(container, data) {
 
   const isMobile = window.innerWidth <= 700;
 
+  popup.classList.remove("text-only");
+
   // MOBILE: pretvori sve blokove u jedan slider
-if (isMobile && Array.isArray(data)) {
-  const slider = document.createElement("div");
-  slider.className = "popup-mobile-slider";
-  container.appendChild(slider);
+  if (isMobile && Array.isArray(data)) {
+    const slider = document.createElement("div");
+    slider.className = "popup-mobile-slider";
+    container.appendChild(slider);
 
-  const dots = document.createElement("div");
-  dots.className = "popup-mobile-dots";
+    const dots = document.createElement("div");
+    dots.className = "popup-mobile-dots";
 
-  let slides = [];
+    let slides = [];
 
-  function addSlide(contentNode) {
-  const slide = document.createElement("div");
-  slide.className = "popup-mobile-slide";
-  slide.appendChild(contentNode);
-  slider.appendChild(slide);
-  slides.push(slide);
+    function addSlide(contentNode) {
+    const slide = document.createElement("div");
+    slide.className = "popup-mobile-slide";
+    slide.appendChild(contentNode);
+    slider.appendChild(slide);
+    slides.push(slide);
 
-  requestAnimationFrame(() => {
-    // ako sadržaj nije visok, napravi ga compact
-    if (slide.scrollHeight < 170) {
-      slide.classList.add("compact");
-    } else {
-      slide.classList.add("tall");
-    }
-  });
+    requestAnimationFrame(() => {
+      // ako sadržaj nije visok, napravi ga compact
+      if (slide.scrollHeight < 170) {
+        slide.classList.add("compact");
+      } else {
+        slide.classList.add("tall");
+      }
+    });
 }
 
   requestAnimationFrame(() => {
@@ -826,8 +837,54 @@ if (isMobile && Array.isArray(data)) {
 
     data.forEach(block => {
 
+      // FACTS
+      if (block.type === "facts") {
+        const facts = document.createElement("div");
+        facts.className = "facts-table";
+
+        Object.entries(block.value).forEach(([key, value]) => {
+          if (key === "zanimljivost") {
+            const note = document.createElement("div");
+            note.className = "fact-note";
+
+            const name = document.createElement("div");
+            name.className = "fact-name";
+            name.innerText = key;
+
+            const text = document.createElement("div");
+            text.className = "fact-note-text";
+            text.innerText = value;
+
+            note.appendChild(name);
+            note.appendChild(text);
+            facts.appendChild(note);
+
+            return;
+          }
+
+          const row = document.createElement("div");
+          row.className = "fact-row";
+
+          const name = document.createElement("div");
+          name.className = "fact-name";
+          name.innerText = key;
+
+          const valueEl = document.createElement("div");
+          valueEl.className = "fact-data";
+          valueEl.innerText = value;
+
+          row.appendChild(name);
+          row.appendChild(valueEl);
+          facts.appendChild(row);
+        });
+
+        addSlide(facts);
+        return;
+      }
+
       // TEXT
       if (block.type === "text") {
+        popup.classList.add("text-only");
         const chunks = splitTextByHeight(block.value, maxTextHeight, slideWidth);
 
         chunks.forEach(chunk => {
@@ -1976,6 +2033,12 @@ function initMap() {
 
   maxScale = minScale * 10;
   scale = minScale;
+
+  if (isMobile) {
+    zoomOutMinScale = viewRect.width / mapNaturalWidth;
+  } else {
+    zoomOutMinScale = minScale;
+  }
 
   if (!mapInitializedOnce) {
     preloadAllIcons();

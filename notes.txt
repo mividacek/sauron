@@ -1,7 +1,10 @@
 - srediti strelice - OK
+- promjeniti aktivne i neaktivne ikone stopa da se bolje vide na obim mapama - OK
 - centrirati slike u pop up galeriji - OK
 - srediti ikone - OK
 - srediti styling autora fotografije - OK
-- mobile: uvećane slike nisu vidljive (comp OK)
-- geološka/orthophoto mapa - toggle switch
-- mobile: ne može se zoom outati full width mape (na kompu ne mjenjati zoom out)xs
+- mobile: uvećane slike nisu vidljive (comp OK) - OK
+- geološka/orthophoto mapa - toggle switch - OK
+- mobile: ne može se zoom outati full width mape (na kompu ne mjenjati zoom out) - OK
+- lagano obojati pop-up na mobitelu kada nema sliku jer se ne primjećuje - OK
+- mobile: vide se slike, ali ne i tekst prije - OK
