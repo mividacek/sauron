@@ -13,7 +13,7 @@ const stope = {
                 type: "facts",
                 value: {
                 'godina opisivanja': "1925.",
-                'vrsta trgova': "mali teropodi",
+                'vrsta tragova': "mali teropodi",
                 'broj tragova': "60",
                 'veličina dinosaura': "3 – 4 m",
                 starost: "105 milijuna godina",
@@ -51,7 +51,7 @@ const stope = {
                     type: "facts",
                     value: {
                     'godina opisivanja': "1965.",
-                    'vrsta trgova': "veliki teropodi",
+                    'vrsta tragova': "veliki teropodi",
                     'broj tragova': "60",
                     'veličina dinosaura': "7,5 – 8 m",
                     starost: "125 milijuna godina",
@@ -99,7 +99,7 @@ const stope = {
                 type: "facts",
                 value: {
                 'godina opisivanja': "1965.",
-                'vrsta trgova': "mali teropodi i veliki ornitopod",
+                'vrsta tragova': "mali teropodi i veliki ornitopod",
                 'broj tragova': "57",
                 'veličina dinosaura': "3 – 4 m | teropodi\n6 - 6,5 m | ornitopodi",
                 starost: "105 milijuna godina",
@@ -147,7 +147,7 @@ const stope = {
                     type: "facts",
                     value: {
                     'godina opisivanja': "2001.",
-                    'vrsta trgova': "sauropodi",
+                    'vrsta tragova': "sauropodi",
                     'broj tragova': "30",
                     'veličina dinosaura': "12 – 15 m",
                     starost: "105 milijuna godina",
@@ -180,7 +180,7 @@ const stope = {
                 type: "facts",
                 value: {
                 'godina uočavanja': "2008.",
-                'vrsta trgova': "teropodi",
+                'vrsta tragova': "teropodi",
                 'broj tragova': "1",
                 'veličina dinosaura': "nepoznato",
                 starost: "nepoznato",
@@ -207,7 +207,7 @@ const stope = {
                     type: "facts",
                     value: {
                     'godina opisivanja': "2015.",
-                    'vrsta trgova': "mali teropodi",
+                    'vrsta tragova': "mali teropodi",
                     'broj tragova': "70",
                     'veličina dinosaura': "3,5 – 4 m",
                     starost: "105 milijuna godina",
