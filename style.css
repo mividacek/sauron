@@ -257,8 +257,11 @@ body {
   display: block;
   pointer-events: none;
   user-select: none;
-
-  filter: drop-shadow(0 0 1px rgba(255, 248, 190, 0.95));
+  filter:
+    drop-shadow(1px 0 0 #eeeeee)
+    drop-shadow(-1px 0 0 #333)
+    drop-shadow(0 1px 0 #eeeeee)
+    drop-shadow(0 0 2px rgba(255, 248, 190, 0.95));
 }
 
 .stopa-point:hover {
@@ -271,7 +274,11 @@ body {
 
 /* ikona pulsira */
 .stopa-point.active .stopa-icon {
-  filter: drop-shadow(0 0 1px rgba(60, 60, 60, 0.95));
+  filter:
+    drop-shadow(1px 0 0 #eeeeee)
+    drop-shadow(-1px 0 0 #333)
+    drop-shadow(0 1px 0 #eeeeee)
+    drop-shadow(0 0 1px rgba(60, 60, 60, 0.95));
   animation: iconPulse 1.8s ease-out infinite;
 }
 

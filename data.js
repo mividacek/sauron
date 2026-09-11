@@ -137,8 +137,8 @@ const stope = {
     trstike: {
         title: "Nalazište Trstike/Debela Glava",
         coords: {
-            base: { top: "81.5%", left: "42.2%" },
-            ortho: { top: "92.2%", left: "35.0%" }
+            base: { top: "79.3%", left: "42.1%" },
+            ortho: { top: "88.9%", left: "35.3%" }
         },
         content: {
             type: "sauropod",
@@ -263,7 +263,7 @@ const stope = {
         ortho: { top: "54.8%", left: "18.1%" }
     },
     content: {
-        type: "sauropod_m_teropod",
+        type: "m_teropod",
         popup: [
         { type: "text", value: "Na otoku Vanga zabilježeni su fosilni tragovi dinosaura." }
         ]
@@ -277,7 +277,7 @@ const stope = {
         ortho: { top: "65.0%", left: "20.2%" }
     },
     content: {
-        type: "m_teropod",
+        type: "sauropod_m_teropod",
         popup: [
         { type: "text", value: "Na otoku Vanga zabilježeni su fosilni tragovi dinosaura." }
         ]

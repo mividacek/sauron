@@ -222,8 +222,9 @@ function stopInertia() {
 function applyTransform() {
   content.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
 
-  // markers stay same visual size
-  document.documentElement.style.setProperty("--markerScale", 1 / scale);
+  // markers get slightly bigger
+  const markerScale = Math.pow(scale / minScale, 0.4) / scale;
+  document.documentElement.style.setProperty("--markerScale", markerScale);
 
   if (activePoint) positionPopup(activePoint);
 }
@@ -1331,8 +1332,6 @@ if (data.type === "gallery") {
   }
 
   function updateArrowVisibility() {
-    // ako želiš loop, strelice uvijek vidljive
-    // ali ako želiš da se sakriju kad ima 1 slika:
     const figures = [...gallery.querySelectorAll(".popup-figure")];
     if (figures.length <= 1) {
       btnPrev.style.display = "none";
@@ -1799,7 +1798,7 @@ function renderPoints() {
       const icon = document.createElement("img");
       icon.src = iconData.icon;
       icon.alt = "";
-      icon.className = "stopa-icon";
+      icon.className = `stopa-icon`;
 
       btn.dataset.iconNormal = iconData.icon;
       btn.dataset.iconActive = iconData.iconActive || iconData.icon;
