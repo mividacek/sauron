@@ -1705,12 +1705,24 @@ function updateLightbox() {
   captionText.className = "caption-text";
   captionText.innerText = item.caption || "";
 
+  const captionRow = document.createElement("div");
+  captionRow.className = "lightbox-caption-row";
+
+  if (item.number) {
+    const number = document.createElement("span");
+    number.className = "legend-number";
+    number.textContent = item.number;
+    captionRow.appendChild(number);
+  }
+
+  captionRow.appendChild(captionText);
+
   const captionAuthor = document.createElement("div");
   captionAuthor.className = "caption-author";
   captionAuthor.innerText = item.photographer ? `Autor fotografije: ${item.photographer}` : "";
 
   lightboxCaption.innerHTML = "";
-  if (item.caption) lightboxCaption.appendChild(captionText);
+  if (item.caption) lightboxCaption.appendChild(captionRow);
   if (item.photographer) lightboxCaption.appendChild(captionAuthor);
 
   if (currentGallery.length <= 1) {
@@ -2175,6 +2187,7 @@ function renderLegend() {
         src: item.symbol,
         caption: item.text,
         photographer: "",
+        number: item.number,
         isLegendSvg: true
       }));
 
