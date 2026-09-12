@@ -75,12 +75,19 @@ toggleMap.addEventListener("change", () => {
   mapOrtho.classList.toggle("active-map", currentMap === "ortho");
 
   mapToggleLabel.innerText =
-    currentMap === "base" ? "Geološka karta" : "Ortofoto karta";
+    currentMap === "base"
+      ? "Geološka karta"
+      : "Ortofoto karta";
 
   updatePointPositions();
 
   if (typeof updateMarkersForMap === "function") {
     updateMarkersForMap();
+  }
+
+  // Update the legend if it is currently open
+  if (!legendOverlay.classList.contains("hidden")) {
+    renderLegend();
   }
 
   mapContainer.classList.add("loading");
@@ -89,7 +96,6 @@ toggleMap.addEventListener("change", () => {
     mapContainer.classList.remove("loading");
   });
 });
-
 /* ============================= */
 /* STOPA TYPES / ICONS           */
 /* ============================= */
@@ -254,7 +260,7 @@ function clampPan() {
 
   // --- Y clamp ---
   if (mapH <= viewRect.height) {
-    if (window.innerWidth <= 700 && scale < minScale) {
+    if (window.innerWidth <= 900 && scale < minScale) {
       translateY = (viewRect.height - mapH) / 2;
     } else {
       const bottomAligned = viewRect.height - mapH;
@@ -602,7 +608,7 @@ document.addEventListener("click", (e) => {
 });
 
 function positionPopup(btn, reveal = true) {
-  const isMobile = window.innerWidth <= 700;
+  const isMobile = window.innerWidth <= 900;
 
   popup.classList.remove("hidden", "left", "right", "mobile-popup");
   popup.style.visibility = "hidden";
@@ -854,7 +860,7 @@ function renderContent(container, data) {
   container.innerHTML = "";
   if (!data) return;
 
-  const isMobile = window.innerWidth <= 700;
+  const isMobile = window.innerWidth <= 900;
 
   popup.classList.remove("text-only");
 
@@ -1690,6 +1696,11 @@ function updateLightbox() {
   lightboxTitle.innerText = currentLocationTitle || "";
   lightboxImg.src = item.src;
 
+  lightboxImg.classList.toggle(
+    "lightbox-legend-svg",
+    item.isLegendSvg === true
+  );
+
   const captionText = document.createElement("div");
   captionText.className = "caption-text";
   captionText.innerText = item.caption || "";
@@ -1779,9 +1790,16 @@ lightboxPrev.addEventListener("click", (e) => {
   prevLightbox();
 });
 
-// click outside image closes
+// click outside lightbox content closes
 lightbox.addEventListener("click", (e) => {
-  if (e.target === lightbox) closeLightbox();
+  if (
+    !e.target.closest(".lightbox-content") &&
+    !e.target.closest(".lightbox-nav") &&
+    !e.target.closest(".lightbox-dots") &&
+    !e.target.closest(".lightbox-close")
+  ) {
+    closeLightbox();
+  }
 });
 
 // keyboard navigation
@@ -1923,7 +1941,51 @@ function renderLegend() {
   legendContent.innerHTML = "";
 
   // ==========================================
-  // 1. LITOSTRATIGRAFSKE I KVARTARNE JEDINICE
+  // 1. TIPOVI DINOSAURA KOJI SU OSTAVILI OTISKE
+  // ==========================================
+
+  const footprints = createLegendSection(
+    "Tipovi dinosaura koji su ostavili otiske"
+  );
+
+  DINOSAUR_FOOTPRINT_LEGEND.forEach(entry => {
+    const row = document.createElement("div");
+    row.className = "legend-item paleo-item";
+
+    const iconData = STOPA_TYPES[entry.type];
+
+    if (iconData) {
+      const symbol = document.createElement("img");
+      symbol.className = "legend-svg";
+      symbol.src = iconData.icon;
+      symbol.alt = "";
+
+      row.appendChild(symbol);
+    }
+
+    const text = document.createElement("span");
+    text.className = "legend-item-text";
+    text.textContent = entry.text;
+
+    row.appendChild(text);
+
+    footprints.body.appendChild(row);
+  });
+
+  legendContent.appendChild(footprints.section);
+
+
+  // ==========================================
+  // GEOLOŠKA KARTA — OSTALI LEGENDNI SADRŽAJ
+  // ==========================================
+
+  if (currentMap !== "base") {
+    return;
+  }
+
+
+  // ==========================================
+  // 2. LITOSTRATIGRAFSKE I KVARTARNE JEDINICE
   // ==========================================
 
   const litho = createLegendSection(
@@ -1938,8 +2000,8 @@ function renderLegend() {
   periods.className = "litho-periods";
 
   LITHOSTRATIGRAPHIC_LEGEND.forEach(period => {
-
     const periodElement = document.createElement("div");
+
     periodElement.className =
       `litho-period ${period.className}`;
 
@@ -1963,8 +2025,10 @@ function renderLegend() {
 
       // Code box
       const code = document.createElement("div");
+
       code.className =
         `litho-code ${entry.className}`;
+
       code.textContent = entry.code;
 
       // Description
@@ -1993,7 +2057,9 @@ function renderLegend() {
 
   litho.body.appendChild(lithoLegend);
 
-    function syncLithoPeriods() {
+
+  function syncLithoPeriods() {
+
     const periodElements =
       lithoLegend.querySelectorAll(".litho-period");
 
@@ -2002,22 +2068,26 @@ function renderLegend() {
 
     let entryIndex = 0;
 
-    LITHOSTRATIGRAPHIC_LEGEND.forEach((period, periodIndex) => {
+    LITHOSTRATIGRAPHIC_LEGEND.forEach(
+      (period, periodIndex) => {
 
-      let height = 0;
+        let height = 0;
 
-      period.entries.forEach(() => {
-        if (entryElements[entryIndex]) {
-          height += entryElements[entryIndex].offsetHeight;
+        period.entries.forEach(() => {
+
+          if (entryElements[entryIndex]) {
+            height += entryElements[entryIndex].offsetHeight;
+          }
+
+          entryIndex++;
+        });
+
+        if (periodElements[periodIndex]) {
+          periodElements[periodIndex].style.height =
+            `${height}px`;
         }
-
-        entryIndex++;
-      });
-
-      if (periodElements[periodIndex]) {
-        periodElements[periodIndex].style.height = `${height}px`;
       }
-    });
+    );
   }
 
   requestAnimationFrame(syncLithoPeriods);
@@ -2028,7 +2098,7 @@ function renderLegend() {
 
 
   // ==========================================
-  // 2. GEOLOŠKI I TEKTONSKI SIMBOLI
+  // 3. GEOLOŠKI I TEKTONSKI SIMBOLI
   // ==========================================
 
   const geological = createLegendSection(
@@ -2041,9 +2111,30 @@ function renderLegend() {
     row.className = "legend-item";
 
     const symbol = document.createElement("img");
-    symbol.className = "legend-svg";
+    symbol.className = "legend-svg legend-clickable";
     symbol.src = entry.symbol;
     symbol.alt = "";
+
+    symbol.addEventListener("click", (e) => {
+      e.stopPropagation();
+
+      const gallery = GEOLOGICAL_TECTONIC_LEGEND.map(item => ({
+        src: item.symbol,
+        caption: item.text,
+        photographer: "",
+        isLegendSvg: true
+      }));
+
+      const index = GEOLOGICAL_TECTONIC_LEGEND.findIndex(
+        item => item.symbol === entry.symbol
+      );
+
+      openLightbox(
+        gallery,
+        index,
+        "Geološki i tektonski simboli"
+      );
+    });
 
     const text = document.createElement("span");
     text.className = "legend-item-text";
@@ -2059,7 +2150,7 @@ function renderLegend() {
 
 
   // ==========================================
-  // 3. PALEONTOLOŠKI I SEDIMENTOLOŠKI SIMBOLI
+  // 4. PALEONTOLOŠKI I SEDIMENTOLOŠKI SIMBOLI
   // ==========================================
 
   const paleo = createLegendSection(
@@ -2076,6 +2167,27 @@ function renderLegend() {
     symbol.className = "legend-svg";
     symbol.src = entry.symbol;
     symbol.alt = "";
+
+    symbol.addEventListener("click", (e) => {
+      e.stopPropagation();
+
+      const gallery = PALEONTOLOGICAL_SEDIMENTOLOGICAL_LEGEND.map(item => ({
+        src: item.symbol,
+        caption: item.text,
+        photographer: "",
+        isLegendSvg: true
+      }));
+
+      const index = PALEONTOLOGICAL_SEDIMENTOLOGICAL_LEGEND.findIndex(
+        item => item.symbol === entry.symbol
+      );
+
+      openLightbox(
+        gallery,
+        index,
+        "Paleontološki i sedimentološki simboli"
+      );
+    });
 
     // Number
     const number = document.createElement("span");
@@ -2120,7 +2232,12 @@ function closeLegend() {
 
 toggleLegend.addEventListener("click", (e) => {
   e.stopPropagation();
-  openLegend();
+
+  if (mapContainer.classList.contains("legend-open")) {
+    closeLegend();
+  } else {
+    openLegend();
+  }
 });
 
 
@@ -2391,7 +2508,14 @@ function initMap() {
   baseLayer.style.width = `${mapNaturalWidth}px`;
   baseLayer.style.height = `${mapNaturalHeight}px`;
 
-  const isMobile = window.innerWidth <= 700;
+  const orthoLayer = document.getElementById("mapOrtho");
+
+  if (orthoLayer) {
+    orthoLayer.style.width = `${mapNaturalWidth}px`;
+    orthoLayer.style.height = `${mapNaturalHeight}px`;
+  }
+
+  const isMobile = window.innerWidth <= 900;
 
   if (isMobile) {
     minScale = viewRect.height / mapNaturalHeight;

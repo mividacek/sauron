@@ -99,7 +99,7 @@ const stope = {
                 type: "facts",
                 value: {
                 'godina opisivanja': "1965.",
-                'vrsta tragova': "mali teropodi i veliki ornitopod",
+                'vrsta tragova': "mali teropodi i veliki ornitopodi",
                 'broj tragova': "57",
                 'veličina dinosaura': "3 – 4 m | teropodi\n6 - 6,5 m | ornitopodi",
                 starost: "105 milijuna godina",
@@ -289,6 +289,33 @@ const stope = {
 /* ============================= */
 /* MAP LEGENDS                    */
 /* ============================= */
+
+const DINOSAUR_FOOTPRINT_LEGEND = [
+  {
+    type: "v_teropod",
+    text: "veliki teropodi"
+  },
+  {
+    type: "m_teropod",
+    text: "mali teropodi"
+  },
+  {
+    type: "v_ornitopod",
+    text: "veliki ornitopodi"
+  },
+  {
+    type: "sauropod",
+    text: "sauropodi"
+  },
+  {
+    type: "v_ornitopod_m_teropod",
+    text: "mali teropodi i veliki ornitopodi"
+  },
+  {
+    type: "sauropod_m_teropod",
+    text: "mali teropodi i sauropodi"
+  }
+];
 
 const LITHOSTRATIGRAPHIC_LEGEND = [
   {
