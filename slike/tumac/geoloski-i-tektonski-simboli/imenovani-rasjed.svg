@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg1"
+   width="75.521362"
+   height="19.207764"
+   viewBox="0 0 75.521363 19.207764"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath14282">
+      <path
+         d="M 0,1688.65 H 2027.7131 V -2.5e-5 H 0 Z"
+         id="path14282" />
+    </clipPath>
+  </defs>
+  <g
+     id="layer-MC4"
+     transform="translate(-967.97289,-2034.4526)">
+    <path
+       id="path11568"
+       d="M 0,0 H 56.641"
+       style="fill:none;stroke:#ec1e27;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       transform="matrix(1.3333333,0,0,-1.3333333,967.97293,2053.1605)" />
+    <text
+       id="text11568"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,977.72787,2041.1336)"><tspan
+         id="tspan11568"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7px;font-family:Arial;writing-mode:lr-tb;fill:#ec1f26;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">Rasjed Pusti</tspan><tspan
+         id="tspan11569"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7px;font-family:Arial;writing-mode:lr-tb;fill:#ec1f26;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="-6.8109999"
+         y="7">otok-Zelenikovac</tspan></text>
+  </g>
+  <g
+     id="layer-MC7"
+     transform="translate(-967.97289,-2034.4526)">
+    <path
+       id="path14281"
+       d="M 2034.016,1687.325 H 11.448 V 3.535 h 2022.568 z"
+       style="fill:none;stroke:#231f20;stroke-width:0.25;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+       transform="matrix(1.3333333,0,0,-1.3333333,0,2251.5333)"
+       clip-path="url(#clipPath14282)" />
+  </g>
+</svg>

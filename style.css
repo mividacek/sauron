@@ -211,6 +211,740 @@ body {
   background: rgba(0, 0, 0, 0.88);
 }
 
+
+/* ============================= */
+/* MAP LEGEND                    */
+/* ============================= */
+
+/* ---------------------------------
+   LEGEND OVERLAY
+   --------------------------------- */
+
+.legend-overlay {
+  position: absolute;
+  inset: 0;
+
+  z-index: 4000;
+
+  /* The overlay itself does not block the map.
+     Only the legend panel catches clicks. */
+  pointer-events: none;
+}
+
+.legend-overlay.hidden {
+  display: none;
+}
+
+
+/* ---------------------------------
+   LEGEND PANEL
+   --------------------------------- */
+
+.legend-panel {
+  position: absolute;
+
+  top: 0;
+  right: 0;
+
+  width: 40%;
+  max-width: 520px;
+  min-width: 320px;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  background: #fdfdfd;
+
+  border-radius: 18px 0 0 18px;
+
+  box-shadow: -6px 0 20px rgba(0, 0, 0, 0.20);
+
+  overflow: hidden;
+
+  pointer-events: auto;
+}
+
+
+/* ---------------------------------
+   HEADER
+   --------------------------------- */
+
+.legend-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  padding: 14px 18px;
+
+  background: #ffffff;
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.10);
+
+  flex-shrink: 0;
+}
+
+.legend-header h3 {
+  margin: 0;
+
+  font-size: 19px;
+  line-height: 1.2;
+
+  color: #102a43;
+}
+
+
+/* ---------------------------------
+   CLOSE BUTTON
+   --------------------------------- */
+
+.legend-close {
+  width: 32px;
+  height: 32px;
+
+  flex-shrink: 0;
+
+  border: none;
+  border-radius: 10px;
+
+  background: transparent;
+
+  color: rgba(31, 41, 51, 0.60);
+
+  font-size: 25px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.legend-close:hover {
+  background: rgba(0, 0, 0, 0.08);
+
+  color: #1f2933;
+
+  transform: scale(1.05);
+}
+
+
+/* ---------------------------------
+   SCROLLABLE CONTENT
+   --------------------------------- */
+
+.legend-content {
+  flex: 1;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  padding: 12px 18px 20px;
+
+  -webkit-overflow-scrolling: touch;
+}
+
+
+/* ---------------------------------
+   LEGEND SECTIONS
+   --------------------------------- */
+
+.legend-section {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.10);
+}
+
+.legend-section:last-child {
+  border-bottom: none;
+}
+
+
+/* collapsible header */
+
+.legend-section-header {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 14px 4px;
+
+  border: none;
+
+  background: transparent;
+
+  font-family: inherit;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  line-height: 1.35;
+
+  color: #102a43;
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.legend-section-header:hover {
+  color: #065da9;
+}
+
+
+/* arrow */
+
+.legend-chevron {
+  flex-shrink: 0;
+
+  margin-left: 10px;
+
+  font-size: 11px;
+
+  color: #065da9;
+
+  transition: transform 0.2s ease;
+}
+
+.legend-section-header.collapsed .legend-chevron {
+  transform: rotate(-90deg);
+}
+
+
+/* collapsible body */
+
+.legend-section-body {
+  max-height: 5000px;
+
+  overflow: hidden;
+
+  padding-bottom: 12px;
+
+  opacity: 1;
+
+  transition:
+    max-height 0.25s ease,
+    opacity 0.2s ease,
+    padding 0.25s ease;
+}
+
+.legend-section-body.collapsed {
+  max-height: 0;
+
+  padding-top: 0;
+  padding-bottom: 0;
+
+  opacity: 0;
+}
+
+/* ---------------------------------
+   LITHOSTRATIGRAPHIC LEGEND
+   --------------------------------- */
+
+.litho-legend {
+  display: flex;
+
+  margin: 4px 0 18px;
+
+  border-radius: 10px;
+  overflow: hidden;
+
+  background: #ffffff;
+}
+
+
+/* geological time column */
+
+.litho-periods {
+  width: 42px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+.litho-period {
+  flex: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-bottom: 1px solid rgba(255,255,255,0.7);
+
+  box-sizing: border-box;
+}
+
+.litho-period:last-child {
+  border-bottom: none;
+}
+
+
+.litho-period span {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+
+  font-size: 10px;
+  letter-spacing: 0.18em;
+
+  color: #4b5563;
+
+  text-transform: uppercase;
+}
+
+
+/* period colours */
+
+.litho-period.holocen {
+  background: #fde3c4ff;
+}
+
+.litho-period.pleistocen {
+  background: #fcef95ff;
+}
+
+.litho-period.alb {
+  background: #daefb3ff;
+}
+
+.litho-period.apt {
+  background: #bfe594ff;
+}
+
+.litho-period.bar {
+  background: #88bd66ff;
+}
+
+
+/* entries */
+
+.litho-entries {
+  flex: 1;
+  min-width: 0;
+}
+
+
+.litho-entry {
+  display: grid;
+
+  grid-template-columns: 48px minmax(0, 1fr);
+
+  gap: 12px;
+
+  padding: 12px 12px;
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.litho-entry:last-child {
+  border-bottom: none;
+}
+
+
+/* code box */
+
+.litho-code {
+  width: 36px;
+  height: 27px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  align-self: start;
+
+  border: 1px solid rgba(0, 0, 0, 0.25);
+
+  font-size: 11px;
+  font-weight: 600;
+
+  color: #263238;
+}
+
+
+/* code colours */
+
+.litho-code.a {
+  background: #dddddd;
+}
+
+.litho-code.cst {
+  background: #b9a37b;
+}
+
+.litho-code.b {
+  background: #b8cba7;
+}
+
+.litho-code.mp {
+  background: #efd8d5;
+}
+
+.litho-code.p {
+  background: #f0dc85;
+}
+
+.litho-code.cn {
+  background: #c7d9ad;
+}
+
+.litho-code.ka {
+  background: #d8df8b;
+}
+
+.litho-code.mb {
+  background: #91b478;
+}
+
+
+/* text */
+
+.litho-description {
+  min-width: 0;
+
+  font-size: 12px;
+  line-height: 1.4;
+
+  color: #334e68;
+}
+
+.litho-description strong {
+  color: #263238;
+}
+
+/* ---------------------------------
+   GEOLOGICAL PERIOD
+   --------------------------------- */
+
+.legend-period {
+  margin: 12px 0 8px;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  color: #52606d;
+
+  letter-spacing: 0.08em;
+}
+
+
+/* ---------------------------------
+   LEGEND ITEMS
+   --------------------------------- */
+
+.legend-item {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 9px;
+
+  font-size: 12px;
+
+  line-height: 1.4;
+}
+
+
+/* geological colour square */
+
+.legend-geology-symbol {
+  width: 36px;
+  height: 24px;
+
+  flex-shrink: 0;
+
+  display: inline-block;
+
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+
+/* geological text */
+
+.legend-text {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+.legend-text strong {
+  color: #263238;
+}
+
+
+/* SVG symbols */
+
+.legend-svg {
+  width: 38px;
+  height: 28px;
+
+  object-fit: contain;
+
+  flex-shrink: 0;
+
+  display: block;
+}
+
+
+/* paleontological rows */
+
+.paleo-item {
+  align-items: center;
+}
+
+
+/* number circle */
+
+.legend-number {
+  width: 22px;
+  height: 22px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #555;
+  border-radius: 50%;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  color: #333;
+
+  background: #fff;
+}
+
+
+/* item text */
+
+.legend-item-text {
+  min-width: 0;
+
+  color: #334e68;
+}
+
+
+/* ---------------------------------
+   GEOLOGICAL COLOURS
+   --------------------------------- */
+
+.legend-geology-symbol.a {
+  background: #dddbd9ff;
+}
+
+.legend-geology-symbol.cst {
+  background: #aa916aff;
+}
+
+.legend-geology-symbol.b {
+  background: #bed8a3ff;
+}
+
+.legend-geology-symbol.mp {
+  background: #fde5e7ff;
+}
+
+.legend-geology-symbol.p {
+  background: #fcef95ff;
+}
+
+.legend-geology-symbol.cn {
+  background: #daefb3ff;
+}
+
+.legend-geology-symbol.ka {
+  background: #e9f173ff;
+}
+
+.legend-geology-symbol.mb {
+  background: #88bd66ff;
+}
+
+
+/* ================================================= */
+/* LEGEND — MOBILE LANDSCAPE                         */
+/* ================================================= */
+
+@media (max-width: 700px) and (orientation: landscape) {
+
+  .legend-panel {
+    width: 42%;
+    min-width: 0;
+
+    border-radius: 16px 0 0 16px;
+  }
+
+  .legend-header {
+    padding: 10px 12px;
+  }
+
+  .legend-header h3 {
+    font-size: 16px;
+  }
+
+  .legend-content {
+    padding: 8px 10px 14px;
+  }
+
+  .legend-section-header {
+    padding: 11px 2px;
+
+    font-size: 13px;
+  }
+
+  .legend-item {
+    font-size: 11px;
+
+    gap: 8px;
+  }
+
+  .legend-svg {
+    width: 36px;
+    height: 28px;
+  }
+
+  .legend-geology-symbol {
+    width: 30px;
+    height: 22px;
+  }
+}
+
+
+/* ================================================= */
+/* LEGEND — MOBILE PORTRAIT                          */
+/* ================================================= */
+
+@media (max-width: 700px) and (orientation: portrait) {
+
+  .legend-panel {
+    top: auto;
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 48%;
+
+    min-width: 0;
+    max-width: none;
+
+    border-radius: 16px 16px 0 0;
+
+    box-shadow:
+      0 -6px 20px rgba(0, 0, 0, 0.20);
+  }
+
+  .legend-header {
+    padding: 11px 14px;
+  }
+
+  .legend-header h3 {
+    font-size: 17px;
+  }
+
+  .legend-content {
+    padding: 8px 12px 16px;
+  }
+
+  .legend-section-header {
+    padding: 13px 2px;
+
+    font-size: 13px;
+  }
+
+  .legend-item {
+    font-size: 11px;
+
+    gap: 9px;
+  }
+
+  .legend-svg {
+    width: 38px;
+    height: 30px;
+  }
+
+  .legend-geology-symbol {
+    width: 32px;
+    height: 24px;
+  }
+}
+
+/* ================================================= */
+/* MAP + LEGEND LAYOUT                               */
+/* ================================================= */
+
+@media (min-width: 701px),
+       (max-width: 700px) and (orientation: landscape) {
+
+  .mapa.legend-open .map-viewport {
+    width: 60%;
+  }
+
+  .mapa.legend-open .legend-panel {
+    width: 40%;
+  }
+}
+
+
+/*
+   MOBILE PORTRAIT
+*/
+
+@media (max-width: 700px) and (orientation: portrait) {
+
+  .mapa.legend-open {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mapa.legend-open .map-viewport {
+    width: 100%;
+
+    height: 52vh;
+
+    flex-shrink: 0;
+  }
+
+  .mapa.legend-open .legend-overlay {
+    position: relative;
+
+    inset: auto;
+
+    height: 48vh;
+
+    flex-shrink: 0;
+  }
+
+  .mapa.legend-open .legend-panel {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: auto;
+
+    width: 100%;
+    height: 100%;
+
+    border-radius: 16px 16px 0 0;
+  }
+}
+
 /* ============================= */
 /* POINTS                        */
 /* ============================= */

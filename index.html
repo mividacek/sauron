@@ -29,8 +29,30 @@
     </label>
 
     <div class="map-controls">
-      <button id="toggle-points" class="map-btn map-btn-second">Sakrij točke</button>
-      <button id="toggle-locate-mode" class="map-btn map-btn-third">Mod: Coord</button>
+      <button id="toggle-legend" class="map-btn map-btn-second">Tumač karte</button>
+      <button id="toggle-points" class="map-btn map-btn-third">Sakrij točke</button>
+      <button id="toggle-locate-mode" class="map-btn map-btn-fourth">Mod: Coord</button>
+    </div>
+
+    <div id="legendOverlay" class="legend-overlay hidden">
+      <div class="legend-panel">
+
+        <div class="legend-header">
+          <h3 id="legendTitle">Tumač karte</h3>
+
+          <button
+            id="legendClose"
+            class="legend-close"
+            type="button"
+            aria-label="Zatvori tumač karte"
+          >
+            ×
+          </button>
+        </div>
+
+        <div id="legendContent" class="legend-content"></div>
+
+      </div>
     </div>
 
     <div id="popup" class="popup hidden right">

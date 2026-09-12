@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg1"
+   width="75.521362"
+   height="24.254883"
+   viewBox="0 0 75.521363 24.254883"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath11567">
+      <path
+         d="M 0,0 H 2703.6173 V 2251.5333 H 0 Z"
+         id="path11567" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath14282">
+      <path
+         d="M 0,1688.65 H 2027.7131 V -2.5e-5 H 0 Z"
+         id="path14282" />
+    </clipPath>
+  </defs>
+  <g
+     id="layer-MC4"
+     transform="translate(-967.97289,-2105.2561)">
+    <g
+       id="g11570"
+       clip-path="url(#clipPath11567)">
+      <path
+         d="M 0,0 2.832,-5.5 5.664,0 Z"
+         style="fill:none;stroke:#ec1e27;stroke-width:0.709;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+         transform="matrix(1.3333333,0,0,-1.3333333,1001.9573,2105.7287)"
+         opacity="1"
+         id="path11569" />
+      <path
+         d="M 0,0 2.832,-5.5 5.664,0 Z"
+         style="fill:none;stroke:#ec1e27;stroke-width:0.709;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+         transform="matrix(1.3333333,0,0,1.3333333,1001.9573,2129.0382)"
+         opacity="1"
+         id="path11570" />
+    </g>
+    <path
+       id="path11571"
+       d="M 0,0 H 56.641"
+       style="fill:none;stroke:#ec1e27;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+       transform="matrix(1.3333333,0,0,-1.3333333,967.97293,2117.3832)" />
+  </g>
+  <g
+     id="layer-MC7"
+     transform="translate(-967.97289,-2105.2561)">
+    <path
+       id="path14281"
+       d="M 2034.016,1687.325 H 11.448 V 3.535 h 2022.568 z"
+       style="fill:none;stroke:#231f20;stroke-width:0.25;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+       transform="matrix(1.3333333,0,0,-1.3333333,0,2251.5333)"
+       clip-path="url(#clipPath14282)" />
+  </g>
+</svg>

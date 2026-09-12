@@ -19,6 +19,11 @@ const subtitleEl = document.getElementById("subtitle");
 const subcontentEl = document.getElementById("subcontent");
 const closeBtn = document.getElementById("popup-close");
 
+const legendOverlay = document.getElementById("legendOverlay");
+const legendClose = document.getElementById("legendClose");
+const legendContent = document.getElementById("legendContent");
+const toggleLegend = document.getElementById("toggle-legend");
+
 const lightbox = document.getElementById("lightbox");
 const lightboxTitle = document.getElementById("lightboxTitle");
 const lightboxImg = document.getElementById("lightboxImg");
@@ -36,10 +41,6 @@ const controls = document.querySelector(".map-controls");
 
 if (document.getElementById("currentYear")) {
   document.getElementById("currentYear").innerText = new Date().getFullYear();
-}
-
-if (!LOCATOR_ENABLED) {
-  controls.style.display = "none";
 }
 
 let activeKey = null;
@@ -167,6 +168,10 @@ let locateMode = LOCATOR_ENABLED ? "coords" : "off";
 
 if (!LOCATOR_ENABLED) {
   toggleLocateBtn.style.display = "none";
+}
+
+if (!LOCATOR_ENABLED) {
+  togglePointsBtn.style.display = "none";
 }
 
 /* ============================= */
@@ -596,32 +601,81 @@ document.addEventListener("click", (e) => {
   }
 });
 
-function positionPopup(btn) {
+function positionPopup(btn, reveal = true) {
   const isMobile = window.innerWidth <= 700;
 
   popup.classList.remove("hidden", "left", "right", "mobile-popup");
   popup.style.visibility = "hidden";
 
-  if (isMobile) {
-  popup.style.visibility = "visible";
+    if (isMobile) {
+      
+    const pointRect = btn.getBoundingClientRect();
+    const pointCenterY = pointRect.top + pointRect.height / 2;
 
-  const pointRect = btn.getBoundingClientRect();
-  const pointCenterY = pointRect.top + pointRect.height / 2;
+    // Only short, text-only popups should sit close to the footprint.
+    const compactTextPopup =
+      popup.classList.contains("text-only") &&
+      popup.querySelector(".popup-mobile-slide.compact");
 
-  const screenCenterY = window.innerHeight / 2;
+    if (compactTextPopup) {
 
-  if (pointCenterY > screenCenterY) {
-    // ikona dolje -> popup gore
-    popup.style.top = "14px";
-    popup.style.bottom = "auto";
-  } else {
-    // ikona gore -> popup dolje
-    popup.style.bottom = "14px";
-    popup.style.top = "auto";
+      const gap = 14;
+      const screenPadding = 10;
+
+      // Make sure the browser has calculated the popup's actual size.
+      const popupHeight = popup.offsetHeight;
+
+      const spaceAbove = pointRect.top;
+      const spaceBelow = window.innerHeight - pointRect.bottom;
+
+      // Prefer placing the popup below the footprint,
+      // unless there isn't enough room.
+      if (spaceBelow >= popupHeight + gap) {
+
+        popup.style.top = `${pointRect.bottom + gap}px`;
+        popup.style.bottom = "auto";
+
+      } else if (spaceAbove >= popupHeight + gap) {
+
+        popup.style.top = `${pointRect.top - popupHeight - gap}px`;
+        popup.style.bottom = "auto";
+
+      } else {
+
+        // Not enough room on either side:
+        // keep it safely inside the screen.
+        const centeredTop =
+          pointCenterY - popupHeight / 2;
+
+        const maxTop =
+          window.innerHeight - popupHeight - screenPadding;
+
+        popup.style.top =
+          `${Math.max(screenPadding, Math.min(centeredTop, maxTop))}px`;
+
+        popup.style.bottom = "auto";
+      }
+
+    } else {
+
+      // Existing behavior for everything else.
+      if (pointCenterY > window.innerHeight / 2) {
+        // ikona dolje -> popup gore
+        popup.style.top = "14px";
+        popup.style.bottom = "auto";
+      } else {
+        // ikona gore -> popup dolje
+        popup.style.bottom = "14px";
+        popup.style.top = "auto";
+      }
+        }
+
+        if (reveal) {
+      popup.style.visibility = "visible";
+    }
+
+    return;
   }
-
-  return;
-}
 
   const pointRect = btn.getBoundingClientRect();
   const viewRect = viewport.getBoundingClientRect();
@@ -1261,8 +1315,6 @@ if (data.type === "gallery") {
   const gallery = document.createElement("div");
   gallery.className = "popup-gallery";
 
-  blockHorizontalWheelChaining(gallery);
-
   const dots = document.createElement("div");
   dots.className = "popup-gallery-dots";
 
@@ -1355,29 +1407,51 @@ if (data.type === "gallery") {
     scrollToIndex(currentPopupIndex + 1);
   });
 
-  // wheel scroll horizontal + wrap-around
-  gallery.addEventListener("wheel", (e) => {
+  // wheel / trackpad navigation
+// One gesture = one image
 
-    e.preventDefault();
-    e.stopPropagation();
+let wheelLocked = false;
+let wheelResetTimer = null;
 
-    const maxScroll = gallery.scrollWidth - gallery.clientWidth;
+gallery.addEventListener("wheel", (e) => {
 
-    const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+  e.preventDefault();
+  e.stopPropagation();
 
-    if (delta > 0 && gallery.scrollLeft >= maxScroll - 2) {
-      scrollToIndex(0);
-      return;
-    }
+  const absX = Math.abs(e.deltaX);
+  const absY = Math.abs(e.deltaY);
 
-    if (delta < 0 && gallery.scrollLeft <= 2) {
-      const figures = [...gallery.querySelectorAll(".popup-figure")];
-      scrollToIndex(figures.length - 1);
-      return;
-    }
+  // Use the dominant direction.
+  const delta = absX > absY ? e.deltaX : e.deltaY;
 
-    gallery.scrollLeft += delta;
-  }, { passive: false });
+  // Ignore extremely tiny movements.
+  if (Math.abs(delta) < 2) return;
+
+  // Ignore the remaining events from the same trackpad gesture.
+  if (wheelLocked) {
+    clearTimeout(wheelResetTimer);
+
+    wheelResetTimer = setTimeout(() => {
+      wheelLocked = false;
+    }, 180);
+
+    return;
+  }
+
+  wheelLocked = true;
+
+  const direction = delta > 0 ? 1 : -1;
+
+  scrollToIndex(currentPopupIndex + direction);
+
+  // The gesture is considered finished after a short pause.
+  clearTimeout(wheelResetTimer);
+
+  wheelResetTimer = setTimeout(() => {
+    wheelLocked = false;
+  }, 180);
+
+}, { passive: false });
 
   // swipe
   let popupSwipeStartX = null;
@@ -1558,7 +1632,32 @@ function showPopup(btn) {
     subcontentEl.style.display = "none";
   }
 
-  positionPopup(btn);
+  // On mobile, short text popups need to wait until
+  // the slide has received its "compact" class.
+  const mobileTextCandidate =
+    window.innerWidth <= 700 &&
+    Array.isArray(data.content?.popup) &&
+    data.content.popup.length === 1 &&
+    data.content.popup[0]?.type === "text";
+
+  if (mobileTextCandidate) {
+
+    // Calculate everything, but keep the popup invisible.
+    positionPopup(btn, false);
+
+    // Wait until the slide has been classified as compact/tall,
+    // then position it correctly and reveal it.
+    setTimeout(() => {
+      if (activePoint === btn && !popup.classList.contains("hidden")) {
+        positionPopup(btn, true);
+      }
+    }, 60);
+
+  } else {
+
+    // Everything else behaves exactly as before.
+    positionPopup(btn);
+  }
 
   const body = popup.querySelector(".popup-body");
 
@@ -1777,6 +1876,273 @@ lightbox.addEventListener("touchend", (e) => {
     nextLightbox();
   } else {
     prevLightbox();
+  }
+});
+
+/* ============================= */
+/* MAP LEGEND                    */
+/* ============================= */
+
+function createLegendSection(title) {
+
+  const section = document.createElement("section");
+  section.className = "legend-section";
+
+  const header = document.createElement("button");
+  header.className = "legend-section-header";
+  header.type = "button";
+
+  const titleElement = document.createElement("span");
+  titleElement.textContent = title;
+
+  const chevron = document.createElement("span");
+  chevron.className = "legend-chevron";
+  chevron.textContent = "▼";
+
+  header.appendChild(titleElement);
+  header.appendChild(chevron);
+
+  const body = document.createElement("div");
+  body.className = "legend-section-body";
+
+  header.addEventListener("click", () => {
+    body.classList.toggle("collapsed");
+    header.classList.toggle("collapsed");
+  });
+
+  section.appendChild(header);
+  section.appendChild(body);
+
+  return {
+    section,
+    body
+  };
+}
+
+function renderLegend() {
+  legendContent.innerHTML = "";
+
+  // ==========================================
+  // 1. LITOSTRATIGRAFSKE I KVARTARNE JEDINICE
+  // ==========================================
+
+  const litho = createLegendSection(
+    "Litostratigrafske i kvartarne jedinice"
+  );
+
+  const lithoLegend = document.createElement("div");
+  lithoLegend.className = "litho-legend";
+
+  // Geological time column
+  const periods = document.createElement("div");
+  periods.className = "litho-periods";
+
+  LITHOSTRATIGRAPHIC_LEGEND.forEach(period => {
+
+    const periodElement = document.createElement("div");
+    periodElement.className =
+      `litho-period ${period.className}`;
+
+    const periodLabel = document.createElement("span");
+    periodLabel.textContent = period.period;
+
+    periodElement.appendChild(periodLabel);
+    periods.appendChild(periodElement);
+  });
+
+  // Legend entries
+  const entries = document.createElement("div");
+  entries.className = "litho-entries";
+
+  LITHOSTRATIGRAPHIC_LEGEND.forEach(period => {
+
+    period.entries.forEach(entry => {
+
+      const row = document.createElement("div");
+      row.className = "litho-entry";
+
+      // Code box
+      const code = document.createElement("div");
+      code.className =
+        `litho-code ${entry.className}`;
+      code.textContent = entry.code;
+
+      // Description
+      const description = document.createElement("div");
+      description.className = "litho-description";
+
+      const title = document.createElement("strong");
+      title.textContent = entry.title;
+
+      const text = document.createElement("span");
+      text.textContent = entry.description;
+
+      description.appendChild(title);
+      description.appendChild(document.createElement("br"));
+      description.appendChild(text);
+
+      row.appendChild(code);
+      row.appendChild(description);
+
+      entries.appendChild(row);
+    });
+  });
+
+  lithoLegend.appendChild(periods);
+  lithoLegend.appendChild(entries);
+
+  litho.body.appendChild(lithoLegend);
+
+    function syncLithoPeriods() {
+    const periodElements =
+      lithoLegend.querySelectorAll(".litho-period");
+
+    const entryElements =
+      lithoLegend.querySelectorAll(".litho-entry");
+
+    let entryIndex = 0;
+
+    LITHOSTRATIGRAPHIC_LEGEND.forEach((period, periodIndex) => {
+
+      let height = 0;
+
+      period.entries.forEach(() => {
+        if (entryElements[entryIndex]) {
+          height += entryElements[entryIndex].offsetHeight;
+        }
+
+        entryIndex++;
+      });
+
+      if (periodElements[periodIndex]) {
+        periodElements[periodIndex].style.height = `${height}px`;
+      }
+    });
+  }
+
+  requestAnimationFrame(syncLithoPeriods);
+
+  window.addEventListener("resize", syncLithoPeriods);
+
+  legendContent.appendChild(litho.section);
+
+
+  // ==========================================
+  // 2. GEOLOŠKI I TEKTONSKI SIMBOLI
+  // ==========================================
+
+  const geological = createLegendSection(
+    "Geološki i tektonski simboli"
+  );
+
+  GEOLOGICAL_TECTONIC_LEGEND.forEach(entry => {
+
+    const row = document.createElement("div");
+    row.className = "legend-item";
+
+    const symbol = document.createElement("img");
+    symbol.className = "legend-svg";
+    symbol.src = entry.symbol;
+    symbol.alt = "";
+
+    const text = document.createElement("span");
+    text.className = "legend-item-text";
+    text.textContent = entry.text;
+
+    row.appendChild(symbol);
+    row.appendChild(text);
+
+    geological.body.appendChild(row);
+  });
+
+  legendContent.appendChild(geological.section);
+
+
+  // ==========================================
+  // 3. PALEONTOLOŠKI I SEDIMENTOLOŠKI SIMBOLI
+  // ==========================================
+
+  const paleo = createLegendSection(
+    "Paleontološki i sedimentološki simboli"
+  );
+
+  PALEONTOLOGICAL_SEDIMENTOLOGICAL_LEGEND.forEach(entry => {
+
+    const row = document.createElement("div");
+    row.className = "legend-item paleo-item";
+
+    // SVG
+    const symbol = document.createElement("img");
+    symbol.className = "legend-svg";
+    symbol.src = entry.symbol;
+    symbol.alt = "";
+
+    // Number
+    const number = document.createElement("span");
+    number.className = "legend-number";
+    number.textContent = entry.number;
+
+    // Text
+    const text = document.createElement("span");
+    text.className = "legend-item-text";
+    text.textContent = entry.text;
+
+    row.appendChild(symbol);
+    row.appendChild(number);
+    row.appendChild(text);
+
+    paleo.body.appendChild(row);
+  });
+
+  legendContent.appendChild(paleo.section);
+}
+
+function openLegend() {
+  renderLegend();
+
+  legendOverlay.classList.remove("hidden");
+  mapContainer.classList.add("legend-open");
+
+  requestAnimationFrame(() => {
+    initMap();
+  });
+}
+
+
+function closeLegend() {
+  legendOverlay.classList.add("hidden");
+  mapContainer.classList.remove("legend-open");
+
+  requestAnimationFrame(() => {
+    initMap();
+  });
+}
+
+toggleLegend.addEventListener("click", (e) => {
+  e.stopPropagation();
+  openLegend();
+});
+
+
+legendClose.addEventListener("click", (e) => {
+  e.stopPropagation();
+  closeLegend();
+});
+
+
+legendOverlay.addEventListener("click", (e) => {
+  if (e.target === legendOverlay) {
+    closeLegend();
+  }
+});
+
+
+document.addEventListener("keydown", (e) => {
+  if (
+    e.key === "Escape" &&
+    !legendOverlay.classList.contains("hidden")
+  ) {
+    closeLegend();
   }
 });
 

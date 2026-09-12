@@ -285,3 +285,244 @@ const stope = {
     }
 
 };
+
+/* ============================= */
+/* MAP LEGENDS                    */
+/* ============================= */
+
+const LITHOSTRATIGRAPHIC_LEGEND = [
+  {
+    period: "HOLOCEN",
+    className: "holocen",
+
+    entries: [
+      {
+        code: "a",
+        className: "a",
+        title: "Antropogene naslage",
+        description:
+          "Različite naslage nastale ljudskom djelatnošću (tlo, pijesak, ugato sitno kršje i blokovi)."
+      },
+
+      {
+        code: "cst",
+        className: "cst",
+        title: "Crveno-smeđe tlo na karbonatu",
+        description:
+          "Glinoviti silt granulaste strukture."
+      },
+
+      {
+        code: "b",
+        className: "b",
+        title: "Barski sedimenti",
+        description:
+          "Siltovi i gline bogati organskim ostacima taloženi u okolišu recentne slane močvare, često pomiješani s antropogenim naslagama."
+      },
+
+      {
+        code: "mp",
+        className: "mp",
+        title: "Morska plaža",
+        description:
+          "Karbonatni šljunci s blokovima, dobro zaobljene valutice i pjesak izgrađeni od vapnenačkih stijena koje izgrađuju duž obale."
+      }
+    ]
+  },
+
+  {
+    period: "PLEISTOCEN",
+    className: "pleistocen",
+
+    entries: [
+      {
+        code: "p",
+        className: "p",
+        title: "Koštane breče",
+        description:
+          "Porozna, klast potpoma i čvrsto litificirana karbonatna breča s velikim kostima ostataka. Uglavnom nastali gradnji su od stijena nepoznatog zaleđa; koluvij."
+      }
+    ]
+  },
+
+  {
+    period: "ALB",
+    className: "alb",
+
+    entries: [
+      {
+        code: "CN",
+        className: "cn",
+        title: "Formacija Crna",
+        description:
+          "Tanko do pločasto slojeviti, svijetli, dominantno znatni vapnenici, sivozeleni i sivozeleni i smeđkasti, s pojavom i stromatolita."
+      }
+    ]
+  },
+
+  {
+    period: "APT",
+    className: "apt",
+
+    entries: [
+      {
+        code: "KA",
+        className: "ka",
+        title: "Formacija Kanfanar",
+        description:
+          "Debelo slojeviti, žućkasti vapnenci (madstoni, wackestoni i floatstoni) s bračnima, parolitolomama, tužkama, beričkim foraminiferama, sapropeliskim algama i gastropodima."
+      }
+    ]
+  },
+
+  {
+    period: "BAR",
+    className: "bar",
+
+    entries: [
+      {
+        code: "MB",
+        className: "mb",
+        title: "Formacija Mali Brijun",
+        description:
+          "Tanko do pločasto slojeviti, sivkasti do svijetli vapnenci, s vapnenačkim fragmentima, vodenim i sapropeliskim algama, bentoskim foraminiferama, ostrakodima i gastropodima."
+      }
+    ]
+  }
+];
+
+const GEOLOGICAL_TECTONIC_LEGEND = [
+{
+symbol: "slike/tumac/geoloski-i-tektonski-simboli/normalan-sloj.svg",
+text: "normalan sloj s brojčano iskazanim kutom nagiba"
+},
+
+{
+symbol: "slike/tumac/geoloski-i-tektonski-simboli/horizontalan-sloj.svg",
+text: "horizontalan sloj"
+},
+
+{
+symbol: "slike/tumac/geoloski-i-tektonski-simboli/geoloska-granica.svg",
+text: "geološka granica"
+},
+
+{
+symbol: "slike/tumac/geoloski-i-tektonski-simboli/rasjed-lokalni-sporedni.svg",
+text: "rasjed (lokalni sporedni)"
+},
+
+{
+symbol: "slike/tumac/geoloski-i-tektonski-simboli/rasjed-lokalni-sporedni-pretpostavljen.svg",
+text: "rasjed (lokalni sporedni), pretpostavljen"
+},
+
+{
+symbol: "slike/tumac/geoloski-i-tektonski-simboli/rasjed-lokalni-glavni.svg",
+text: "rasjed (lokalni glavni)"
+},
+
+{
+symbol: "slike/tumac/geoloski-i-tektonski-simboli/rasjed-lokalni-glavni-pretpostavljen.svg",
+text: "rasjed (lokalni glavni), pretpostavljen"
+},
+
+{
+symbol: "slike/tumac/geoloski-i-tektonski-simboli/nr-pravokutnik-na-spustenom-bloku.svg",
+text: "normalni rasjed (pravokutnik na spuštenom bloku)"
+},
+
+{
+symbol: "slike/tumac/geoloski-i-tektonski-simboli/imenovani-rasjed.svg",
+text: "imenovani rasjed"
+},
+
+{
+symbol: "slike/tumac/geoloski-i-tektonski-simboli/antiklinala.svg",
+text: "antiklinala"
+},
+
+{
+symbol: "slike/tumac/geoloski-i-tektonski-simboli/sinklinala.svg",
+text: "sinklinala"
+},
+
+{
+symbol: "slike/tumac/geoloski-i-tektonski-simboli/trasa-geoloskog-profila.svg",
+text: "trasa geološkog profila"
+}
+];
+
+const PALEONTOLOGICAL_SEDIMENTOLOGICAL_LEGEND = [
+  {
+    number: 1,
+    symbol: "slike/tumac/paleontoliški-i-sedimentološki-simboli/kostane-brece.svg",
+    text: "koštane breče"
+  },
+
+  {
+    number: 2,
+    symbol: "slike/tumac/paleontoliški-i-sedimentološki-simboli/radiolitni-rudisti.svg",
+    text: "radiolitni rudisti"
+  },
+
+  {
+    number: 3,
+    symbol: "slike/tumac/paleontoliški-i-sedimentološki-simboli/kokine-nerinejskih-gastropoda.svg",
+    text: "kokine nerinejskih gastropoda"
+  },
+
+  {
+    number: 4,
+    symbol: "slike/tumac/paleontoliški-i-sedimentološki-simboli/kokine-hamoidnih-skoljkasa.svg",
+    text: "kokine hamoidnih školjakaša"
+  },
+
+  {
+    number: 5,
+    symbol: "slike/tumac/paleontoliški-i-sedimentološki-simboli/krpasti-grebeni.svg",
+    text: "krpasti grebeni"
+  },
+
+  {
+    number: 6,
+    symbol: "slike/tumac/paleontoliški-i-sedimentološki-simboli/valni-riplovi.svg",
+    text: "valni riplovi"
+  },
+
+  {
+    number: 7,
+    symbol: "slike/tumac/paleontoliški-i-sedimentološki-simboli/LLH-stromatoliti.svg",
+    text: "LLH stromatoliti"
+  },
+
+  {
+    number: 8,
+    symbol: "slike/tumac/paleontoliški-i-sedimentološki-simboli/desikacijske-pukotine.svg",
+    text: "desikacijske pukotine"
+  },
+
+  {
+    number: 9,
+    symbol: "slike/tumac/paleontoliški-i-sedimentološki-simboli/tragovi-dinosaura.svg",
+    text: "tragovi dinosaura"
+  },
+
+  {
+    number: 10,
+    symbol: "slike/tumac/paleontoliški-i-sedimentološki-simboli/tragovi-kornjaca.svg",
+    text: "tragovi kornjača"
+  },
+
+  {
+    number: 11,
+    symbol: "slike/tumac/paleontoliški-i-sedimentološki-simboli/plocasti-do-listicavi-vapnenci.svg",
+    text: "pločasti do listićavi vapnenci"
+  },
+
+  {
+    number: 12,
+    symbol: "slike/tumac/paleontoliški-i-sedimentološki-simboli/tee-pee-strukture.svg",
+    text: "tee-pee strukture"
+  }
+];
