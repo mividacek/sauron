@@ -439,10 +439,29 @@ body {
 .legend-section-body.collapsed {
   max-height: 0;
 
-  padding-top: 0;
+  margin-top: 10px;
+  padding-top: 0px;
   padding-bottom: 0;
 
   opacity: 0;
+}
+
+.legend-source {
+  margin: 14px 0 2px 4px;
+  padding: 5px 8px;
+  border-left: 2px solid #c9c9c9;
+  font-size: 9.5px;
+  line-height: 1.35;
+  font-weight: 510;
+  color: #777;
+}
+
+.legend-note {
+  margin-top: 2px;
+  font-size: 10px;
+  line-height: 1.3;
+  color: #949494;
+  font-style: italic;
 }
 
 /* ---------------------------------
@@ -697,6 +716,15 @@ body {
   flex-shrink: 0;
 
   display: block;
+}
+
+.legend-svg.legend-clickable {
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.legend-svg.legend-clickable:hover {
+  transform: scale(1.08);
 }
 
 

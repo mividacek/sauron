@@ -8,3 +8,10 @@
 - mobile: ne može se zoom outati full width mape (na kompu ne mjenjati zoom out) - OK
 - lagano obojati pop-up na mobitelu kada nema sliku jer se ne primjećuje - OK
 - mobile: vide se slike, ali ne i tekst prije - OK
+- promjeniti kursos na tumaču iznad ikona koje se mogu povećati - OK
+- ispraviti tekst tumača - OK
+- u legendi dodati veličinu otisaka - OK
+- orthophoto karta: ispraviti lokacije stopa
+- dodati logo Brijuna na dnu svake mape
+- ubaciti novu geomorfološku kartu
+- napraviti višejezično

@@ -1975,14 +1975,33 @@ function renderLegend() {
       row.appendChild(symbol);
     }
 
-    const text = document.createElement("span");
-    text.className = "legend-item-text";
+    const textContainer = document.createElement("div");
+    textContainer.className = "legend-item-text";
+
+    const text = document.createElement("div");
     text.textContent = entry.text;
 
-    row.appendChild(text);
+    textContainer.appendChild(text);
+
+    if (entry.note) {
+      const note = document.createElement("div");
+      note.className = "legend-note";
+      note.textContent = entry.note;
+
+      textContainer.appendChild(note);
+    }
+
+    row.appendChild(textContainer);
 
     footprints.body.appendChild(row);
   });
+
+  const sourceNote = document.createElement("div");
+  sourceNote.className = "legend-source";
+  sourceNote.textContent = "Klasifikacija tragova prema Thulborn (1990).";
+
+  footprints.body.appendChild(sourceNote);
+
 
   legendContent.appendChild(footprints.section);
 
@@ -2176,7 +2195,7 @@ function renderLegend() {
 
     // SVG
     const symbol = document.createElement("img");
-    symbol.className = "legend-svg";
+    symbol.className = "legend-svg legend-clickable";
     symbol.src = entry.symbol;
     symbol.alt = "";
 

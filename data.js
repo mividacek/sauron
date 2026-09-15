@@ -293,15 +293,18 @@ const stope = {
 const DINOSAUR_FOOTPRINT_LEGEND = [
   {
     type: "v_teropod",
-    text: "veliki teropodi"
+    text: "veliki teropodi",
+    note: "duljina otiska >25 cm"
   },
   {
     type: "m_teropod",
-    text: "mali teropodi"
+    text: "mali teropodi",
+    note: "duljina otiska <25 cm"
   },
   {
     type: "v_ornitopod",
-    text: "veliki ornitopodi"
+    text: "veliki ornitopodi",
+    note: "duljina otiska >25 cm"
   },
   {
     type: "sauropod",
@@ -309,11 +312,13 @@ const DINOSAUR_FOOTPRINT_LEGEND = [
   },
   {
     type: "v_ornitopod_m_teropod",
-    text: "mali teropodi i veliki ornitopodi"
+    text: "mali teropodi i veliki ornitopodi",
+    note: "mali teropodi: <25 cm · veliki ornitopodi: >25 cm"
   },
   {
     type: "sauropod_m_teropod",
-    text: "mali teropodi i sauropodi"
+    text: "mali teropodi i sauropodi",
+    note: "mali teropodi: <25 cm"
   }
 ];
 
@@ -328,7 +333,7 @@ const LITHOSTRATIGRAPHIC_LEGEND = [
         className: "a",
         title: "Antropogene naslage",
         description:
-          "Različite naslage nastale ljudskom djelatnošću (tlo, pijesak, ugato sitno kršje i blokovi)."
+          "Različite naslage nastale ljudskom djelatnošću (tlo, pijesak, uglato sitno kršje i blokovi)."
       },
 
       {
@@ -336,7 +341,7 @@ const LITHOSTRATIGRAPHIC_LEGEND = [
         className: "cst",
         title: "Crveno-smeđe tlo na karbonatu",
         description:
-          "Glinoviti silt granulaste strukture."
+          "Crveno-smeđe tlo na karbonatu (holocen). Glinoviti silt granulaste strukture."
       },
 
       {
@@ -350,9 +355,9 @@ const LITHOSTRATIGRAPHIC_LEGEND = [
       {
         code: "mp",
         className: "mp",
-        title: "Morska plaža",
+        title: "Morska plaža (žalo)",
         description:
-          "Karbonatni šljunci s blokovima, dobro zaobljene valutice i pjesak izgrađeni od vapnenačkih stijena koje izgrađuju duž obale."
+          "Karbonatni šljunci s blokovima, dobro zaobljene valutice i pijesak izgrađeni od vapnenačkih stijena koje izdanjuju duž obale."
       }
     ]
   },
@@ -367,7 +372,7 @@ const LITHOSTRATIGRAPHIC_LEGEND = [
         className: "p",
         title: "Koštane breče",
         description:
-          "Porozna, klast potpoma i čvrsto litificirana karbonatna breča s velikim kostima ostataka. Uglavnom nastali gradnji su od stijena nepoznatog zaleđa; koluvij."
+          "Porozna, klast potporna i čvrsto litificirana karbonatna breča s vidljivim koštanim ostacima. Uglati litoklasti građeni su od stijena neposrednog zaleđa; koluvij."
       }
     ]
   },
@@ -382,7 +387,7 @@ const LITHOSTRATIGRAPHIC_LEGEND = [
         className: "cn",
         title: "Formacija Crna",
         description:
-          "Tanko do pločasto slojeviti, svijetli, dominantno znatni vapnenici, sivozeleni i sivozeleni i smeđkasti, s pojavom i stromatolita."
+          "Tanko do pločasto slojeviti, svijetli, dominantno zrnasti vapnenci (vekstoni, pekstoni i grejnstoni s miliolidama) u izmjeni sa srednje debelim slojevima fenestralnih madstona i floutstonima s krupnim bioklastima školjkaša (radiolitidi, hame) i gastropoda (nerineje) te cijanobakterijsko-algalnim laminitima i emerzijskim brečama."
       }
     ]
   },
@@ -397,13 +402,13 @@ const LITHOSTRATIGRAPHIC_LEGEND = [
         className: "ka",
         title: "Formacija Kanfanar",
         description:
-          "Debelo slojeviti, žućkasti vapnenci (madstoni, wackestoni i floatstoni) s bračnima, parolitolomama, tužkama, beričkim foraminiferama, sapropeliskim algama i gastropodima."
+          "Debelo slojeviti, žućkasti vapnenci (madstoni, vekstoni i floutstoni) s baćinelama, palorbitolinama, tukazijama, bentičkim foraminiferama, salpingoporelskim algama i gastropodima."
       }
     ]
   },
 
   {
-    period: "BAR",
+    period: "BAREM",
     className: "bar",
 
     entries: [
@@ -412,7 +417,7 @@ const LITHOSTRATIGRAPHIC_LEGEND = [
         className: "mb",
         title: "Formacija Mali Brijun",
         description:
-          "Tanko do pločasto slojeviti, sivkasti do svijetli vapnenci, s vapnenačkim fragmentima, vodenim i sapropeliskim algama, bentoskim foraminiferama, ostrakodima i gastropodima."
+          "Tanko do pločasto slojeviti, sivkasti do svijetli vapnenci (madstoni, vekstoni, pekstoni i grejnstoni sa salpingoporelskim algama, bentičkim foraminiferama, ostrakodima i gastropodima) u izmjeni sa cijanobakterijsko-algalnim laminitima i emerzijskim brečama."
       }
     ]
   }
@@ -502,7 +507,7 @@ const PALEONTOLOGICAL_SEDIMENTOLOGICAL_LEGEND = [
   {
     number: 4,
     symbol: "slike/tumac/paleontoliški-i-sedimentološki-simboli/kokine-hamoidnih-skoljkasa.svg",
-    text: "kokine hamoidnih školjakaša"
+    text: "kokine hamoidnih školjkaša"
   },
 
   {
