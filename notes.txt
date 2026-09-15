@@ -11,7 +11,9 @@
 - promjeniti kursos na tumaču iznad ikona koje se mogu povećati - OK
 - ispraviti tekst tumača - OK
 - u legendi dodati veličinu otisaka - OK
-- orthophoto karta: ispraviti lokacije stopa
+- orthophoto karta: ispraviti lokacije stopa - OK
 - dodati logo Brijuna na dnu svake mape
 - ubaciti novu geomorfološku kartu
 - napraviti višejezično
+- dodati credits na dnu (autori fotografija, karta itd)
+- pomaknuti button Mod:Coord ispod sakri točke

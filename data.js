@@ -4,7 +4,7 @@ const stope = {
         title: "Nalazište Ploče",
         coords: {
             base: { top: "67.4%", left: "58.7%" },
-            ortho: { top: "75.8%", left: "54.0%" }
+            ortho: { top: "71.7%", left: "57.4%" }
         },
         content: {
         type: "m_teropod",
@@ -42,7 +42,7 @@ const stope = {
         title: "Nalazište Barban/Pogledalo/Vrbanj", 
         coords: { 
             base: { top: "37.9%", left: "32.1%" }, 
-            ortho: { top: "39.9%", left: "24.7%" } 
+            ortho: { top: "37.9%", left: "26.3%" } 
         }, 
         content: { 
             type: "v_teropod", 
@@ -90,7 +90,7 @@ const stope = {
     title: "Nalazište Kamik/Plješivac",
     coords: {
         base: { top: "79.2%", left: "53.7%" },
-        ortho: { top: "89.8%", left: "47.9%" }
+        ortho: { top: "85.4%", left: "51.2%" }
     },
     content: {
         type: "v_ornitopod_m_teropod",
@@ -138,7 +138,7 @@ const stope = {
         title: "Nalazište Trstike/Debela Glava",
         coords: {
             base: { top: "79.3%", left: "42.1%" },
-            ortho: { top: "88.9%", left: "35.3%" }
+            ortho: { top: "85.9%", left: "37.2%" }
         },
         content: {
             type: "sauropod",
@@ -171,7 +171,7 @@ const stope = {
         title: "Trag na brijunskom molu",
         coords: {
                     base: { top: "46.1%", left: "62.7%" },
-                    ortho: { top: "50.2%", left: "58.7%" }
+                    ortho: { top: "47.8%", left: "62.8%" }
                 },
         content: {
             type: "m_teropod",
@@ -232,7 +232,7 @@ const stope = {
     title: "Nalazište Galija",
     coords: {
         base: { top: "42.5%", left: "24.3%" },
-        ortho: { top: "45.3%", left: "15.3%" }
+        ortho: { top: "72.9%", left: "27.9%" }
     },
     content: {
         type: "v_ornitopod",
@@ -246,7 +246,7 @@ const stope = {
     title: "Nalazište Vanga",
     coords: {
         base: { top: "51.4%", left: "22.7%" },
-        ortho: { top: "55.9%", left: "13.7%" }
+        ortho: { top: "53.2%", left: "14.6%" }
     },
     content: {
         type: "sauropod",
@@ -260,7 +260,7 @@ const stope = {
     title: "Nalazište Vanga",
     coords: {
         base: { top: "50.5%", left: "26.9%" },
-        ortho: { top: "54.8%", left: "18.1%" }
+        ortho: { top: "52.8%", left: "19.2%" }
     },
     content: {
         type: "m_teropod",
@@ -274,7 +274,7 @@ const stope = {
     title: "Nalazište Vanga",
     coords: {
         base: { top: "58.7%", left: "29.0%" },
-        ortho: { top: "65.0%", left: "20.2%" }
+        ortho: { top: "61.3%", left: "21.7%" }
     },
     content: {
         type: "sauropod_m_teropod",
