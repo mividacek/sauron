@@ -12,11 +12,11 @@
 - ispraviti tekst tumača - OK
 - u legendi dodati veličinu otisaka - OK
 - orthophoto karta: ispraviti lokacije stopa - OK
-- dodati logo Brijuna na dnu svake mape
+- dodati logo Brijuna na dnu svake mape - OK
 - ubaciti novu geomorfološku kartu - OK
 - napraviti višejezično
 - dodati credits na dnu (autori fotografija, karta itd)
-- pomaknuti button Mod:Coord ispod sakri točke
+- pomaknuti button Mod:Coord ispod sakri točke - OK
 
 Pitati Damira:
 - original file geomorfoške mape - ona ttf je sitna

@@ -113,6 +113,16 @@ body {
   border-radius: 18px;
 }
 
+.map-logo {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  width: 40px;
+  height: auto;
+  z-index: 2500;
+  pointer-events: none;
+}
+
 /* ============================= */
 /* BUTTONS                       */
 /* ============================= */
@@ -141,6 +151,10 @@ body {
 
 .map-btn-third {
   top: 90px;
+}
+
+.map-btn-fourth {
+  top: 130px;
 }
 
 /* toggle */
@@ -981,6 +995,12 @@ body {
 
 @media (max-width: 700px) and (orientation: portrait) {
 
+  @media (max-width: 700px) and (orientation: portrait) {
+    .mapa.legend-open .map-logo {
+      bottom: calc(48vh + 10px);
+    }
+  }
+
   .legend-panel {
     top: auto;
     right: 0;
@@ -1762,6 +1782,12 @@ body {
   .mapa {
     background: #ffffff;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  }
+
+  .map-logo {
+    width: 25px;
+    left: 10px;
+    bottom: 10px;
   }
 
   .popup {
