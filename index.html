@@ -16,17 +16,56 @@
     <div class="map-viewport" id="mapViewport">
       <div class="map-content" id="mapContent">
 
-        <img id="mapBase" class="map-layer active-map" src="slike/geoloska.png" alt="Karta nalazišta fosilnih tragova dinosaura na prostoru NP Brijuni" loading="eager">
-        <img id="mapOrtho" class="map-layer" src="slike/ortofoto.png">
+        <img
+          id="mapOgk"
+          class="map-layer active-map"
+          src="slike/karte/geoloska.png"
+          alt="Osnovna geološka karta"
+          loading="eager"
+        >
+
+        <img
+          id="mapOrtho"
+          class="map-layer"
+          src="slike/karte/ortofoto.png"
+          alt="Ortofoto karta"
+        >
+
+        <img
+          id="mapGeomorphological"
+          class="map-layer"
+          src="slike/karte/GeomorfoNPB_350_350_20k.png"
+          alt="Geomorfološka karta"
+        >
 
       </div>
     </div>
 
-    <label class="map-toggle">
-      <input type="checkbox" id="toggleMap">
-      <span class="map-toggle-slider"></span>
-      <span class="map-toggle-label">Geološka karta</span>
-    </label>
+    <div class="map-selector">
+      <button
+        type="button"
+        class="map-selector-btn active"
+        data-map="ogk"
+      >
+        OGK
+      </button>
+
+      <button
+        type="button"
+        class="map-selector-btn"
+        data-map="orthophoto"
+      >
+        Ortofoto
+      </button>
+
+      <button
+        type="button"
+        class="map-selector-btn"
+        data-map="geomorphological"
+      >
+        Geomorfološka
+      </button>
+    </div>
 
     <div class="map-controls">
       <button id="toggle-legend" class="map-btn map-btn-second">Tumač karte</button>

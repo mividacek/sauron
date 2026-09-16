@@ -211,6 +211,51 @@ body {
   background: rgba(0, 0, 0, 0.88);
 }
 
+/* ============================= */
+/* MAP SELECTOR                  */
+/* ============================= */
+
+.map-selector {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2000;
+
+  display: flex;
+  gap: 4px;
+
+  padding: 4px;
+
+  background: rgba(0, 0, 0, 0.70);
+  border-radius: 10px;
+}
+
+.map-selector-btn {
+  border: none;
+  border-radius: 7px;
+
+  padding: 6px 9px;
+
+  background: transparent;
+  color: white;
+
+  font-family: inherit;
+  font-size: 12px;
+
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    color 0.18s ease;
+}
+
+.map-selector-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.map-selector-btn.active {
+  background: #065da9;
+  color: white;
+}
 
 /* ============================= */
 /* MAP LEGEND                    */
@@ -852,7 +897,83 @@ body {
     height: 22px;
   }
 }
+/* ==========================================
+   GEOMORFOLOŠKA LEGENDA
+   ========================================== */
 
+.legend-color {
+    width: 64px;
+    height: 32px;
+    flex-shrink: 0;
+    border: 1px solid #555;
+    box-sizing: border-box;
+}
+
+
+/* ------------------------------------------
+   GEOMORFOLOŠKE JEDINICE
+   ------------------------------------------ */
+
+.geomorph-unit[data-index="0"] .legend-color {
+    background-color: #665c56;
+}
+
+.geomorph-unit[data-index="1"] .legend-color {
+    background-color: #ead9b8;
+}
+
+.geomorph-unit[data-index="2"] .legend-color {
+    background-color: #78aeba;
+}
+
+.geomorph-unit[data-index="3"] .legend-color {
+    background-color: #bd9292;
+}
+
+.geomorph-unit[data-index="4"] .legend-color {
+    background-color: #e6df82;
+}
+
+.geomorph-unit[data-index="5"] .legend-color {
+    background-color: #a3cbd6;
+}
+
+.geomorph-unit[data-index="6"] .legend-color {
+    background-color: #78adbe;
+}
+
+.geomorph-unit[data-index="7"] .legend-color {
+    background-color: #f0d38c;
+}
+
+
+/* ------------------------------------------
+   POKRIVENI KRŠ — NAGIB
+   ------------------------------------------ */
+
+.geomorph-slope[data-index="0"] .legend-color {
+    background-color: #eee3f5;
+}
+
+.geomorph-slope[data-index="1"] .legend-color {
+    background-color: #e4d3ee;
+}
+
+.geomorph-slope[data-index="2"] .legend-color {
+    background-color: #d7bee8;
+}
+
+.geomorph-slope[data-index="3"] .legend-color {
+    background-color: #c7afe0;
+}
+
+.geomorph-slope[data-index="4"] .legend-color {
+    background-color: #bba4d0;
+}
+
+.geomorph-slope[data-index="5"] .legend-color {
+    background-color: #ae96c4;
+}
 
 /* ================================================= */
 /* LEGEND — MOBILE PORTRAIT                          */
@@ -974,38 +1095,29 @@ body {
 }
 
 /* ==========================================
-   MAP TOGGLE WHEN LEGEND IS OPEN
+   MAP SELECTOR WHEN LEGEND IS OPEN
    ========================================== */
-
-
 
 @media (min-width: 701px),
        (max-width: 700px) and (orientation: landscape) {
 
-  .mapa.legend-open .map-toggle {
-    right: 40%;
-    top: 30px;
+  .mapa.legend-open .map-selector {
+    right: calc(40% + 10px);
+    top: 10px;
     z-index: 5000;
   }
 }
+
 
 /* Portrait mobile:
    legend is underneath the map,
-   so the toggle can stay in its normal position. */
+   so the selector stays in its normal position. */
 
 @media (max-width: 700px) and (orientation: portrait) {
 
-  .mapa.legend-open .map-toggle {
+  .mapa.legend-open .map-selector {
     right: 10px;
-    z-index: 5000;
-  }
-}
-
-@media (min-width: 701px),
-       (max-width: 700px) and (orientation: landscape) {
-
-  .mapa.legend-open .map-toggle {
-    right: calc(40% + 40px);
+    top: 10px;
     z-index: 5000;
   }
 }

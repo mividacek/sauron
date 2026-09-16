@@ -3,8 +3,9 @@ const stope = {
     ploce: {
         title: "Nalazište Ploče",
         coords: {
-            base: { top: "67.4%", left: "58.7%" },
-            ortho: { top: "71.7%", left: "57.4%" }
+            ogk: { top: "67.4%", left: "58.7%" },
+            orthophoto: { top: "71.7%", left: "57.4%" },
+            geomorphological: { top: "70.4%", left: "56.7%" },
         },
         content: {
         type: "m_teropod",
@@ -41,8 +42,9 @@ const stope = {
     barban: { 
         title: "Nalazište Barban/Pogledalo/Vrbanj", 
         coords: { 
-            base: { top: "37.9%", left: "32.1%" }, 
-            ortho: { top: "37.9%", left: "26.3%" } 
+            ogk: { top: "37.9%", left: "32.1%" }, 
+            orthophoto: { top: "37.9%", left: "26.3%" },
+            geomorphological: { top: "39.9%", left: "30.0%" },
         }, 
         content: { 
             type: "v_teropod", 
@@ -89,8 +91,9 @@ const stope = {
     kamik: {
     title: "Nalazište Kamik/Plješivac",
     coords: {
-        base: { top: "79.2%", left: "53.7%" },
-        ortho: { top: "85.4%", left: "51.2%" }
+        ogk: { top: "79.2%", left: "53.7%" },
+        orthophoto: { top: "85.4%", left: "51.2%" },
+        geomorphological: { top: "82.5%", left: "51.0%" },
     },
     content: {
         type: "v_ornitopod_m_teropod",
@@ -137,8 +140,9 @@ const stope = {
     trstike: {
         title: "Nalazište Trstike/Debela Glava",
         coords: {
-            base: { top: "79.3%", left: "42.1%" },
-            ortho: { top: "85.9%", left: "37.2%" }
+            ogk: { top: "79.3%", left: "42.1%" },
+            orthophoto: { top: "85.9%", left: "37.2%" },
+            geomorphological: { top: "84.1%", left: "38.8%" },
         },
         content: {
             type: "sauropod",
@@ -170,9 +174,10 @@ const stope = {
     mol: {
         title: "Trag na brijunskom molu",
         coords: {
-                    base: { top: "46.1%", left: "62.7%" },
-                    ortho: { top: "47.8%", left: "62.8%" }
-                },
+            ogk: { top: "46.1%", left: "62.7%" },
+            orthophoto: { top: "47.8%", left: "62.8%" },
+            geomorphological: { top: "49.1%", left: "62.0%" },
+        },
         content: {
             type: "m_teropod",
             popup: [
@@ -197,8 +202,9 @@ const stope = {
     vrsar: {
         title: "Nalazište Vrsar",
         coords: {
-            base: { top: "68.3%", left: "33.8%" },
-            ortho: { top: "76.7%", left: "26.2%" }
+            ogk: { top: "68.3%", left: "33.8%" },
+            orthophoto: { top: "76.7%", left: "26.2%" },
+            geomorphological: { top: "70.8%", left: "31.0%" },
         },
         content: {
             type: "m_teropod",
@@ -231,8 +237,9 @@ const stope = {
     galija: {
     title: "Nalazište Galija",
     coords: {
-        base: { top: "42.5%", left: "24.3%" },
-        ortho: { top: "72.9%", left: "27.9%" }
+        ogk: { top: "42.5%", left: "24.3%" },
+        orthophoto: { top: "72.9%", left: "27.9%" },
+        geomorphological: { top: "44.5%", left: "21.2%" },
     },
     content: {
         type: "v_ornitopod",
@@ -245,8 +252,9 @@ const stope = {
     vanga_1: {
     title: "Nalazište Vanga",
     coords: {
-        base: { top: "51.4%", left: "22.7%" },
-        ortho: { top: "53.2%", left: "14.6%" }
+        ogk: { top: "51.4%", left: "22.7%" },
+        orthophoto: { top: "53.2%", left: "14.6%" },
+        geomorphological: { top: "53.5%", left: "19.4%" },
     },
     content: {
         type: "sauropod",
@@ -259,8 +267,9 @@ const stope = {
     vanga_2: {
     title: "Nalazište Vanga",
     coords: {
-        base: { top: "50.5%", left: "26.9%" },
-        ortho: { top: "52.8%", left: "19.2%" }
+        ogk: { top: "50.5%", left: "26.9%" },
+        orthophoto: { top: "52.8%", left: "19.2%" },
+        geomorphological: { top: "53.2%", left: "23.4%" },
     },
     content: {
         type: "m_teropod",
@@ -273,8 +282,9 @@ const stope = {
     vanga_3: {
     title: "Nalazište Vanga",
     coords: {
-        base: { top: "58.7%", left: "29.0%" },
-        ortho: { top: "61.3%", left: "21.7%" }
+        ogk: { top: "58.7%", left: "29.0%" },
+        orthophoto: { top: "61.3%", left: "21.7%" },
+        geomorphological: { top: "61.2%", left: "23.1%" },
     },
     content: {
         type: "sauropod_m_teropod",
@@ -558,3 +568,72 @@ const PALEONTOLOGICAL_SEDIMENTOLOGICAL_LEGEND = [
     text: "tee-pee strukture"
   }
 ];
+
+const GEOMORPHOLOGICAL_LEGEND = {
+    symbols: [
+        {
+            image: "slike/Geomorfologija/obalna_linija.png",
+            label: "Recentna obalna linija (DEM)"
+        },
+        {
+            image: "slike/Geomorfologija/otisci_dinosaura.png",
+            label: "Otisci dinosaura"
+        },
+        {
+            image: "slike/Geomorfologija/vapnenice.png",
+            label: "Vapnenice"
+        },
+        {
+            image: "slike/Geomorfologija/arheoloski_poligoni.png",
+            label: "Arheološki poligoni"
+        },
+        {
+            image: "slike/Geomorfologija/suhozidi.png",
+            label: "Suhozidi"
+        },
+        {
+            image: "slike/Geomorfologija/ceste.png",
+            label: "Ceste"
+        },
+        {
+            image: "slike/Geomorfologija/povremeni_tok.png",
+            label: "Povremeni tok"
+        }
+    ],
+
+    units: [
+      {
+          label: "Antropogeni objekti i antropogeno modificirana obala"
+      },
+      {
+          label: "Antropogeno modificirane zaravni i uređene površine"
+      },
+      {
+          label: "Jezerca i saline"
+      },
+      {
+          label: "Kamenolom"
+      },
+      {
+          label: "Krške i akumulacijske depresije"
+      },
+      {
+          label: "Obalni pojas i rubne obalne padine"
+      },
+      {
+          label: "Stjenoviti obalni otočić"
+      },
+      {
+          label: "Žalo od nevezanog materijala"
+      }
+  ],
+
+  slopes: [
+      { label: "0–2°" },
+      { label: "2–5°" },
+      { label: "5–12°" },
+      { label: "12–32°" },
+      { label: "32–55°" },
+      { label: ">55°" }
+  ]
+};

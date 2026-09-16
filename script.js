@@ -8,9 +8,13 @@ const mapContainer = document.getElementById("mapContainer");
 const viewport = document.getElementById("mapViewport");
 const content = document.getElementById("mapContent");
 const MAP_CROP_BOTTOM_PERCENT = 0.06; // 6% crop
-const mapToggleLabel = document.querySelector(".map-toggle-label");
 
-const baseLayer = document.getElementById("mapBase");
+const mapOgk = document.getElementById("mapOgk");
+const mapOrtho = document.getElementById("mapOrtho");
+const mapGeomorphological = document.getElementById("mapGeomorphological");
+
+const mapSelectorButtons =
+  document.querySelectorAll(".map-selector-btn");
 
 const popup = document.getElementById("popup");
 const titleEl = document.getElementById("title");
@@ -45,7 +49,7 @@ if (document.getElementById("currentYear")) {
 
 let activeKey = null;
 
-let currentMap = "base";
+let currentMap = "ogk"; // default map
 
 let activeLocationTitle = "";
 
@@ -58,7 +62,7 @@ function updatePointPositions() {
 
     const pos =
       stopa.coords?.[currentMap] ??
-      stopa.coords?.base ??
+      stopa.coords?.ogk ??
       stopa;
 
     if (!pos) return;
@@ -68,32 +72,51 @@ function updatePointPositions() {
   });
 }
 
-toggleMap.addEventListener("change", () => {
-  currentMap = toggleMap.checked ? "ortho" : "base";
+mapSelectorButtons.forEach(button => {
+  button.addEventListener("click", () => {
 
-  mapBase.classList.toggle("active-map", currentMap === "base");
-  mapOrtho.classList.toggle("active-map", currentMap === "ortho");
+    currentMap = button.dataset.map;
 
-  mapToggleLabel.innerText =
-    currentMap === "base"
-      ? "Geološka karta"
-      : "Ortofoto karta";
+    // Show the selected map
+    mapOgk.classList.toggle(
+      "active-map",
+      currentMap === "ogk"
+    );
 
-  updatePointPositions();
+    mapOrtho.classList.toggle(
+      "active-map",
+      currentMap === "orthophoto"
+    );
 
-  if (typeof updateMarkersForMap === "function") {
-    updateMarkersForMap();
-  }
+    mapGeomorphological.classList.toggle(
+      "active-map",
+      currentMap === "geomorphological"
+    );
 
-  // Update the legend if it is currently open
-  if (!legendOverlay.classList.contains("hidden")) {
-    renderLegend();
-  }
+    // Update active button
+    mapSelectorButtons.forEach(btn => {
+      btn.classList.toggle(
+        "active",
+        btn.dataset.map === currentMap
+      );
+    });
 
-  mapContainer.classList.add("loading");
+    updatePointPositions();
 
-  requestAnimationFrame(() => {
-    mapContainer.classList.remove("loading");
+    if (typeof updateMarkersForMap === "function") {
+      updateMarkersForMap();
+    }
+
+    // Update legend if it is currently open
+    if (!legendOverlay.classList.contains("hidden")) {
+      renderLegend();
+    }
+
+    mapContainer.classList.add("loading");
+
+    requestAnimationFrame(() => {
+      mapContainer.classList.remove("loading");
+    });
   });
 });
 /* ============================= */
@@ -2002,15 +2025,136 @@ function renderLegend() {
 
   footprints.body.appendChild(sourceNote);
 
-
   legendContent.appendChild(footprints.section);
+
+
+  // ==========================================
+  // GEOMORFOLOŠKA KARTA
+  // ==========================================
+
+  if (currentMap === "geomorphological") {
+
+    // ==========================================
+    // 2. OPĆI SIMBOLI
+    // ==========================================
+
+    const symbols = createLegendSection(
+      "Opći simboli"
+    );
+
+    GEOMORPHOLOGICAL_LEGEND.symbols.forEach((entry, index) => {
+
+      const row = document.createElement("div");
+      row.className = "legend-item";
+
+      const symbol = document.createElement("img");
+      symbol.className = "legend-svg legend-clickable";
+      symbol.src = entry.image;
+      symbol.alt = entry.label;
+
+      symbol.addEventListener("click", (e) => {
+        e.stopPropagation();
+
+        const gallery =
+          GEOMORPHOLOGICAL_LEGEND.symbols.map(item => ({
+            src: item.image,
+            caption: item.label,
+            photographer: "",
+            isLegendSvg: true
+          }));
+
+        openLightbox(
+          gallery,
+          index,
+          "Opći simboli"
+        );
+      });
+
+      const text = document.createElement("span");
+      text.className = "legend-item-text";
+      text.textContent = entry.label;
+
+      row.appendChild(symbol);
+      row.appendChild(text);
+
+      symbols.body.appendChild(row);
+    });
+
+    legendContent.appendChild(symbols.section);
+
+
+    // ==========================================
+    // 3. GEOMORFOLOŠKE JEDINICE
+    // ==========================================
+
+    const units = createLegendSection(
+      "Geomorfološke jedinice"
+    );
+
+    GEOMORPHOLOGICAL_LEGEND.units.forEach((entry, index) => {
+
+      const row = document.createElement("div");
+      row.className = "legend-item geomorph-unit";
+
+      // Index is used by CSS to assign the correct colour
+      row.dataset.index = index;
+
+      const swatch = document.createElement("div");
+      swatch.className = "legend-color";
+
+      const text = document.createElement("span");
+      text.className = "legend-item-text";
+      text.textContent = entry.label;
+
+      row.appendChild(swatch);
+      row.appendChild(text);
+
+      units.body.appendChild(row);
+    });
+
+    legendContent.appendChild(units.section);
+
+
+    // ==========================================
+    // 4. POKRIVENI KRŠ (NAGIB KLASE)
+    // ==========================================
+
+    const slopes = createLegendSection(
+      "Pokriveni krš (nagib klase)"
+    );
+
+    GEOMORPHOLOGICAL_LEGEND.slopes.forEach((entry, index) => {
+
+      const row = document.createElement("div");
+      row.className = "legend-item geomorph-slope";
+
+      // Index is used by CSS to assign the correct colour
+      row.dataset.index = index;
+
+      const swatch = document.createElement("div");
+      swatch.className = "legend-color";
+
+      const text = document.createElement("span");
+      text.className = "legend-item-text";
+      text.textContent = entry.label;
+
+      row.appendChild(swatch);
+      row.appendChild(text);
+
+      slopes.body.appendChild(row);
+    });
+
+    legendContent.appendChild(slopes.section);
+
+    return;
+  }
 
 
   // ==========================================
   // GEOLOŠKA KARTA — OSTALI LEGENDNI SADRŽAJ
   // ==========================================
 
-  if (currentMap !== "base") {
+  if (currentMap !== "ogk") {
     return;
   }
 
@@ -2193,7 +2337,6 @@ function renderLegend() {
     const row = document.createElement("div");
     row.className = "legend-item paleo-item";
 
-    // SVG
     const symbol = document.createElement("img");
     symbol.className = "legend-svg legend-clickable";
     symbol.src = entry.symbol;
@@ -2202,17 +2345,19 @@ function renderLegend() {
     symbol.addEventListener("click", (e) => {
       e.stopPropagation();
 
-      const gallery = PALEONTOLOGICAL_SEDIMENTOLOGICAL_LEGEND.map(item => ({
-        src: item.symbol,
-        caption: item.text,
-        photographer: "",
-        number: item.number,
-        isLegendSvg: true
-      }));
+      const gallery =
+        PALEONTOLOGICAL_SEDIMENTOLOGICAL_LEGEND.map(item => ({
+          src: item.symbol,
+          caption: item.text,
+          photographer: "",
+          number: item.number,
+          isLegendSvg: true
+        }));
 
-      const index = PALEONTOLOGICAL_SEDIMENTOLOGICAL_LEGEND.findIndex(
-        item => item.symbol === entry.symbol
-      );
+      const index =
+        PALEONTOLOGICAL_SEDIMENTOLOGICAL_LEGEND.findIndex(
+          item => item.symbol === entry.symbol
+        );
 
       openLightbox(
         gallery,
@@ -2221,12 +2366,10 @@ function renderLegend() {
       );
     });
 
-    // Number
     const number = document.createElement("span");
     number.className = "legend-number";
     number.textContent = entry.number;
 
-    // Text
     const text = document.createElement("span");
     text.className = "legend-item-text";
     text.textContent = entry.text;
@@ -2446,15 +2589,15 @@ viewport.addEventListener("click", (e) => {
   let textToCopy = "";
 
   if (locateMode === "coords") {
-    textToCopy = `top: "${top}%", left: "${left}%"`;
+    textToCopy = `{ top: "${top}%", left: "${left}%" },`;
   }
 
   if (locateMode === "object") {
     textToCopy = `nova_stopa: {
   title: "Nova stopa",
   coords: {
-            base: { top: "${top}%", left: "${left}%" },
-            ortho: { top: "${top}%", left: "${left}%" }
+            ogk: { top: "${top}%", left: "${left}%" },
+            orthophoto: { top: "${top}%", left: "${left}%" }
         },
   content: {
         type: "v_ornitopod_m_teropod",
@@ -2529,22 +2672,30 @@ let mapInitializedOnce = false;
 function initMap() {
   const viewRect = viewport.getBoundingClientRect();
 
-  mapNaturalWidth = baseLayer.naturalWidth;
-  mapNaturalHeight = baseLayer.naturalHeight * (1 - MAP_CROP_BOTTOM_PERCENT);
+  mapNaturalWidth = mapOgk.naturalWidth;
+  mapNaturalHeight = mapOgk.naturalHeight * (1 - MAP_CROP_BOTTOM_PERCENT);
 
   if (!mapNaturalWidth || !mapNaturalHeight) return;
 
   document.documentElement.style.setProperty("--mapW", `${mapNaturalWidth}px`);
   document.documentElement.style.setProperty("--mapH", `${mapNaturalHeight}px`);
 
-  baseLayer.style.width = `${mapNaturalWidth}px`;
-  baseLayer.style.height = `${mapNaturalHeight}px`;
+  mapOgk.style.width = `${mapNaturalWidth}px`;
+  mapOgk.style.height = `${mapNaturalHeight}px`;
 
   const orthoLayer = document.getElementById("mapOrtho");
 
   if (orthoLayer) {
     orthoLayer.style.width = `${mapNaturalWidth}px`;
     orthoLayer.style.height = `${mapNaturalHeight}px`;
+  }
+
+  const geomorphologicalLayer =
+    document.getElementById("mapGeomorphological");
+
+  if (geomorphologicalLayer) {
+    geomorphologicalLayer.style.width = `${mapNaturalWidth}px`;
+    geomorphologicalLayer.style.height = `${mapNaturalHeight}px`;
   }
 
   const isMobile = window.innerWidth <= 900;
@@ -2582,11 +2733,11 @@ function initMap() {
   }, 400);
 }
 
-baseLayer.addEventListener("load", () => {
+mapOgk.addEventListener("load", () => {
   requestAnimationFrame(() => initMap());
 });
 
-if (baseLayer.complete) {
+if (mapOgk.complete) {
   requestAnimationFrame(() => initMap());
 }
 
